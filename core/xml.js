@@ -683,6 +683,7 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
         break;
       case 'value':
       case 'statement':
+        debugger;
         input = block.getInput(name);
         if (!input) {
           console.warn('Ignoring non-existent input ' + name + ' in block ' +

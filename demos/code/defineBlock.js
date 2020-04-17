@@ -1,7 +1,7 @@
 
 
 //参考创建数组的方式来创建一个Object
-Blockly.Blocks['lists_create_obj'] = {
+Blockly.Blocks['create_obj'] = {
   /**
    * Block for creating a list with any number of elements of any type.
    * @this {Blockly.Block}
@@ -134,11 +134,11 @@ Blockly.Blocks['class'] = {
     this.appendDummyInput()
         .appendField("class")
         .appendField(new Blockly.FieldTextInput("className"), "NAME");
-    this.appendStatementInput("NAME")
+    this.appendStatementInput("PROPERTY")
         .setCheck("")
         .setAlign(Blockly.ALIGN_CENTRE)
         .appendField("property:");
-    this.appendStatementInput("NAME")
+    this.appendStatementInput("METHOD")
         .setCheck(null)
         .appendField("method:");
     this.setColour(230);
@@ -417,4 +417,93 @@ Blockly.Blocks['class_method'] = {
       i++;
     }
   }
+};
+
+Blockly.Blocks['call_class_property'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("call")
+      .appendField(new Blockly.FieldDropdown([["cRun", "cRun"], ["cBase", "cBase"]]), "CLASS")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["option", "OPTIONNAME"]]), "PROPERTY");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['call_class_method'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("call")
+      .appendField(new Blockly.FieldDropdown([["cBase", "cBase"], ["cRun", "cRun"]]), "CLASS")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["SaveLog", "SaveLog"]]), "METHOD");
+    this.setOutput(false, null);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Blocks['methods_defreturn'] = {
+  /**
+   * Block for defining a procedure with a return value.
+   * @this {Blockly.Block}
+   */
+  init: function () {
+    var nameField = new Blockly.FieldTextInput('',
+      Blockly.Procedures.rename);
+    nameField.setSpellcheck(false);
+    this.appendDummyInput()
+      .appendField(Blockly.Msg['PROCEDURES_DEFRETURN_TITLE'])
+      .appendField(nameField, 'NAME')
+      .appendField('', 'PARAMS');
+   /*  this.appendValueInput('RETURN')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField(Blockly.Msg['PROCEDURES_DEFRETURN_RETURN']); */
+    this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
+    if ((this.workspace.options.comments ||
+      (this.workspace.options.parentWorkspace &&
+        this.workspace.options.parentWorkspace.options.comments)) &&
+      Blockly.Msg['PROCEDURES_DEFRETURN_COMMENT']) {
+      this.setCommentText(Blockly.Msg['PROCEDURES_DEFRETURN_COMMENT']);
+    }
+    this.setStyle('procedure_blocks');
+    this.setTooltip(Blockly.Msg['PROCEDURES_DEFRETURN_TOOLTIP']);
+    this.setHelpUrl(Blockly.Msg['PROCEDURES_DEFRETURN_HELPURL']);
+    this.arguments_ = [];
+    this.argumentVarModels_ = [];
+    this.setStatements_(true);
+    this.setOutput(true);
+    this.statementConnection_ = null;
+  },
+  setStatements_: Blockly.Blocks['procedures_defnoreturn'].setStatements_,
+  updateParams_: Blockly.Blocks['procedures_defnoreturn'].updateParams_,
+  mutationToDom: Blockly.Blocks['procedures_defnoreturn'].mutationToDom,
+  domToMutation: Blockly.Blocks['procedures_defnoreturn'].domToMutation,
+  decompose: Blockly.Blocks['procedures_defnoreturn'].decompose,
+  compose: Blockly.Blocks['procedures_defnoreturn'].compose,
+  /**
+   * Return the signature of this procedure definition.
+   * @return {!Array} Tuple containing three elements:
+   *     - the name of the defined procedure,
+   *     - a list of all its arguments,
+   *     - that it DOES have a return value.
+   * @this {Blockly.Block}
+   */
+  getProcedureDef: function () {
+    return [this.getFieldValue('NAME'), this.arguments_, true];
+  },
+  getVars: Blockly.Blocks['procedures_defnoreturn'].getVars,
+  getVarModels: Blockly.Blocks['procedures_defnoreturn'].getVarModels,
+  renameVarById: Blockly.Blocks['procedures_defnoreturn'].renameVarById,
+  updateVarName: Blockly.Blocks['procedures_defnoreturn'].updateVarName,
+  displayRenamedVar_: Blockly.Blocks['procedures_defnoreturn'].displayRenamedVar_,
+  customContextMenu: Blockly.Blocks['procedures_defnoreturn'].customContextMenu,
+  callType_: 'procedures_callreturn'
 };
