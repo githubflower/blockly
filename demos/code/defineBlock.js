@@ -148,14 +148,26 @@ Blockly.Blocks['class'] = {
 };
 
 Blockly.Blocks['lists_create_obj_item'] = {
-  init: function() {
+  init: function () {
     this.setStyle('list_blocks');
     this.appendDummyInput()
-        
-        .appendField(Blockly.Msg['LISTS_CREATE_WITH_ITEM_TITLE']);
+
+      .appendField(Blockly.Msg['LISTS_CREATE_WITH_ITEM_TITLE']);
 
     this.setPreviousStatement(true);
     this.setNextStatement(true);
+    this.setTooltip(Blockly.Msg['LISTS_CREATE_WITH_ITEM_TOOLTIP']);
+    this.contextMenu = false;
+  }
+};
+Blockly.Blocks['lists_create_method_item'] = {
+  init: function () {
+    this.setStyle('list_blocks');
+/*     this.appendDummyInput()
+      .appendField(Blockly.Msg['LISTS_CREATE_WITH_ITEM_TITLE']); */
+    this.appendStatementInput("METHOD_BODY")
+    this.setPreviousStatement(false);
+    this.setNextStatement(false);
     this.setTooltip(Blockly.Msg['LISTS_CREATE_WITH_ITEM_TOOLTIP']);
     this.contextMenu = false;
   }
@@ -275,7 +287,7 @@ Blockly.Blocks['class_property'] = {
     for (var i = 0; i < this.itemCount_; i++) {
       if (!this.getInput('item_value' + i)) {
         var input = this.appendValueInput("item_value" + i)
-          .appendField(new Blockly.FieldDropdown([["private", "private"], ["public", "public"], ["public static", "public static"]]), "TYPE")
+          .appendField(new Blockly.FieldDropdown([["private", "private"], ["public", "public"], ["public static", "public static"]]), "TYPE" + i)
           .appendField(new Blockly.FieldTextInput('key' + i), 'item_key' + i)
           .appendField(':')
           .setAlign(Blockly.ALIGN_RIGHT);
@@ -302,6 +314,7 @@ Blockly.Blocks['class_method'] = {
     this.updateShape_();
     // this.setOutput(true, 'Object');
     this.setMutator(new Blockly.Mutator(['lists_create_obj_item']));
+    // this.setMutator(new Blockly.Mutator(['lists_create_method_item']));
     this.setTooltip(Blockly.Msg['LISTS_CREATE_WITH_TOOLTIP']);
     this.setPreviousStatement(true);
   },
@@ -337,6 +350,7 @@ Blockly.Blocks['class_method'] = {
     var connection = containerBlock.getInput('STACK').connection;
     for (var i = 0; i < this.itemCount_; i++) {
       var itemBlock = workspace.newBlock('lists_create_obj_item');
+      // var itemBlock = workspace.newBlock('lists_create_method_item');
       itemBlock.initSvg();
       connection.connect(itemBlock.previousConnection);
       connection = itemBlock.nextConnection;
@@ -403,8 +417,9 @@ Blockly.Blocks['class_method'] = {
     // Add new inputs.
     for (var i = 0; i < this.itemCount_; i++) {
       if (!this.getInput('item_value' + i)) {
-        var input = this.appendValueInput("item_value" + i)
-          .appendField(new Blockly.FieldDropdown([["private", "private"], ["public", "public"]]), "TYPE")
+        // var input = this.appendValueInput("item_value" + i)
+        var input = this.appendStatementInput("item_value" + i)
+          .appendField(new Blockly.FieldDropdown([["private", "private"], ["public", "public"]]), "TYPE" + i)
           .appendField(new Blockly.FieldTextInput('method' + i), 'item_key' + i)
           .appendField(':')
           .setAlign(Blockly.ALIGN_RIGHT);
@@ -419,13 +434,31 @@ Blockly.Blocks['class_method'] = {
   }
 };
 
-Blockly.Blocks['call_class_property'] = {
+Blockly.Blocks['get_class_property'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("call")
-      .appendField(new Blockly.FieldDropdown([["cRun", "cRun"], ["cBase", "cBase"]]), "CLASS")
+      // .appendField("")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["cRun", "cRun"],
+          ["cBase", "cBase"],
+          ["LIGHT", "LIGHT"],
+        ]),
+        "CLASS"
+      )
       .appendField(".")
-      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["option", "OPTIONNAME"]]), "PROPERTY");
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["bStopFlag", "bStopFlag"],
+          ["cAct", "cAct"],
+          ["bIsRunning", "bIsRunning"],
+          ["InitThread", "InitThread"],
+          ["Red", "Red"],
+          ["Green", "Green"],
+          ["Yellow", "Yellow"]
+        ]),
+        "PROPERTY"
+      );
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip("");
@@ -433,13 +466,56 @@ Blockly.Blocks['call_class_property'] = {
   }
 };
 
-Blockly.Blocks['call_class_method'] = {
+Blockly.Blocks['get_class_property3'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("call")
-      .appendField(new Blockly.FieldDropdown([["cBase", "cBase"], ["cRun", "cRun"]]), "CLASS")
+      // .appendField("")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["cRun", "cRun"],
+          ["cBase", "cBase"],
+          ["LIGHT", "LIGHT"],
+          ["cMotion", "cMotion"],
+        ]),
+        "CLASS"
+      )
       .appendField(".")
-      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["SaveLog", "SaveLog"]]), "METHOD");
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["bStopFlag", "bStopFlag"],
+          ["cAct", "cAct"],
+          ["RbtPos", "RbtPos"],
+          ["InitThread", "InitThread"],
+          ["Red", "Red"],
+          ["Green", "Green"],
+          ["Yellow", "Yellow"]
+        ]),
+        "PROPERTY0"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["LineWaitePos", "LineWaitePos"],
+        ]),
+        "PROPERTY1"
+      )
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['set_class_property'] = {
+  init: function () {
+    // this.appendDummyInput()
+     
+    this.appendValueInput("VALUE")
+      .appendField("set")
+      .appendField(new Blockly.FieldDropdown([["cRun", "cRun"], ["cBase", "cBase"]]), "CLASS")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["bIsRunning", "bIsRunning"], ["InitThread", "InitThread"]]), "PROPERTY")
+      .appendField("to")
     this.setOutput(false, null);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -448,6 +524,275 @@ Blockly.Blocks['call_class_method'] = {
     this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['set_class_property3'] = {
+  init: function () {
+    // this.appendDummyInput()
+
+    this.appendValueInput("VALUE")
+      .appendField("set")
+      .appendField(new Blockly.FieldDropdown([["cRun", "cRun"], ["cBase", "cBase"]]), "CLASS")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["bSixFirstPut", "bSixFirstPut"], ["InitThread", "InitThread"]]), "PROPERTY0")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["0", "0"], ["1", "1"]]), "PROPERTY1")
+      .appendField("to")
+     /*  .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["Init", "Init"]]), "PROPERTY2") */
+    this.setOutput(false, null);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['set_class_property4'] = {
+  init: function () {
+    // this.appendDummyInput()
+
+    this.appendValueInput("VALUE")
+      .appendField("set")
+      .appendField(new Blockly.FieldDropdown([["cRun", "cRun"], ["cBase", "cBase"]]), "CLASS")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["option", "OPTIONNAME"], ["InitThread", "InitThread"]]), "PROPERTY0")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["0", "0"], ["1", "1"]]), "PROPERTY1")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["Init", "Init"]]), "PROPERTY2")
+      .appendField("to")
+    this.setOutput(false, null);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['set_class_property5'] = {
+  init: function () {
+    // this.appendDummyInput()
+
+    this.appendValueInput("VALUE")
+      .appendField("set")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["cRun", "cRun"],
+          ["cBase", "cBase"],
+        ]),
+        "CLASS"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["bStopFlag", "bStopFlag"],
+          ["cAct", "cAct"],
+          ["option", "OPTIONNAME"],
+          ["InitThread", "InitThread"],
+        ]),
+        "PROPERTY0"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["0", "0"],
+          ["1", "1"],
+        ]),
+        "PROPERTY1"
+      )
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["rbt", "rbt"], ["qg", "qg"]]), "PROPERTY2")
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["iPrdCnt", "iPrdCnt"],
+          ["bIsNewPrd", "bIsNewPrd"],
+          ["iCurrPos", "iCurrPos"],
+          ["bExistPrd", "bExistPrd"],
+        ]),
+        "PROPERTY3"
+      )
+      .appendField("to");
+    this.setOutput(false, null);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['set_class_property6'] = {
+  init: function () {
+    // this.appendDummyInput()
+
+    this.appendValueInput("VALUE")
+      .appendField("set")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["cRun", "cRun"],
+          ["cBase", "cBase"],
+        ]),
+        "CLASS"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["bStopFlag", "bStopFlag"],
+          ["cAct", "cAct"],
+          ["option", "OPTIONNAME"],
+          ["InitThread", "InitThread"],
+        ]),
+        "PROPERTY0"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["0", "0"],
+          ["1", "1"],
+        ]),
+        "PROPERTY1"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["rbt", "rbt"],
+          ["dj", "dj"],
+          ["qg", "qg"],
+        ]),
+        "PROPERTY2"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["iPrdCnt", "iPrdCnt"],
+          ["bIsNewPrd", "bIsNewPrd"],
+          ["iCurrPos", "iCurrPos"],
+          ["0", "0"],
+          ["1", "1"],
+        ]),
+        "PROPERTY3"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["iPrdCnt", "iPrdCnt"],
+          ["bIsNewPrd", "bIsNewPrd"],
+          ["iCurrPos", "iCurrPos"],
+          ["bExistPrd", "bExistPrd"],
+        ]),
+        "PROPERTY4"
+      )
+      .appendField("to");
+    this.setOutput(false, null);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['class_method_return'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("do")
+      .appendField(new Blockly.FieldDropdown([["cBase", "cBase"], ["cRun", "cRun"]]), "CLASS")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["SaveLog", "SaveLog"], ["InitThread", "InitThread"], ["ClearAllCmd", "ClearAllCmd"], ["SendAllPara", "SendAllPara"]]), "METHOD");
+    this.setOutput(true, null);
+    this.setPreviousStatement(false);
+    this.setNextStatement(false);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['class_method_return4'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("do")
+      .appendField(new Blockly.FieldDropdown([["cBase", "cBase"], ["cRun", "cRun"]]), "CLASS")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["bStopFlag", "bStopFlag"], ["cAct", "cAct"], ["SaveLog", "SaveLog"], ["InitThread", "InitThread"], ["ClearAllCmd", "ClearAllCmd"], ["SendAllPara", "SendAllPara"]]), "METHOD")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["0", "0"], ["1", "1"]]), "PROPERTY1")
+      .appendField(".")
+      .appendField(new Blockly.FieldDropdown([["Init", "Init"], ["Start", "Start"]]), "PROPERTY2");
+      this.setOutput(true, null);
+    this.setPreviousStatement(false);
+    this.setNextStatement(false);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['class_method_noreturn'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("do")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["cBase", "cBase"],
+          ["cRun", "cRun"],
+          ["Application", "Application"],
+        ]),
+        "CLASS"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["bStopFlag", "bStopFlag"],
+          ["cAct", "cAct"],
+          ["SaveLog", "SaveLog"],
+          ["InitThread", "InitThread"],
+          ["ClearAllCmd", "ClearAllCmd"],
+          ["DoEvents", "DoEvents"],
+        ]),
+        "METHOD"
+      );
+    this.setOutput(false, null);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['class_method_noreturn_with_params1'] = {
+  init: function () {
+    // this.appendDummyInput()
+    this.appendValueInput("VALUE")
+      .appendField("do")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["cBase", "cBase"],
+          ["cRun", "cRun"],
+          ["Thread", "Thread"],
+        ]),
+        "CLASS"
+      )
+      .appendField(".")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["bStopFlag", "bStopFlag"],
+          ["cAct", "cAct"],
+          ["SaveLog", "SaveLog"],
+          ["InitThread", "InitThread"],
+          ["Sleep", "Sleep"],
+        ]),
+        "METHOD"
+      );
+    this.setOutput(false, null);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
 
 
 Blockly.Blocks['methods_defreturn'] = {
@@ -507,3 +852,21 @@ Blockly.Blocks['methods_defreturn'] = {
   customContextMenu: Blockly.Blocks['procedures_defnoreturn'].customContextMenu,
   callType_: 'procedures_callreturn'
 };
+
+Blockly.Blocks['procedures_ifreturn'].FUNCTION_TYPES.push('class_method');
+
+Blockly.Blocks['method_return'] = Blockly.Blocks['procedures_ifreturn'];
+Blockly.Blocks['method_return'].init = function() {
+  /* this.appendValueInput('CONDITION')
+    .setCheck('Boolean')
+    .appendField(Blockly.Msg['CONTROLS_IF_MSG_IF']); */
+  this.appendValueInput('VALUE')
+    .appendField(Blockly.Msg['PROCEDURES_DEFRETURN_RETURN']);
+  this.setInputsInline(true);
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setStyle('procedure_blocks');
+  this.setTooltip(Blockly.Msg['PROCEDURES_IFRETURN_TOOLTIP']);
+  this.setHelpUrl(Blockly.Msg['PROCEDURES_IFRETURN_HELPURL']);
+  this.hasReturnValue_ = true;
+}
