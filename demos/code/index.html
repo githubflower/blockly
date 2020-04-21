@@ -6,7 +6,12 @@
   <meta name="google" value="notranslate">
   <title>Blockly Demo:</title>
   <link rel="stylesheet" href="style.css">
-  
+  <style>
+    .blocklyMainBackground{
+      fill: #fff !important;
+      /* fill: #0B1725 !important; */
+    }
+  </style>
 </head>
 <body>
   <table width="100%" height="100%">
@@ -379,7 +384,7 @@
     <sep></sep>
     <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
-    <category name="Class" >
+    <category name="Class" colour="#ff0000">
       <block type="class"></block>
       <block type="class_property"></block>
       <block type="class_method"></block>

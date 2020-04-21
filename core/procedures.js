@@ -177,7 +177,6 @@ Blockly.Procedures.rename = function(name) {
   if (oldName != name && oldName != legalName) {
     // Rename any callers.
     var blocks = this.getSourceBlock().workspace.getAllBlocks(false);
-    debugger;
     for (var i = 0; i < blocks.length; i++) {
       if (blocks[i].renameProcedure) {
         var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (

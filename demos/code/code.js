@@ -429,7 +429,6 @@ Code.init = function() {
   toolboxText = toolboxText.replace(/(^|[^%]){(\w+)}/g,
       function(m, p1, p2) {return p1 + MSG[p2];});
   var toolboxXml = Blockly.Xml.textToDom(toolboxText);
-
   Code.workspace = Blockly.inject('content_blocks',
       {grid:
           {spacing: 25,
