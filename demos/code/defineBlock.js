@@ -135,13 +135,17 @@ Blockly.Blocks['class'] = {
     this.appendDummyInput()
         .appendField("class")
         .appendField(new Blockly.FieldTextInput("className"), "NAME");
-    this.appendStatementInput("PROPERTY")
-        .setCheck("")
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("property:");
+    
+    this.appendDummyInput()
+        // .setCheck("")
+        .setAlign(Blockly.ALIGN_LEFT)
+        .appendField("property");
+    this.appendStatementInput("PROPERTY");
+    this.appendDummyInput()
+      .setAlign(Blockly.ALIGN_LEFT)
+        // .setCheck(null)
+        .appendField("method");
     this.appendStatementInput("METHOD")
-        .setCheck(null)
-        .appendField("method:");
     this.setStyle("blue1_blocks");
  this.setTooltip("");
  this.setHelpUrl("");
@@ -182,7 +186,7 @@ Blockly.Blocks['class_property'] = {
   init: function () {
     this.setHelpUrl(Blockly.Msg['LISTS_CREATE_WITH_HELPURL']);
     // this.setStyle('blue2_blocks');
-    this.setStyle('puple1_blocks');
+    this.setStyle('blue3_blocks');
     this.itemCount_ = 2;
     this.updateShape_();
     // this.setOutput(true, 'Object');
@@ -289,7 +293,7 @@ Blockly.Blocks['class_property'] = {
     for (var i = 0; i < this.itemCount_; i++) {
       if (!this.getInput('item_value' + i)) {
         var input = this.appendValueInput("item_value" + i)
-          .appendField(new Blockly.FieldDropdown([["private", "private"], ["public", "public"], ["public static", "public static"]]), "TYPE" + i)
+          // .appendField(new Blockly.FieldDropdown([["private", "private"], ["public", "public"], ["public static", "public static"]]), "TYPE" + i)
           .appendField(new Blockly.FieldTextInput('key' + i), 'item_key' + i)
           .appendField(':')
           .setAlign(Blockly.ALIGN_RIGHT);
@@ -311,7 +315,8 @@ Blockly.Blocks['class_method'] = {
    */
   init: function () {
     this.setHelpUrl(Blockly.Msg['LISTS_CREATE_WITH_HELPURL']);
-    this.setStyle('puple1_blocks');
+    // this.setStyle('puple1_blocks');
+    this.setStyle('blue3_blocks');
     this.itemCount_ = 2;
     this.updateShape_();
     // this.setOutput(true, 'Object');
@@ -419,12 +424,12 @@ Blockly.Blocks['class_method'] = {
     // Add new inputs.
     for (var i = 0; i < this.itemCount_; i++) {
       if (!this.getInput('item_value' + i)) {
-        // var input = this.appendValueInput("item_value" + i)
-        var input = this.appendStatementInput("item_value" + i)
-          .appendField(new Blockly.FieldDropdown([["private", "private"], ["public", "public"]]), "TYPE" + i)
+        var input = this.appendDummyInput('EMPTY' + i)
+          // .appendField(new Blockly.FieldDropdown([["private", "private"], ["public", "public"]]), "TYPE" + i)
           .appendField(new Blockly.FieldTextInput('method' + i), 'item_key' + i)
           .appendField(':')
           .setAlign(Blockly.ALIGN_RIGHT);
+        this.appendStatementInput("item_value" + i);
         this.setInputsInline(false);
       }
     }
@@ -723,7 +728,7 @@ Blockly.Blocks['class_method_return'] = {
     this.setOutput(true, null);
     this.setPreviousStatement(false);
     this.setNextStatement(false);
-    this.setStyle("green1_blocks");
+    this.setStyle("blue4_blocks");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -774,7 +779,7 @@ Blockly.Blocks['class_method_return4'] = {
       this.setOutput(true, null);
     this.setPreviousStatement(false);
     this.setNextStatement(false);
-    this.setStyle("green1_blocks");
+    this.setStyle("blue4_blocks");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -807,7 +812,7 @@ Blockly.Blocks['class_method_noreturn'] = {
     this.setOutput(false, null);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setStyle("green1_blocks");
+    this.setStyle("blue4_blocks");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -840,7 +845,7 @@ Blockly.Blocks['class_method_noreturn_with_params1'] = {
     this.setOutput(false, null);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setStyle("green1_blocks");
+    this.setStyle("blue4_blocks");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -877,7 +882,7 @@ Blockly.Blocks['class_method_noreturn_with_params2'] = {
     this.setOutput(false, null);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setStyle("green1_blocks");
+    this.setStyle("blue4_blocks");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -922,7 +927,7 @@ Blockly.Blocks['class_method_noreturn_with_params3'] = {
     this.setOutput(false, null);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setStyle("green1_blocks");
+    this.setStyle("blue4_blocks");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -963,7 +968,7 @@ Blockly.Blocks['class_method_return_with_params2'] = {
     this.setOutput(true, null);
     this.setPreviousStatement(false);
     this.setNextStatement(false);
-    this.setStyle("green1_blocks");
+    this.setStyle("blue4_blocks");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -1046,3 +1051,30 @@ Blockly.Blocks['method_return'].init = function() {
   this.setHelpUrl(Blockly.Msg['PROCEDURES_IFRETURN_HELPURL']);
   this.hasReturnValue_ = true;
 }
+
+
+Blockly.Blocks['start'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Start");
+    this.appendStatementInput("NAME")
+      .setCheck(null);
+    this.setColour("#00b5cc");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['new'] = {
+  init: function () {
+    this.appendValueInput("NAME")
+      .setCheck(null)
+      .appendField("new")
+      .appendField(new Blockly.FieldDropdown([["cBase", "cBase"], ["cRun", "cRun"], ["cMotion", "cMotion"]]), "NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#19b5fe");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};

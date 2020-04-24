@@ -67,13 +67,15 @@ Blockly.Themes.Classic.defaultBlockStyles = {
     "colourPrimary": "20"
   },
   "list_blocks": {
-    "colourPrimary": "260"
+    // "colourPrimary": "260"
+    "colourPrimary": "#6bb9f0"
   },
   "logic_blocks": {
     "colourPrimary": "#21AEF3" //blue5_blocks
   },
   "loop_blocks": {
-    "colourPrimary": "120"
+    // "colourPrimary": "120"
+    "colourPrimary": "#651FFF"
   },
   "math_blocks": {
     "colourPrimary": "#21AEF3"  //blue5_blocks
@@ -82,7 +84,7 @@ Blockly.Themes.Classic.defaultBlockStyles = {
     "colourPrimary": "#21AEF3"  //blue5_blocks
   },
   "text_blocks": {
-    "colourPrimary": "160"
+    "colourPrimary": "#00b5cc"
   },
   "variable_blocks": {
     "colourPrimary": "#64C7DE"
