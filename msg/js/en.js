@@ -423,12 +423,28 @@ Blockly.Msg["PROCEDURES_DEFRETURN_TITLE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_
 Blockly.Msg["TEXT_APPEND_VARIABLE"] = Blockly.Msg["VARIABLES_DEFAULT_NAME"];
 Blockly.Msg["TEXT_CREATE_JOIN_ITEM_TITLE_ITEM"] = Blockly.Msg["VARIABLES_DEFAULT_NAME"];
 
-Blockly.Msg["MATH_HUE"] = "230";
-Blockly.Msg["LOOPS_HUE"] = "120";
-Blockly.Msg["LISTS_HUE"] = "260";
-Blockly.Msg["LOGIC_HUE"] = "210";
-Blockly.Msg["VARIABLES_HUE"] = "330";
-Blockly.Msg["TEXTS_HUE"] = "160";
-Blockly.Msg["PROCEDURES_HUE"] = "290";
-Blockly.Msg["COLOUR_HUE"] = "20";
-Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
+
+var colorAryByType = [
+    "#1B67B3",
+    "#F92672",
+    "#AE81FF",
+    "#FFB840",
+    "#FF6459",
+    "#ff00cc",
+    "#64C7DE",
+    "#66D9E2",
+    "#52D9EF",
+    "#FF6459",
+    "#A6E23E",
+    "#E8FF26",
+];
+Blockly.Msg["LOGIC_HUE"] = colorAryByType[0];
+Blockly.Msg["LOOPS_HUE"] = colorAryByType[1];
+Blockly.Msg["MATH_HUE"] = colorAryByType[2];
+Blockly.Msg["TEXTS_HUE"] = colorAryByType[3];
+Blockly.Msg["LISTS_HUE"] = colorAryByType[4];
+Blockly.Msg["COLOUR_HUE"] = colorAryByType[5];
+Blockly.Msg["VARIABLES_HUE"] = colorAryByType[6];
+Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = colorAryByType[7];
+Blockly.Msg["PROCEDURES_HUE"] = colorAryByType[8];
+Blockly.Msg["CLASS_HUE"] = colorAryByType[9];

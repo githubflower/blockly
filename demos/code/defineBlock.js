@@ -146,7 +146,7 @@ Blockly.Blocks['class'] = {
         // .setCheck(null)
         .appendField("method");
     this.appendStatementInput("METHOD")
-    this.setStyle("blue1_blocks");
+    this.setStyle("class_blocks");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -185,8 +185,7 @@ Blockly.Blocks['class_property'] = {
    */
   init: function () {
     this.setHelpUrl(Blockly.Msg['LISTS_CREATE_WITH_HELPURL']);
-    // this.setStyle('blue2_blocks');
-    this.setStyle('blue3_blocks');
+    this.setStyle('class_property');
     this.itemCount_ = 2;
     this.updateShape_();
     // this.setOutput(true, 'Object');
@@ -316,7 +315,7 @@ Blockly.Blocks['class_method'] = {
   init: function () {
     this.setHelpUrl(Blockly.Msg['LISTS_CREATE_WITH_HELPURL']);
     // this.setStyle('puple1_blocks');
-    this.setStyle('blue3_blocks');
+    this.setStyle('class_method');
     this.itemCount_ = 2;
     this.updateShape_();
     // this.setOutput(true, 'Object');
