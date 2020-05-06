@@ -123,7 +123,8 @@ Blockly.geras.PathObject.prototype.applyColour = function(block) {
 
   Blockly.geras.PathObject.superClass_.applyColour.call(this, block);
   
-  this.svgPath.setAttribute('stroke', 'none');
+  // this.svgPath.setAttribute('stroke', 'none'); //zjie 0506
+  this.svgPath.setAttribute('stroke', this.style.colourPrimary);
 };
 
 /**

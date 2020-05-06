@@ -51,6 +51,7 @@ Blockly.BlockSvg = function(workspace, prototypeName, opt_id) {
    * @private
    */
   this.svgGroup_ = Blockly.utils.dom.createSvgElement('g', {}, null);
+  Blockly.utils.dom.addClass(this.svgGroup_, 'block-fill ' + prototypeName.toLowerCase());
   this.svgGroup_.translate_ = '';
 
   /**
@@ -1271,6 +1272,7 @@ Blockly.BlockSvg.prototype.setStyle = function(blockStyleName) {
 
   if (blockStyle) {
     this.hat = blockStyle.hat;
+    debugger;
     this.pathObject.setStyle(blockStyle);
     // Set colour to match Block.
     this.colour_ = blockStyle.colourPrimary;

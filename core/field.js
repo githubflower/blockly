@@ -348,8 +348,25 @@ Blockly.Field.prototype.createTextElement_ = function() {
   if (this.getConstants().FIELD_TEXT_BASELINE_CENTER) {
     this.textElement_.setAttribute('dominant-baseline', 'central');
   }
+  
   this.textContent_ = document.createTextNode('');
   this.textElement_.appendChild(this.textContent_);
+  if (this.sourceBlock_){
+    var oldStyle = this.textElement_.getAttribute('style') || '';
+    var reg = /\s*fill.*?;/;
+    var matchSuccess = false;
+    var newStyle = oldStyle.replace(reg, function(matchStr, index, originStr){
+      //只要能匹配上就一定会执行这个function
+      // if (matchStr){
+      matchSuccess = true;
+      return `fill: ${this.sourceBlock_.getColour()};`;
+      // }
+    })
+    if (!matchSuccess){
+      newStyle += `;fill: ${this.sourceBlock_.getColour()};`;
+    }
+    this.textElement_.setAttribute('style', newStyle);
+  }
 };
 
 /**

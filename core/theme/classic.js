@@ -68,7 +68,12 @@ blocksAry.forEach((block_type, i) => {
 // var block_color_ary = ['#2C73D2', '#0081CF', '#0089BA', '#008E9B', '#008F7A' ];
 // var block_color_ary = ['#409EFF', '#00BEFF', '#00D8ED', '#00EBBD', '#97F68C' ];
 // var block_color_ary = ['#FF728D', '#3B43ED', '#FFAF0F', '#EE5523', '#00703E' ];
-var block_color_ary = ['#1B67B3', '#3363FF', '#409FFF', '#238DAD', '#28C9C4' ];
+// var block_color_ary = ['#1B67B3', '#3363FF', '#409FFF', '#238DAD', '#28C9C4' ];
+// var block_color_ary = ['#A30014', '#B8741A', '#BFBF00', '#70B603', '#00BFBF', '#027DB4', '#0000BF', '#6300BF' ];
+// var block_color_ary = ['#A30014', '#B8741A', '#BFBF00', '#70B603', '#00BFBF', '#027DB4', '#F9273C', '#6300BF' ];
+//monika 配色 
+var block_color_ary = ['#A30014', '#52D3F0', '#BFBF00', '#70B603', '#00BFBF', '#1088F2', '#F9273C', '#6300BF', '#FFAF0F' ];
+
 var colorAryByType = [
   "#F92672",
   "#F92672",
@@ -87,50 +92,70 @@ var colorAryByType = [
 Blockly.Themes.Classic.defaultBlockStyles = {
   "logic_blocks": {
     // "colourPrimary": "#F92672"
-    "colourPrimary": block_color_ary[1]//blue5_blocks
+    "colourPrimary": block_color_ary[6],
+    "colourTertiary": block_color_ary[6],
   },
   "loop_blocks": {
-    "colourPrimary": "#F92672"
-    // "colourPrimary": block_color_ary[2]
+    // "colourPrimary": "#F92672"
+    "colourPrimary": block_color_ary[6],
+    "colourTertiary": block_color_ary[6],
   },
   "math_blocks": {
-    "colourPrimary": "#AE81FF"
-    // "colourPrimary": block_color_ary[3]  //blue5_blocks
+    // "colourPrimary": "#AE81FF"
+    "colourPrimary": block_color_ary[7],
+    "colourTertiary": block_color_ary[7],
   },
   "text_blocks": {
-    "colourPrimary": "#FFB840"
+    // "colourPrimary": "#FFB840"
     // "colourPrimary": "#E6DB74"
-    // "colourPrimary": block_color_ary[4] 
+    "colourPrimary": block_color_ary[8],
+    "colourTertiary": block_color_ary[8],
   },
   "list_blocks": {
-    "colourPrimary": "#FF6459"
-    // "colourPrimary": block_color_ary[0]
+    // "colourPrimary": "#FF6459"
+    "colourPrimary": block_color_ary[5],
+    "colourTertiary": block_color_ary[5],
   },
   "colour_blocks": {
-    "colourPrimary": "#ff00cc"
+    // "colourPrimary": "#ff00cc"
+    "colourPrimary": block_color_ary[6],
+    "colourTertiary": block_color_ary[6],
   },
   "variable_blocks": {
-    "colourPrimary": "#64C7DE"
+    // "colourPrimary": "#64C7DE"
+    "colourPrimary": block_color_ary[7],
+    "colourTertiary": block_color_ary[7],
   },
   "variable_dynamic_blocks": {
-    "colourPrimary": "#66D9E2"
+    // "colourPrimary": "#66D9E2"
+    "colourPrimary": block_color_ary[0],
+    "colourTertiary": block_color_ary[0],
   },
   "hat_blocks": {
     "colourPrimary": "#E8FF26",
     "hat": "cap"
   },
   "procedure_blocks": {
-    "colourPrimary": "#52D9EF"  //blue5_blocks
-    // "colourPrimary": "#21AEF3"  //blue5_blocks
+    // "colourPrimary": "#52D9EF"  //blue5_blocks
+    "colourPrimary": block_color_ary[5],
+    "colourTertiary": block_color_ary[5],
   },
   "class_blocks": {
-    "colourPrimary": "#FD971F"
+    // "colourPrimary": "#FD971F"
+    "colourPrimary": block_color_ary[4],
+    "colourTertiary": block_color_ary[4],
   },
   "class_property": {
-    "colourPrimary": "#FF6459"
+    // "colourPrimary": "#FF6459"
+    // "colourPrimary": "#FFB840"
+    "colourPrimary": block_color_ary[5],
+    "colourTertiary": block_color_ary[5],
   },
   "class_method": {
-    "colourPrimary": "#A6E23E"
+    // "colourPrimary": "#A6E23E"
+    // "colourPrimary": "#FFB840"
+    "colourPrimary": block_color_ary[5],
+    "colourTertiary": block_color_ary[5],
   },
   
 

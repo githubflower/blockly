@@ -8,8 +8,28 @@
   <link rel="stylesheet" href="style.css">
   <style>
     .blocklyMainBackground{
-      fill: #fff !important;
-      /* fill: #0B1725 !important; */
+      /* fill: #fff !important; */
+      fill: #0B1725 !important;
+    }
+
+    .block-fill > path{
+      /* fill: #272822 !important; */
+      /* fill: rgba(0,0,0,.1) !important; */
+      /* fill: rgba(255, 255, 255, 0.2) !important; */
+      fill: transparent !important;
+    }
+    .block-fill > .blocklyPathLight {
+      fill: none !important;
+    }
+   /*  .controls_if > path{
+      stroke: #F9273C !important;
+    }
+    .controls_if > g > text{
+      fill: #F9273C !important;
+    } */
+
+    .geras-renderer.classic-theme .blocklyNonEditableText>text, .geras-renderer.classic-theme .blocklyEditableText>text {
+      fill: #000000 !important;
     }
   </style>
 </head>
@@ -43,7 +63,9 @@
             <td id="tab_dart" class="taboff tab_collapse">Dart</td>
             <td class="tabmin tab_collapse">&nbsp;</td>
             <td id="tab_xml" class="taboff tab_collapse">XML</td>
-            <td class="tabmin">&nbsp;</td>
+            <td class="tabmin">
+              <input type="file" name="loadXml" id="loadXml" />
+            </td>
             <td id="tab_code" class="taboff">
               <select id="code_menu"></select>
             </td>
@@ -419,4 +441,16 @@
   <script src="code.js"></script>
   <script type="text/javascript" src="./defineBlock.js"></script>
 </body>
+
+<script>
+    var importBtn = document.getElementById('loadXml');
+    importBtn.addEventListener('change', function(e){
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = (fe) => {
+        Code.loadBlocks(fe.target.result);
+      };
+      reader.readAsText(file);
+    })
+</script>
 </html>
