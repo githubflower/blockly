@@ -71,8 +71,13 @@ blocksAry.forEach((block_type, i) => {
 // var block_color_ary = ['#1B67B3', '#3363FF', '#409FFF', '#238DAD', '#28C9C4' ];
 // var block_color_ary = ['#A30014', '#B8741A', '#BFBF00', '#70B603', '#00BFBF', '#027DB4', '#0000BF', '#6300BF' ];
 // var block_color_ary = ['#A30014', '#B8741A', '#BFBF00', '#70B603', '#00BFBF', '#027DB4', '#F9273C', '#6300BF' ];
-//monika 配色 
-var block_color_ary = ['#A30014', '#52D3F0', '#BFBF00', '#70B603', '#00BFBF', '#1088F2', '#F9273C', '#6300BF', '#FFAF0F' ];
+//monika 配色  深色主题
+//                         0          1          2          3          4          5          6          7          8
+// var block_color_ary = ['#A30014', '#52D3F0', '#BFBF00', '#70B603', '#00BFBF', '#1088F2', '#FF728D', '#6300BF', '#FFAF0F' ];
+
+//monika 配色  浅色主题
+//                         0          1          2          3          4          5          6          7          8
+var block_color_ary = ['#A30014', '#52D3F0', '#BFBF00', '#70B603', '#00BFBF', '#1088F2', '#EE5523', '#3B43ED', '#EE0675', '#FFAF0F' ];
 
 var colorAryByType = [
   "#F92672",
@@ -170,7 +175,8 @@ Blockly.Themes.Classic.defaultBlockStyles = {
     "colourPrimary": "#4350AF"
   },
   "blue4_blocks": {
-    "colourPrimary": "#64C7DE"
+    // "colourPrimary": "#64C7DE", //深色主题下的颜色
+    "colourPrimary": "#00703E", //浅色主题下的颜色
   },
   "blue5_blocks": {
     "colourPrimary": "#21AEF3"

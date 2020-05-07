@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="white">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +11,43 @@
       /* fill: #fff !important; */
       fill: #0B1725 !important;
     }
+    .black .blocklyMainBackground{
+      fill: #0B1725 !important;
+    }
+    .black .block-fill > path{
+      fill-opacity: 0.1;
+    }
+    .black .geras-renderer.classic-theme .blocklyEditableText>rect{
+      fill-opacity: 1;
+      fill: #174273;
+    }
+    .black .geras-renderer.classic-theme .blocklyEditableText>text, .black .geras-renderer.classic-theme .blocklyEditableText>text > tspan{
+      fill: #F9AA0F !important;
+    }
+
+
+    .white .blocklyMainBackground{
+      fill: #fff !important;
+    }
+    .white .geras-renderer.classic-theme .blocklyEditableText>rect{
+      fill-opacity: 1;
+      fill: #169BD5;
+    }
+    .white .geras-renderer.classic-theme .blocklyEditableText>text, .white .geras-renderer.classic-theme .blocklyEditableText>text > tspan{
+      fill: #FFFFFF !important;
+    }
+    .white .block-fill > path{
+      fill-opacity: 0.1;
+    }
+
+
 
     .block-fill > path{
       /* fill: #272822 !important; */
       /* fill: rgba(0,0,0,.1) !important; */
       /* fill: rgba(255, 255, 255, 0.2) !important; */
-      fill: transparent !important;
+      /* fill: transparent !important; */
+      /* filter: url(#shadowGrey); */
     }
     .block-fill > .blocklyPathLight {
       fill: none !important;
@@ -28,10 +59,15 @@
       fill: #F9273C !important;
     } */
 
-    .geras-renderer.classic-theme .blocklyNonEditableText>text, .geras-renderer.classic-theme .blocklyEditableText>text {
-      fill: #000000 !important;
-    }
+    /* .geras-renderer.classic-theme .blocklyNonEditableText>rect, .geras-renderer.classic-theme .blocklyEditableText>rect {
+      fill-opacity: 1;
+      fill: #174273;
+    } */
+    /* .geras-renderer.classic-theme .blocklyNonEditableText>text, .geras-renderer.classic-theme .blocklyEditableText>text {
+      fill: #F9AA0F !important;
+    } */
   </style>
+  <!-- <link rel="stylesheet/less" type="text/css" href="code.less"/> -->
 </head>
 <body>
   <table width="100%" height="100%">
@@ -441,7 +477,19 @@
   <script src="code.js"></script>
   <script type="text/javascript" src="./defineBlock.js"></script>
 </body>
-
+<!-- <script>
+  window.less = {
+    env: "development",
+    async: false,
+    fileAsync: false,
+    poll: 1000,
+    functions: {},
+    dumpLineNumbers: "comments",
+    relativeUrls: false,
+    rootpath: "./"
+  };
+</script>
+<script src="less.js" type="text/javascript"></script> -->
 <script>
     var importBtn = document.getElementById('loadXml');
     importBtn.addEventListener('change', function(e){
@@ -451,6 +499,37 @@
         Code.loadBlocks(fe.target.result);
       };
       reader.readAsText(file);
+    })
+
+    window.addEventListener('load', function(){
+
+      var svg = document.querySelector('svg.blocklySvg');
+      console.log(svg);
+      debugger;
+      var defs = Blockly.utils.dom.createSvgElement('defs', {}, svg);
+      var shadowGrey = Blockly.utils.dom.createSvgElement('filter', {
+        id: 'shadowGrey',
+        x: "0",
+        y: "0",
+        width: "100%",
+        height: "100%"
+      }, defs);
+      Blockly.utils.dom.createSvgElement('feOffset', {
+        in: 'SourceGraphic',
+        result: 'offOut',
+        dx: 0,
+        dy: 0
+      }, shadowGrey);
+      Blockly.utils.dom.createSvgElement('feGaussianBlur', {
+        in: 'offOut',
+        stdDeviation: 1,
+        result: 'blurOut',
+      }, shadowGrey);
+      Blockly.utils.dom.createSvgElement('feBlend', {
+        in: 'SourceGraphic',
+        in2: "blurOut",
+        mode: "normal"
+      }, shadowGrey);
     })
 </script>
 </html>

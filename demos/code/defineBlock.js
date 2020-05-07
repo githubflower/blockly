@@ -133,7 +133,7 @@ Blockly.Blocks['create_obj'] = {
 Blockly.Blocks['class'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("class")
+        .appendField("Class")
         .appendField(new Blockly.FieldTextInput("className"), "NAME");
     
     this.appendDummyInput()
