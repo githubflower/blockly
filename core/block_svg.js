@@ -796,6 +796,18 @@ Blockly.BlockSvg.prototype.generateContextMenu = function() {
       menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
     }
   }
+  var setBreakPointOption = {
+    text: 'Set Breakpoint',
+    enabled: true,
+    callback:  ()=> {
+      console.log(block.id);
+      window.parent.postMessage({
+        eventType: 'setBreakpoint',
+        blockId: block.id
+      })
+    }
+  };
+  menuOptions.push(setBreakPointOption);
 
   menuOptions.push(Blockly.ContextMenu.blockHelpOption(block));
 
@@ -1272,7 +1284,6 @@ Blockly.BlockSvg.prototype.setStyle = function(blockStyleName) {
 
   if (blockStyle) {
     this.hat = blockStyle.hat;
-    debugger;
     this.pathObject.setStyle(blockStyle);
     // Set colour to match Block.
     this.colour_ = blockStyle.colourPrimary;

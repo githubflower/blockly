@@ -237,6 +237,8 @@ Blockly.Field.prototype.configure_ = function(config) {
   tooltip && this.setTooltip(tooltip);
 
   // TODO (#2884): Possibly add CSS class config option.
+  // google程序员也这么懒吗？那就让我来帮你实现吧
+  this.configClass = config.class || '';
   // TODO (#2885): Possibly add cursor config option.
 };
 
@@ -343,8 +345,10 @@ Blockly.Field.prototype.createTextElement_ = function() {
   this.textElement_ = /** @type {!SVGTextElement} **/
       (Blockly.utils.dom.createSvgElement('text',
           {
-            'class': 'blocklyText',
+            'class': 'blocklyText ' + this.configClass,
           }, this.fieldGroup_));
+  this.configClass = null;
+  delete this.configClass;
   if (this.getConstants().FIELD_TEXT_BASELINE_CENTER) {
     this.textElement_.setAttribute('dominant-baseline', 'central');
   }

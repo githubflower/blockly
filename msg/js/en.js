@@ -438,13 +438,13 @@ var colorAryByType = [
     "#A6E23E",
     "#E8FF26",
 ];
-Blockly.Msg["LOGIC_HUE"] = colorAryByType[0];
-Blockly.Msg["LOOPS_HUE"] = colorAryByType[1];
-Blockly.Msg["MATH_HUE"] = colorAryByType[2];
-Blockly.Msg["TEXTS_HUE"] = colorAryByType[3];
-Blockly.Msg["LISTS_HUE"] = colorAryByType[4];
+Blockly.Msg["LOGIC_HUE"] = '#EE5523'; //colorAryByType[0];
+Blockly.Msg["LOOPS_HUE"] = '#EE5523'; //colorAryByType[1];
+Blockly.Msg["MATH_HUE"] = '#3B43ED'; //colorAryByType[2];
+Blockly.Msg["TEXTS_HUE"] = '#EE0675'; //colorAryByType[3];
+Blockly.Msg["LISTS_HUE"] = '#1088F2'; //colorAryByType[4];
 Blockly.Msg["COLOUR_HUE"] = colorAryByType[5];
-Blockly.Msg["VARIABLES_HUE"] = colorAryByType[6];
+Blockly.Msg["VARIABLES_HUE"] = '#3B43ED'; //colorAryByType[6];
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = colorAryByType[7];
-Blockly.Msg["PROCEDURES_HUE"] = colorAryByType[8];
-Blockly.Msg["CLASS_HUE"] = colorAryByType[9];
+Blockly.Msg["PROCEDURES_HUE"] = '#1088F2'; //colorAryByType[8];
+Blockly.Msg["CLASS_HUE"] = '#00BFBF'; //colorAryByType[9];

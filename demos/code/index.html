@@ -1,58 +1,76 @@
 <!DOCTYPE html>
 <html class="white">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" value="notranslate">
   <title>Blockly Demo:</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
   <style>
-    .blocklyMainBackground{
+    .blocklyMainBackground {
       /* fill: #fff !important; */
       fill: #0B1725 !important;
     }
-    .black .blocklyMainBackground{
+
+    .black .blocklyMainBackground {
       fill: #0B1725 !important;
     }
-    .black .block-fill > path{
+
+    .black .block-fill>path {
       fill-opacity: 0.1;
     }
-    .black .geras-renderer.classic-theme .blocklyEditableText>rect{
+
+    .black .geras-renderer.classic-theme .blocklyEditableText>rect {
       fill-opacity: 1;
       fill: #174273;
     }
-    .black .geras-renderer.classic-theme .blocklyEditableText>text, .black .geras-renderer.classic-theme .blocklyEditableText>text > tspan{
+
+    .black .geras-renderer.classic-theme .blocklyEditableText>text,
+    .black .geras-renderer.classic-theme .blocklyEditableText>text>tspan {
       fill: #F9AA0F !important;
     }
 
 
-    .white .blocklyMainBackground{
+    .white .blocklyMainBackground {
       fill: #fff !important;
     }
-    .white .geras-renderer.classic-theme .blocklyEditableText>rect{
+
+    .white .geras-renderer.classic-theme .blocklyEditableText>rect {
       fill-opacity: 1;
       fill: #169BD5;
     }
-    .white .geras-renderer.classic-theme .blocklyEditableText>text, .white .geras-renderer.classic-theme .blocklyEditableText>text > tspan{
+
+    .white .geras-renderer.classic-theme .blocklyEditableText>text,
+    .white .geras-renderer.classic-theme .blocklyEditableText>text>tspan {
       fill: #FFFFFF !important;
     }
-    .white .block-fill > path{
+
+    .white .block-fill>path {
       fill-opacity: 0.1;
     }
 
+    .white .geras-renderer.classic-theme .state .blocklyEditableText>rect {
+      fill: #999999 !important;
+    }
 
+    .keyword {
+      font-weight: bold !important;
+    }
 
-    .block-fill > path{
+    .block-fill>path {
       /* fill: #272822 !important; */
       /* fill: rgba(0,0,0,.1) !important; */
       /* fill: rgba(255, 255, 255, 0.2) !important; */
       /* fill: transparent !important; */
       /* filter: url(#shadowGrey); */
     }
-    .block-fill > .blocklyPathLight {
+
+    .block-fill>.blocklyPathLight {
       fill: none !important;
     }
-   /*  .controls_if > path{
+
+    /*  .controls_if > path{
       stroke: #F9273C !important;
     }
     .controls_if > g > text{
@@ -69,6 +87,7 @@
   </style>
   <!-- <link rel="stylesheet/less" type="text/css" href="code.less"/> -->
 </head>
+
 <body>
   <table width="100%" height="100%">
     <tr>
@@ -101,6 +120,9 @@
             <td id="tab_xml" class="taboff tab_collapse">XML</td>
             <td class="tabmin">
               <input type="file" name="loadXml" id="loadXml" />
+            </td>
+            <td>
+              <input type="button" value="生成状态图json" id="genStateData" />
             </td>
             <td id="tab_code" class="taboff">
               <select id="code_menu"></select>
@@ -443,6 +465,16 @@
     <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
     <category name="Class" colour="%{BKY_CLASS_HUE}">
+      <block type="thread">
+      <value name="CALLBACK">
+        <shadow type="logic_compare">
+            <field name="callback">function</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="state"></block>
+      <block type="def_state"></block>
+      <block type="run_state"></block>
       <block type="class"></block>
       <block type="class_property"></block>
       <block type="class_method"></block>
@@ -461,11 +493,13 @@
       <block type="create_obj"></block>
       <block type="start"></block>
       <block type="new"></block>
+      
+      
       <!-- <block type="methods_defreturn"></block> -->
     </category>
   </xml>
 
-  <script src="/storage.js"></script>
+  <!-- <script src="/storage.js"></script> -->
   <!-- <script src="../../blockly_compressed.js"></script> -->
   <script src="../../blockly_uncompressed.js"></script>
   <script src="../../blocks_compressed.js"></script>
@@ -474,38 +508,167 @@
   <script src="../../php_compressed.js"></script>
   <script src="../../lua_compressed.js"></script>
   <script src="../../dart_compressed.js"></script>
-  <script src="code.js"></script>
+  <script src="./code.js"></script>
   <script type="text/javascript" src="./defineBlock.js"></script>
-</body>
-<!-- <script>
-  window.less = {
-    env: "development",
-    async: false,
-    fileAsync: false,
-    poll: 1000,
-    functions: {},
-    dumpLineNumbers: "comments",
-    relativeUrls: false,
-    rootpath: "./"
-  };
-</script>
-<script src="less.js" type="text/javascript"></script> -->
-<script>
+  <script type="text/javascript" src="./generate.js"></script>
+  <script>
+    const isStateInOptions = (state, options) => {
+      let flag = false;
+      options.forEach(option => {
+        if(option[0] == state.name){
+          flag = true;
+          return false; //注意：这里的return false是退出forEach循环
+        }
+      })
+      return flag;
+    }
+    const beforeLoadBlocks = (xmlStr)=>{
+      let threadAry = window.parent.statePageVue.threadAry;
+      threadAry.forEach(thread => {
+        thread.stateAry.forEach(state => {
+          //如果状态的描述不在run_state的options中，则需要手动添加进去
+          if(!isStateInOptions(state, window.run_state_options)){
+            window.run_state_options.push([state.name, state.name]);
+          }
+        })
+      })
+      //重新定义run_state块 
+    }
+    window.addEventListener('message', function (e) {
+      // Code.workspace.clear();
+      beforeLoadBlocks(e.data);
+      Code.loadBlocks(e.data);
+      // Code.loadBlocks(localStorage.getItem('stateData'));
+    })
     var importBtn = document.getElementById('loadXml');
-    importBtn.addEventListener('change', function(e){
+    importBtn.addEventListener('change', function (e) {
       var file = e.target.files[0];
       var reader = new FileReader();
       reader.onload = (fe) => {
+        // alert(localStorage.getItem('stateData'));
+        beforeLoadBlocks(fe.target.result);
         Code.loadBlocks(fe.target.result);
       };
       reader.readAsText(file);
     })
 
-    window.addEventListener('load', function(){
+    var genStateDataBtn = document.getElementById('genStateData');
+    genStateDataBtn.addEventListener('click', function (e) {
+      //TODO
+      var xmlDom = Blockly.Xml.workspaceToDom(Code.workspace);
+      debugger;
+      if (xmlDom.children.length) {
+
+      }
+      const STATE_BLOCK = 'run_state';
+      let stateAry = [];
+      let lineAry = [];
+      let tmpIndex = 0;
+      function parseStateAndLine(stateDom) {
+
+        // let randomXY = Math.floor(Math.random() * 10) * 50;
+        let randomXY = (tmpIndex++) * 150;
+        let item = stateDom;
+        if (item.tagName === 'block' && item.getAttribute('type') === STATE_BLOCK) {
+          let stateObj = {
+            stateId: item.getAttribute('id'),
+            stateType: item.getAttribute('type') === STATE_BLOCK ? 'stateDiv': 'loopDiv',
+            bx: parseInt(item.x, 10), // blockly画布中的x
+            by: parseInt(item.y, 10), // blockly画布中的y
+            x: randomXY, //'? todo',
+            y: randomXY, //'? todo',
+            width: '76px',
+            height: '40px',
+            name: item.firstChild.textContent,
+            inputAry: [],
+            outputAry: [],
+            children: [],
+            nodeHeight: 0 // 如果该节点有2个分支，且分支是叶子节点，则这个节点的nodeHeight = 2; 总之，nodeHeight = 各分支nodeHeight之和 - 这个参数为自动布局所用
+          }
+
+          let children = Array.prototype.slice.call(item.children);
+          children.forEach(dom => {
+            if (dom.tagName === 'next' && dom.children.length) { // dom-next
+              let block = dom.children[0];  // block-controls_if
+              for (let k = 0; k < block.children.length; k++) {
+                let branch = block.children[k];
+                if (branch.tagName === 'statement') { // 还有可能是mutation
+                  let lineObj = {
+                    lineId: branch.getAttribute('id') || window.parent.genId('line'), // TODO 需改写controls_if的statement逻辑，并定义id
+                    d: null,
+                    desc: '',
+                    startPoint: null,
+                    endPoint: null,
+                    startState: {
+                      stateId: stateObj.stateId,
+                      stateIndex: null
+                    },
+                    endState: {
+                      stateId: branch.firstChild.getAttribute('id'),
+                      stateIndex: null
+                    }
+                  }
+                  lineAry.push(lineObj);
+                  parseStateAndLine(branch.firstChild);
+                }
+              }
+            }
+          })
+          stateAry.push(stateObj);
+        }
+
+      }
+      for (let j = 0; j < xmlDom.children.length; j++) {
+        let item = xmlDom.children[j];
+        parseStateAndLine(item);
+      }
+      let updateLineAry = (lineAry, stateAry)=>{
+        let createPathByStates = (startState, endState)=>{
+          const MID_POINT_X = 50;
+          let toNum = (strWithPx)=>{
+            return parseInt(strWithPx.replace('px', ''), 10);
+          }
+          let startPoint = {
+            x: startState.x + toNum(startState.width),
+            y: startState.y + 1/2 * toNum(startState.height) + 40 // 80是thread-body元素的纵向偏移
+          };
+          let endPoint = {
+            x: endState.x,
+            y: endState.y + 1 / 2 * toNum(endState.height) + 40
+          }
+          return `M ${startPoint.x} ${
+            startPoint.y
+            } h ${MID_POINT_X} m 0 0 V ${endPoint.y} m 0 0 L ${endPoint.x} ${
+            endPoint.y
+            } m 0 0 z`     
+        }
+
+        lineAry.forEach(item => {
+          if(!item.d){
+            debugger;
+            let startState = stateAry.find(state => {
+              return state.stateId === item.startState.stateId;
+            })
+            let endState = stateAry.find(state => {
+              return state.stateId === item.endState.stateId;
+            })
+            item.d = createPathByStates(startState, endState);
+          }
+        })
+      }
+
+      updateLineAry(lineAry, stateAry);
+
+      window.aa = {
+        stateAry: stateAry,
+        lineAry: lineAry
+      }
+      debugger;
+    });
+
+    window.addEventListener('load', function () {
 
       var svg = document.querySelector('svg.blocklySvg');
-      console.log(svg);
-      debugger;
       var defs = Blockly.utils.dom.createSvgElement('defs', {}, svg);
       var shadowGrey = Blockly.utils.dom.createSvgElement('filter', {
         id: 'shadowGrey',
@@ -531,5 +694,24 @@
         mode: "normal"
       }, shadowGrey);
     })
+
+
+   
+  </script>
+
+</body>
+<!-- <script>
+  window.less = {
+    env: "development",
+    async: false,
+    fileAsync: false,
+    poll: 1000,
+    functions: {},
+    dumpLineNumbers: "comments",
+    relativeUrls: false,
+    rootpath: "./"
+  };
 </script>
+<script src="less.js" type="text/javascript"></script> -->
+
 </html>

@@ -97,6 +97,7 @@ Blockly.tree.TreeNode.prototype.onClick_ = function(_e) {
     this.toggle();
     this.select();
   } else if (this.isSelected()) {
+    debugger;
     this.getTree().setSelectedItem(null);
   } else {
     this.select();

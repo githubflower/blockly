@@ -133,7 +133,9 @@ Blockly.Blocks['create_obj'] = {
 Blockly.Blocks['class'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Class")
+      .appendField(new Blockly.FieldLabel("Class", null, {
+        class: 'keyword'
+      }))
         .appendField(new Blockly.FieldTextInput("className"), "NAME");
     
     this.appendDummyInput()
@@ -1064,6 +1066,7 @@ Blockly.Blocks['start'] = {
   }
 };
 
+
 Blockly.Blocks['new'] = {
   init: function () {
     this.appendValueInput("NAME")
@@ -1075,5 +1078,73 @@ Blockly.Blocks['new'] = {
     this.setColour("#19b5fe");
     this.setTooltip("");
     this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['thread'] = {
+  init: function () {
+
+    this.appendDummyInput()
+      .appendField("new Thread")
+      .appendField(new Blockly.FieldTextInput("default"), "NAME");
+    /* this.appendStatementInput("NAME")
+      .setCheck(null); */
+    this.appendValueInput('CALLBACK')
+    .appendField('callback')
+    .setAlign(Blockly.ALIGN_RIGHT);
+    this.appendValueInput('ARGS')
+    .appendField('args')
+    .setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(false);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+var tempColor = '#00BFBF';
+Blockly.Blocks['state'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput("default"), "STATE_NAME");
+    this.appendStatementInput("NAME")
+      .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(tempColor);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Blocks['def_state'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput("default"), "STATE_NAME");
+    this.appendStatementInput("BODY")
+      .setCheck(null);
+    this.setColour("#00b5cc");
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(false, null);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+var run_state_options = [["流水线视觉定位", "流水线视觉定位"], ["抓取", "抓取"], ["系统停止", "系统停止"], ["取料", "取料"], ["状态描述1", "状态描述1"], ["状态描述2", "状态描述2"]];
+Blockly.Blocks['run_state'] = {
+  init: function (data) {
+    this.appendDummyInput()
+      .appendField("Run State")
+      .appendField(new Blockly.FieldDropdown(data || run_state_options), "NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(tempColor);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+  reInit: function(data){
+    this.init(data)
   }
 };

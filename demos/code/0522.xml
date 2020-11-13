@@ -1,0 +1,408 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <variables>
+        <variable id="Lq2^q)w;TQ1T7,=0{-fI">x</variable>
+        <variable id=",Ep[=5MpDk_/d93Cx}ga">y</variable>
+        <variable id="FHtS=(2hcc1+grPKS.mi">u</variable>
+        <variable id="_c_9(Qb}q;Anf3N.uc1.">visionCount</variable>
+        <variable id="qA;DrEq4aK6LCKvw:q}1">msgText</variable>
+        <variable id="=rdA^3*Xam#Q[A4Mdge#">visionSuccess</variable>
+        <variable id="~%BY@3T2r(mdpQ2kP;1Q">visionResult</variable>
+        <variable id="sXC*1hK9=$(|#uCZ4HT|">pickSuccess</variable>
+        <variable id="?h5oH:q9TVngam;XB9:~">pickResult</variable>
+        <variable id="w^GG=}-,:RfVd9;aqcf^">maxVisionCnt</variable>
+        <variable id="[RME5@,=-YZ8%DZ%N,,P">pickCount</variable>
+    </variables>
+    <block type="thread" id="F.UfUQob-4`wn[n;#/1K" collapsed="true" x="-87" y="38">
+        <field name="NAME">六边形机器人逻辑</field>
+        <statement name="NAME">
+            <block type="controls_whileUntil" id="8C:E!PTrYCc0O@PkjOQy">
+                <field name="MODE">WHILE</field>
+                <statement name="DO">
+                    <block type="state" id="3HB0H+10[yYhO8;C5]3/">
+                        <field name="NAME">分发TCP消息命令</field>
+                        <statement name="NAME">
+                            <block type="controls_if" id="djge_L1a4$M7[%3-fpD-">
+                                <mutation elseif="3" else="1"></mutation>
+                                <value name="IF0">
+                                    <block type="logic_compare" id="H*9`und^n}1ZRFBz#iri">
+                                        <field name="OP">EQ</field>
+                                        <comment pinned="false" h="80" w="160">传送带停止</comment>
+                                    </block>
+                                </value>
+                                <statement name="DO0">
+                                    <block type="state" id="ErQIC9LB-Mh^^qzN9XFq">
+                                        <field name="NAME">取流水线六边形料</field>
+                                    </block>
+                                </statement>
+                                <statement name="DO1">
+                                    <block type="state" id="8Duf!8gioMun]w(K7ns%">
+                                        <field name="NAME">放料到前点胶机</field>
+                                    </block>
+                                </statement>
+                                <statement name="DO2">
+                                    <block type="state" id="}K+e2*1dIF?8f}^JI^J5">
+                                        <field name="NAME">取前点胶机料</field>
+                                    </block>
+                                </statement>
+                                <statement name="DO3">
+                                    <block type="state" id="YE_-`(07#aI7W?B~6P]y">
+                                        <field name="NAME">放料到缓冲区</field>
+                                    </block>
+                                </statement>
+                                <statement name="ELSE">
+                                    <block type="state" id="p@9x_GjUwmrj4orcp%Vf">
+                                        <field name="NAME">系统停止</field>
+                                    </block>
+                                </statement>
+                            </block>
+                        </statement>
+                    </block>
+                </statement>
+            </block>
+        </statement>
+    </block>
+    <block type="state" id=")^o1e.CjQRV9p7GNB)%g" x="488" y="37">
+        <field name="NAME">取流水线六边形料</field>
+        <statement name="NAME">
+            <block type="run_state" id="[A+aLi*7B$vLW6qEu2cK">
+                <field name="NAME">流水线视觉定位</field>
+            </block>
+        </statement>
+    </block>
+    <block type="state" id="-;Etyn{S;[%9d^:7z=|X" x="913" y="38">
+        <field name="NAME">流水线视觉定位</field>
+        <statement name="NAME">
+            <block type="variables_set" id="B`%UN;PrIkgG(Y/Z-BNY">
+                <field name="VAR" id="=rdA^3*Xam#Q[A4Mdge#">visionSuccess</field>
+                <value name="VALUE">
+                    <block type="math_number" id="*2YIq`.kzmdob%R6o-E+">
+                        <field name="NUM">1</field>
+                    </block>
+                </value>
+                <next>
+                    <block type="controls_whileUntil" id="u(cTC(^ffC+U!E|4o%[%">
+                        <field name="MODE">WHILE</field>
+                        <value name="BOOL">
+                            <block type="logic_operation" id="q+6c|=m-ZQuq^.`dTnji">
+                                <field name="OP">AND</field>
+                                <value name="A">
+                                    <block type="logic_compare" id="I5W811NlPQ@]ohlX1jJH">
+                                        <field name="OP">NEQ</field>
+                                        <value name="A">
+                                            <block type="variables_get" id="^32:*tii0ZbWwLaIjq`h">
+                                                <field name="VAR" id="~%BY@3T2r(mdpQ2kP;1Q">visionResult</field>
+                                            </block>
+                                        </value>
+                                        <value name="B">
+                                            <block type="variables_get" id="Kqk)-2,6+cDv@tz_n~SP">
+                                                <field name="VAR" id="=rdA^3*Xam#Q[A4Mdge#">visionSuccess</field>
+                                            </block>
+                                        </value>
+                                    </block>
+                                </value>
+                                <value name="B">
+                                    <block type="logic_compare" id=")h_hWPNauPhRYid`eX?q">
+                                        <field name="OP">LT</field>
+                                        <value name="A">
+                                            <block type="variables_get" id=",I`F1Th]=UfQMQ1YsuOM">
+                                                <field name="VAR" id="_c_9(Qb}q;Anf3N.uc1.">visionCount</field>
+                                            </block>
+                                        </value>
+                                        <value name="B">
+                                            <block type="variables_get" id="qC8|H]HQ-MXnpax{0O{2">
+                                                <field name="VAR" id="w^GG=}-,:RfVd9;aqcf^">maxVisionCnt</field>
+                                            </block>
+                                        </value>
+                                    </block>
+                                </value>
+                            </block>
+                        </value>
+                        <statement name="DO">
+                            <block type="variables_set" id="zcT95r(*%F/8O4`R%lG7" collapsed="true">
+                                <field name="VAR" id="~%BY@3T2r(mdpQ2kP;1Q">visionResult</field>
+                                <value name="VALUE">
+                                    <block type="procedures_callreturn" id="o8!Q/[S6Q87M.gkof@b@">
+                                        <mutation name="RunLineSixImage">
+                                            <arg name="x"></arg>
+                                            <arg name="y"></arg>
+                                            <arg name="u"></arg>
+                                            <arg name="visionCount"></arg>
+                                        </mutation>
+                                    </block>
+                                </value>
+                                <next>
+                                    <block type="controls_if" id="8KI~,=i^(VF%VFj[6g73">
+                                        <mutation else="1"></mutation>
+                                        <value name="IF0">
+                                            <block type="logic_compare" id="9GjI49?5Z%rCZ9ODlG,Z">
+                                                <field name="OP">EQ</field>
+                                                <comment pinned="false" h="80" w="160">视觉定位成功</comment>
+                                                <value name="A">
+                                                    <block type="variables_get" id="J%TgF3q4GJZ+qUqh(5Mg">
+                                                        <field name="VAR" id="~%BY@3T2r(mdpQ2kP;1Q">visionResult</field>
+                                                    </block>
+                                                </value>
+                                                <value name="B">
+                                                    <block type="variables_get" id="ggRZBuV[xLSGsIbuqvXR">
+                                                        <field name="VAR" id="=rdA^3*Xam#Q[A4Mdge#">visionSuccess</field>
+                                                    </block>
+                                                </value>
+                                            </block>
+                                        </value>
+                                        <statement name="DO0">
+                                            <block type="run_state" id="`oT~16#yx^,8grY3_/zk">
+                                                <field name="NAME">抓取</field>
+                                                <next>
+                                                    <block type="controls_flow_statements" id="-9+AbDxd;4.f*??9xC_C">
+                                                        <field name="FLOW">BREAK</field>
+                                                    </block>
+                                                </next>
+                                            </block>
+                                        </statement>
+                                        <statement name="ELSE">
+                                            <block type="procedures_callnoreturn" id="YJD_1pm$H0sHY8i(~zC_">
+                                                <mutation name="UpdateMsg">
+                                                    <arg name="msgText"></arg>
+                                                </mutation>
+                                                <value name="ARG0">
+                                                    <block type="text" id="aF.]n@a5qeyVMFzxf~Y^">
+                                                        <field name="TEXT">六边形顶部相机拍照重试第 icnt 次!</field>
+                                                    </block>
+                                                </value>
+                                                <next>
+                                                    <block type="math_change" id="ako:GUyy2mncY@0)h0ZX">
+                                                        <field name="VAR" id="_c_9(Qb}q;Anf3N.uc1.">visionCount</field>
+                                                        <value name="DELTA">
+                                                            <shadow type="math_number" id="7j0nmL-b;)tgU.A]Da3a">
+                                                                <field name="NUM">1</field>
+                                                            </shadow>
+                                                        </value>
+                                                    </block>
+                                                </next>
+                                            </block>
+                                        </statement>
+                                    </block>
+                                </next>
+                            </block>
+                        </statement>
+                        <next>
+                            <block type="controls_if" id="Y{aWjLORX2!.2oKDYOsc">
+                                <value name="IF0">
+                                    <block type="logic_compare" id="HHgy)N2asDnI@(apNR55">
+                                        <field name="OP">GT</field>
+                                        <value name="A">
+                                            <block type="variables_get" id="Oqw)*GWuw:zP,Uza5HE9">
+                                                <field name="VAR" id="_c_9(Qb}q;Anf3N.uc1.">visionCount</field>
+                                            </block>
+                                        </value>
+                                        <value name="B">
+                                            <block type="variables_get" id="|.OolOHSfQ=*=[%6oe|6">
+                                                <field name="VAR" id="w^GG=}-,:RfVd9;aqcf^">maxVisionCnt</field>
+                                            </block>
+                                        </value>
+                                    </block>
+                                </value>
+                                <statement name="DO0">
+                                    <block type="procedures_callnoreturn" id="4r~FaQ29~bp88+8aV7z0">
+                                        <mutation name="UpdateMsg">
+                                            <arg name="msgText"></arg>
+                                        </mutation>
+                                        <value name="ARG0">
+                                            <block type="text" id="S~n+%BgC4xJ[R9zLZMxs">
+                                                <field name="TEXT">顶部相机六边形视觉定位失败</field>
+                                            </block>
+                                        </value>
+                                        <next>
+                                            <block type="procedures_callnoreturn" id="kvVSW!l[fNinB6Y]?N8X">
+                                                <mutation name="SaveLog"></mutation>
+                                            </block>
+                                        </next>
+                                    </block>
+                                </statement>
+                            </block>
+                        </next>
+                    </block>
+                </next>
+            </block>
+        </statement>
+    </block>
+    <block type="procedures_defreturn" id="X[M7-!y.1dc`}.k6{0e2" collapsed="true" x="-62" y="188">
+        <mutation>
+            <arg name="x" varid="Lq2^q)w;TQ1T7,=0{-fI"></arg>
+            <arg name="y" varid=",Ep[=5MpDk_/d93Cx}ga"></arg>
+            <arg name="u" varid="FHtS=(2hcc1+grPKS.mi"></arg>
+            <arg name="visionCount" varid="_c_9(Qb}q;Anf3N.uc1."></arg>
+        </mutation>
+        <field name="NAME">RunLineSixImage</field>
+        <comment pinned="false" h="80" w="160">Describe this function...</comment>
+        <value name="RETURN">
+            <block type="variables_get" id="IHim@oQ52M,qJW$hX5U#">
+                <field name="VAR" id="~%BY@3T2r(mdpQ2kP;1Q">visionResult</field>
+            </block>
+        </value>
+    </block>
+    <block type="procedures_defnoreturn" id="^OkevIvExwyqstH|%ur," collapsed="true" x="-62" y="288">
+        <field name="NAME">SaveLog</field>
+        <comment pinned="false" h="80" w="160">Describe this function...</comment>
+    </block>
+    <block type="procedures_defnoreturn" id="Fsq1DNhh+BWVFs7po*?Z" collapsed="true" x="-62" y="363">
+        <mutation>
+            <arg name="msgText" varid="qA;DrEq4aK6LCKvw:q}1"></arg>
+        </mutation>
+        <field name="NAME">UpdateMsg</field>
+        <comment pinned="false" h="80" w="160">Describe this function...</comment>
+    </block>
+    <block type="procedures_defreturn" id="xl2jS}0N$#|85~z42|k=" collapsed="true" x="-62" y="488">
+        <field name="NAME">PickLinePrd</field>
+        <comment pinned="false" h="80" w="160">Describe this function...</comment>
+    </block>
+    <block type="state" id="HSq(!lLT=V_scl/:lrbp" x="913" y="613">
+        <field name="NAME">抓取</field>
+        <statement name="NAME">
+            <block type="variables_set" id="=ek@h!ewz4)jm:=pQ~-M">
+                <field name="VAR" id="sXC*1hK9=$(|#uCZ4HT|">pickSuccess</field>
+                <value name="VALUE">
+                    <block type="math_number" id="M(0sR8g_hZ#Mgukr26#v">
+                        <field name="NUM">1</field>
+                    </block>
+                </value>
+                <next>
+                    <block type="controls_whileUntil" id="0tIN2Gn6)Sc4Oc8Z@[h0">
+                        <field name="MODE">WHILE</field>
+                        <value name="BOOL">
+                            <block type="logic_operation" id="zmIAQVhUW^6/2Nc0AgQR">
+                                <field name="OP">AND</field>
+                                <value name="A">
+                                    <block type="logic_compare" id="[p):vW0(8lzesb@I$#[)">
+                                        <field name="OP">NEQ</field>
+                                        <value name="A">
+                                            <block type="variables_get" id="2AKrA$P*6}1Sgl;u`^b5">
+                                                <field name="VAR" id="?h5oH:q9TVngam;XB9:~">pickResult</field>
+                                            </block>
+                                        </value>
+                                        <value name="B">
+                                            <block type="variables_get" id="TI%4DEcb}29$4xp29pkT">
+                                                <field name="VAR" id="sXC*1hK9=$(|#uCZ4HT|">pickSuccess</field>
+                                            </block>
+                                        </value>
+                                    </block>
+                                </value>
+                                <value name="B">
+                                    <block type="logic_compare" id="KWnpxBCPa$vViY2ST$YD">
+                                        <field name="OP">LT</field>
+                                        <value name="A">
+                                            <block type="variables_get" id="]jl+(gPnw$P_:uZ.+q4i">
+                                                <field name="VAR" id="[RME5@,=-YZ8%DZ%N,,P">pickCount</field>
+                                            </block>
+                                        </value>
+                                        <value name="B">
+                                            <block type="variables_get" id="cTBECAwdl2F%p;.4Q!Xj">
+                                                <field name="VAR" id="w^GG=}-,:RfVd9;aqcf^">maxVisionCnt</field>
+                                            </block>
+                                        </value>
+                                    </block>
+                                </value>
+                            </block>
+                        </value>
+                        <statement name="DO">
+                            <block type="variables_set" id="Qy-E})h;zw/,4M+xUXvN" collapsed="true">
+                                <field name="VAR" id="?h5oH:q9TVngam;XB9:~">pickResult</field>
+                                <value name="VALUE">
+                                    <block type="procedures_callreturn" id="EnR@+P9}{G3[60{[%Kd#">
+                                        <mutation name="RunLineSixImage">
+                                            <arg name="x"></arg>
+                                            <arg name="y"></arg>
+                                            <arg name="u"></arg>
+                                            <arg name="visionCount"></arg>
+                                        </mutation>
+                                    </block>
+                                </value>
+                                <next>
+                                    <block type="controls_if" id="?l9M}in3;i?|)O)mmH*L">
+                                        <mutation elseif="1" else="1"></mutation>
+                                        <value name="IF0">
+                                            <block type="logic_compare" id="U[mRBbmY)o#iXK,IS+w6">
+                                                <field name="OP">EQ</field>
+                                                <comment pinned="false" h="80" w="160">抓取成功六边形从流水线抓取真空异常</comment>
+                                                <value name="A">
+                                                    <block type="variables_get" id="ztb6oewK$lLaE?T$0PB;">
+                                                        <field name="VAR" id="?h5oH:q9TVngam;XB9:~">pickResult</field>
+                                                    </block>
+                                                </value>
+                                                <value name="B">
+                                                    <block type="variables_get" id="Y^V{%%/F=iy@WAvF3(vL">
+                                                        <field name="VAR" id="sXC*1hK9=$(|#uCZ4HT|">pickSuccess</field>
+                                                    </block>
+                                                </value>
+                                            </block>
+                                        </value>
+                                        <statement name="DO0">
+                                            <block type="controls_flow_statements" id="VAfmJHhWJueh?HL.w`j6">
+                                                <field name="FLOW">BREAK</field>
+                                            </block>
+                                        </statement>
+                                        <value name="IF1">
+                                            <block type="logic_compare" id="F^f{V(0F_//X]QDzLir*">
+                                                <field name="OP">EQ</field>
+                                                <comment pinned="false" h="80" w="160">六边形从流水线抓取超限</comment>
+                                                <value name="A">
+                                                    <block type="variables_get" id="7T=i]?gpcW0W05+6DguB">
+                                                        <field name="VAR" id="?h5oH:q9TVngam;XB9:~">pickResult</field>
+                                                    </block>
+                                                </value>
+                                                <value name="B">
+                                                    <block type="math_number" id="m_%KP2S|yr#@f6Mfgc#P">
+                                                        <field name="NUM">-1</field>
+                                                    </block>
+                                                </value>
+                                            </block>
+                                        </value>
+                                        <statement name="DO1">
+                                            <block type="procedures_callnoreturn" id="L4?c4JKhv9n#of_D{Dds">
+                                                <mutation name="UpdateMsg">
+                                                    <arg name="msgText"></arg>
+                                                </mutation>
+                                                <value name="ARG0">
+                                                    <block type="text" id="e(`eRuLpo)KG~f[i4NIO">
+                                                        <field name="TEXT">六边形从流水线抓取超限</field>
+                                                    </block>
+                                                </value>
+                                                <next>
+                                                    <block type="controls_flow_statements" id="S{i#z@Dpb-/)gE.oH:6y">
+                                                        <field name="FLOW">BREAK</field>
+                                                    </block>
+                                                </next>
+                                            </block>
+                                        </statement>
+                                        <statement name="ELSE">
+                                            <block type="procedures_callnoreturn" id="7]c00F2/_%AzR*)Uh?$T">
+                                                <mutation name="UpdateMsg">
+                                                    <arg name="msgText"></arg>
+                                                </mutation>
+                                                <value name="ARG0">
+                                                    <block type="text" id="a|3nxmjx]jq/Z`CiGEsV">
+                                                        <field name="TEXT">六边形从流水线抓取真空异常</field>
+                                                    </block>
+                                                </value>
+                                                <next>
+                                                    <block type="math_change" id="ls~R*]R:WDyzfr!@}c,]">
+                                                        <field name="VAR" id="[RME5@,=-YZ8%DZ%N,,P">pickCount</field>
+                                                        <value name="DELTA">
+                                                            <shadow type="math_number" id="U)nM`4kVNIG__5D:Ar4U">
+                                                                <field name="NUM">1</field>
+                                                            </shadow>
+                                                        </value>
+                                                    </block>
+                                                </next>
+                                            </block>
+                                        </statement>
+                                    </block>
+                                </next>
+                            </block>
+                        </statement>
+                    </block>
+                </next>
+            </block>
+        </statement>
+    </block>
+</xml>

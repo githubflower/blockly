@@ -11,10 +11,10 @@
 'use strict';
 
 /**
- * @name Blockly.Procedures
+ * @name Blockly.Threads
  * @namespace
  */
-goog.provide('Blockly.Procedures');
+goog.provide('Blockly.Threads');
 
 goog.require('Blockly.Blocks');
 goog.require('Blockly.constants');
@@ -31,15 +31,15 @@ goog.require('Blockly.Xml');
 /**
  * Constant to separate procedure names from variables and generated functions
  * when running generators.
- * @deprecated Use Blockly.PROCEDURE_CATEGORY_NAME
+ * @deprecated Use Blockly.THREAD_CATEGORY_NAME
  */
-Blockly.Procedures.NAME_TYPE = Blockly.PROCEDURE_CATEGORY_NAME;
+Blockly.Threads.NAME_TYPE = Blockly.THREAD_CATEGORY_NAME;
 
 /**
  * The default argument for a procedures_mutatorarg block.
  * @type {string}
  */
-Blockly.Procedures.DEFAULT_ARG = 'x';
+Blockly.Threads.DEFAULT_ARG = 'x';
 
 /**
  * Procedure block type.
@@ -49,7 +49,7 @@ Blockly.Procedures.DEFAULT_ARG = 'x';
  *    getProcedureDef: function():!Array
  * }}
  */
-Blockly.Procedures.ProcedureBlock;
+Blockly.Threads.ProcedureBlock;
 
 /**
  * Find all user-created procedure definitions in a workspace.
@@ -59,13 +59,13 @@ Blockly.Procedures.ProcedureBlock;
  *     Each procedure is defined by a three-element list of name, parameter
  *     list, and return value boolean.
  */
-Blockly.Procedures.allProcedures = function(root) {
+Blockly.Threads.allThreads = function(root) {
   var blocks = root.getAllBlocks(false);
   var proceduresReturn = [];
   var proceduresNoReturn = [];
   for (var i = 0; i < blocks.length; i++) {
     if (blocks[i].getProcedureDef) {
-      var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
+      var procedureBlock = /** @type {!Blockly.Threads.ProcedureBlock} */ (
         blocks[i]);
       var tuple = procedureBlock.getProcedureDef();
       if (tuple) {
@@ -77,8 +77,8 @@ Blockly.Procedures.allProcedures = function(root) {
       }
     }
   }
-  proceduresNoReturn.sort(Blockly.Procedures.procTupleComparator_);
-  proceduresReturn.sort(Blockly.Procedures.procTupleComparator_);
+  proceduresNoReturn.sort(Blockly.Threads.procTupleComparator_);
+  proceduresReturn.sort(Blockly.Threads.procTupleComparator_);
   return [proceduresNoReturn, proceduresReturn];
 };
 
@@ -90,7 +90,7 @@ Blockly.Procedures.allProcedures = function(root) {
  * @return {number} -1, 0, or 1 to signify greater than, equality, or less than.
  * @private
  */
-Blockly.Procedures.procTupleComparator_ = function(ta, tb) {
+Blockly.Threads.procTupleComparator_ = function(ta, tb) {
   return ta[0].toLowerCase().localeCompare(tb[0].toLowerCase());
 };
 
@@ -102,14 +102,14 @@ Blockly.Procedures.procTupleComparator_ = function(ta, tb) {
  * @param {!Blockly.Block} block Block to disambiguate.
  * @return {string} Non-colliding name.
  */
-Blockly.Procedures.findLegalName = function(name, block) {
+Blockly.Threads.findLegalName = function(name, block) {
   debugger;
   if (block.isInFlyout) {
     // Flyouts can have multiple procedures called 'do something'.
     return name;
   }
   name = name || Blockly.Msg['UNNAMED_KEY'] || 'unnamed';
-  while (!Blockly.Procedures.isLegalName_(name, block.workspace, block)) {
+  while (!Blockly.Threads.isLegalName_(name, block.workspace, block)) {
     // Collision with another procedure.
     var r = name.match(/^(.*?)(\d+)$/);
     if (!r) {
@@ -131,8 +131,8 @@ Blockly.Procedures.findLegalName = function(name, block) {
  * @return {boolean} True if the name is legal.
  * @private
  */
-Blockly.Procedures.isLegalName_ = function(name, workspace, opt_exclude) {
-  return !Blockly.Procedures.isNameUsed(name, workspace, opt_exclude);
+Blockly.Threads.isLegalName_ = function(name, workspace, opt_exclude) {
+  return !Blockly.Threads.isNameUsed(name, workspace, opt_exclude);
 };
 
 /**
@@ -143,7 +143,7 @@ Blockly.Procedures.isLegalName_ = function(name, workspace, opt_exclude) {
  *     comparisons (one doesn't want to collide with oneself).
  * @return {boolean} True if the name is used, otherwise return false.
  */
-Blockly.Procedures.isNameUsed = function(name, workspace, opt_exclude) {
+Blockly.Threads.isNameUsed = function(name, workspace, opt_exclude) {
   var blocks = workspace.getAllBlocks(false);
   // Iterate through every block and check the name.
   for (var i = 0; i < blocks.length; i++) {
@@ -151,7 +151,7 @@ Blockly.Procedures.isNameUsed = function(name, workspace, opt_exclude) {
       continue;
     }
     if (blocks[i].getProcedureDef) {
-      var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
+      var procedureBlock = /** @type {!Blockly.Threads.ProcedureBlock} */ (
         blocks[i]);
       var procName = procedureBlock.getProcedureDef();
       if (Blockly.Names.equals(procName[0], name)) {
@@ -168,11 +168,11 @@ Blockly.Procedures.isNameUsed = function(name, workspace, opt_exclude) {
  * @return {string} The accepted name.
  * @this {Blockly.Field}
  */
-Blockly.Procedures.rename = function(name) {
+Blockly.Threads.rename = function(name) {
   // Strip leading and trailing whitespace.  Beyond this, all names are legal.
   name = name.trim();
 
-  var legalName = Blockly.Procedures.findLegalName(name,
+  var legalName = Blockly.Threads.findLegalName(name,
       /** @type {!Blockly.Block} */ (this.getSourceBlock()));
   var oldName = this.getValue();
   if (oldName != name && oldName != legalName) {
@@ -180,7 +180,7 @@ Blockly.Procedures.rename = function(name) {
     var blocks = this.getSourceBlock().workspace.getAllBlocks(false);
     for (var i = 0; i < blocks.length; i++) {
       if (blocks[i].renameProcedure) {
-        var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
+        var procedureBlock = /** @type {!Blockly.Threads.ProcedureBlock} */ (
           blocks[i]);
         procedureBlock.renameProcedure(
             /** @type {string} */ (oldName), legalName);
@@ -195,7 +195,7 @@ Blockly.Procedures.rename = function(name) {
  * @param {!Blockly.Workspace} workspace The workspace containing procedures.
  * @return {!Array.<!Element>} Array of XML block elements.
  */
-Blockly.Procedures.flyoutCategory = function(workspace) {
+Blockly.Threads.flyoutCategory = function(workspace) {
   var xmlList = [];
   if (Blockly.Blocks['procedures_defnoreturn']) {
     // <block type="procedures_defnoreturn" gap="16">
@@ -237,10 +237,10 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     xmlList[xmlList.length - 1].setAttribute('gap', 24);
   }
 
-  function populateProcedures(procedureList, templateName) {
-    for (var i = 0; i < procedureList.length; i++) {
-      var name = procedureList[i][0];
-      var args = procedureList[i][1];
+  function populateThreads(threadsList, templateName) {
+    for (var i = 0; i < threadsList.length; i++) {
+      var name = threadsList[i][0];
+      var args = threadsList[i][1];
       // <block type="procedures_callnoreturn" gap="16">
       //   <mutation name="do something">
       //     <arg name="x"></arg>
@@ -261,9 +261,9 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     }
   }
 
-  var tuple = Blockly.Procedures.allProcedures(workspace);
-  populateProcedures(tuple[0], 'procedures_callnoreturn');
-  populateProcedures(tuple[1], 'procedures_callreturn');
+  var tuple = Blockly.Threads.allThreads(workspace);
+  populateThreads(tuple[0], 'procedures_callnoreturn');
+  populateThreads(tuple[1], 'procedures_callreturn');
   return xmlList;
 };
 
@@ -274,7 +274,7 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
  *     workspace's flyout is what is being updated.
  * @private
  */
-Blockly.Procedures.updateMutatorFlyout_ = function(workspace) {
+Blockly.Threads.updateMutatorFlyout_ = function(workspace) {
   var usedNames = [];
   var blocks = workspace.getBlocksByType('procedures_mutatorarg', false);
   for (var i = 0, block; (block = blocks[i]); i++) {
@@ -287,7 +287,7 @@ Blockly.Procedures.updateMutatorFlyout_ = function(workspace) {
   var nameField = Blockly.utils.xml.createElement('field');
   nameField.setAttribute('name', 'NAME');
   var argValue = Blockly.Variables.generateUniqueNameFromOptions(
-      Blockly.Procedures.DEFAULT_ARG, usedNames);
+      Blockly.Threads.DEFAULT_ARG, usedNames);
   var fieldContent = Blockly.utils.xml.createTextNode(argValue);
 
   nameField.appendChild(fieldContent);
@@ -303,7 +303,7 @@ Blockly.Procedures.updateMutatorFlyout_ = function(workspace) {
  * @param {!Blockly.Events.Abstract} e The event that triggered this listener.
  * @package
  */
-Blockly.Procedures.mutatorOpenListener = function(e) {
+Blockly.Threads.mutatorOpenListener = function(e) {
   if (e.type != Blockly.Events.UI || e.element != 'mutatorOpen' ||
       !e.newValue) {
     return;
@@ -316,8 +316,8 @@ Blockly.Procedures.mutatorOpenListener = function(e) {
     return;
   }
   var workspace = block.mutator.getWorkspace();
-  Blockly.Procedures.updateMutatorFlyout_(workspace);
-  workspace.addChangeListener(Blockly.Procedures.mutatorChangeListener_);
+  Blockly.Threads.updateMutatorFlyout_(workspace);
+  workspace.addChangeListener(Blockly.Threads.mutatorChangeListener_);
 };
 
 /**
@@ -326,7 +326,7 @@ Blockly.Procedures.mutatorOpenListener = function(e) {
  * @param {!Blockly.Events.Abstract} e The event that triggered this listener.
  * @private
  */
-Blockly.Procedures.mutatorChangeListener_ = function(e) {
+Blockly.Threads.mutatorChangeListener_ = function(e) {
   if (e.type != Blockly.Events.BLOCK_CREATE &&
       e.type != Blockly.Events.BLOCK_DELETE &&
       e.type != Blockly.Events.BLOCK_CHANGE) {
@@ -335,7 +335,7 @@ Blockly.Procedures.mutatorChangeListener_ = function(e) {
   var workspaceId = /** @type {string} */ (e.workspaceId);
   var workspace = /** @type {!Blockly.WorkspaceSvg} */
       (Blockly.Workspace.getById(workspaceId));
-  Blockly.Procedures.updateMutatorFlyout_(workspace);
+  Blockly.Threads.updateMutatorFlyout_(workspace);
 };
 
 /**
@@ -344,13 +344,13 @@ Blockly.Procedures.mutatorChangeListener_ = function(e) {
  * @param {!Blockly.Workspace} workspace The workspace to find callers in.
  * @return {!Array.<!Blockly.Block>} Array of caller blocks.
  */
-Blockly.Procedures.getCallers = function(name, workspace) {
+Blockly.Threads.getCallers = function(name, workspace) {
   var callers = [];
   var blocks = workspace.getAllBlocks(false);
   // Iterate through every block and check the name.
   for (var i = 0; i < blocks.length; i++) {
     if (blocks[i].getProcedureCall) {
-      var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
+      var procedureBlock = /** @type {!Blockly.Threads.ProcedureBlock} */ (
         blocks[i]);
       var procName = procedureBlock.getProcedureCall();
       // Procedure name may be null if the block is only half-built.
@@ -367,13 +367,13 @@ Blockly.Procedures.getCallers = function(name, workspace) {
  * callers.
  * @param {!Blockly.Block} defBlock Procedure definition block.
  */
-Blockly.Procedures.mutateCallers = function(defBlock) {
+Blockly.Threads.mutateCallers = function(defBlock) {
   var oldRecordUndo = Blockly.Events.recordUndo;
-  var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
+  var procedureBlock = /** @type {!Blockly.Threads.ProcedureBlock} */ (
     defBlock);
   var name = procedureBlock.getProcedureDef()[0];
   var xmlElement = defBlock.mutationToDom(true);
-  var callers = Blockly.Procedures.getCallers(name, defBlock.workspace);
+  var callers = Blockly.Threads.getCallers(name, defBlock.workspace);
   for (var i = 0, caller; (caller = callers[i]); i++) {
     var oldMutationDom = caller.mutationToDom();
     var oldMutation = oldMutationDom && Blockly.Xml.domToText(oldMutationDom);
@@ -398,12 +398,12 @@ Blockly.Procedures.mutateCallers = function(defBlock) {
  * @param {!Blockly.Workspace} workspace The workspace to search.
  * @return {Blockly.Block} The procedure definition block, or null not found.
  */
-Blockly.Procedures.getDefinition = function(name, workspace) {
+Blockly.Threads.getDefinition = function(name, workspace) {
   // Assume that a procedure definition is a top block.
   var blocks = workspace.getTopBlocks(false);
   for (var i = 0; i < blocks.length; i++) {
     if (blocks[i].getProcedureDef) {
-      var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
+      var procedureBlock = /** @type {!Blockly.Threads.ProcedureBlock} */ (
         blocks[i]);
       var tuple = procedureBlock.getProcedureDef();
       if (tuple && Blockly.Names.equals(tuple[0], name)) {
