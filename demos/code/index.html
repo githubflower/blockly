@@ -467,11 +467,12 @@
     <category name="Class" colour="%{BKY_CLASS_HUE}">
       <block type="thread">
       <value name="CALLBACK">
-        <shadow type="logic_compare">
+        <shadow type="anonymous_function">
             <field name="callback">function</field>
           </shadow>
         </value>
       </block>
+      <!-- <block type="anonymous_function"></block> -->
       <block type="state"></block>
       <block type="def_state"></block>
       <block type="run_state"></block>
@@ -501,14 +502,27 @@
 
   <!-- <script src="/storage.js"></script> -->
   <!-- <script src="../../blockly_compressed.js"></script> -->
+  <!-- <script src="../../blocks_compressed.js"></script> -->
+
   <script src="../../blockly_uncompressed.js"></script>
-  <script src="../../blocks_compressed.js"></script>
+
+  <script src="../../blocks/colour.js"></script>
+  <script src="../../blocks/lists.js"></script>
+  <script src="../../blocks/logic.js"></script>
+  <script src="../../blocks/loops.js"></script>
+  <script src="../../blocks/math.js"></script>
+  <script src="../../blocks/procedures.js"></script>
+  <script src="../../blocks/text.js"></script>
+  <script src="../../blocks/variables.js"></script>
+
   <script src="../../javascript_compressed.js"></script>
   <script src="../../python_compressed.js"></script>
   <script src="../../php_compressed.js"></script>
   <script src="../../lua_compressed.js"></script>
   <script src="../../dart_compressed.js"></script>
+
   <script src="./code.js"></script>
+  
   <script type="text/javascript" src="./defineBlock.js"></script>
   <script type="text/javascript" src="./generate.js"></script>
   <script>

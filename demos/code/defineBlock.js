@@ -1101,6 +1101,38 @@ Blockly.Blocks['thread'] = {
     this.setHelpUrl("");
   }
 };
+Blockly.Blocks['anonymous_function'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("function");
+    this.appendStatementInput("NAME")
+      .setCheck(null);
+    this.setColour("#00b5cc");
+    this.setTooltip("");
+    this.setHelpUrl("");
+    this.setOutput(true);
+  }
+};
+/* Blockly.Blocks['anonymous_function'] = {
+  init: function () {
+
+    this.appendDummyInput()
+      .appendField("new Thread")
+      .appendField(new Blockly.FieldTextInput("default"), "NAME");
+    this.appendValueInput('CALLBACK')
+    .appendField('callback')
+    .setAlign(Blockly.ALIGN_RIGHT);
+    this.appendValueInput('ARGS')
+    .appendField('args')
+    .setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(false);
+    this.setColour(230);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+ */
+// 'anonymous function'
 
 var tempColor = '#00BFBF';
 Blockly.Blocks['state'] = {
@@ -1133,6 +1165,8 @@ Blockly.Blocks['def_state'] = {
 };
 
 var run_state_options = [["流水线视觉定位", "流水线视觉定位"], ["抓取", "抓取"], ["系统停止", "系统停止"], ["取料", "取料"], ["状态描述1", "状态描述1"], ["状态描述2", "状态描述2"]];
+
+//  var tuple = Blockly.Procedures.allProcedures(workspace);
 Blockly.Blocks['run_state'] = {
   init: function (data) {
     this.appendDummyInput()

@@ -440,10 +440,9 @@ Blockly.FieldVariable.dropdownCreate = function() {
  */
 Blockly.FieldVariable.prototype.onItemSelected_ = function(menu, menuItem) {
   var id = menuItem.getValue();
-  this.sourceBlock_.appendDummyInput('KEY')
+  // this.sourceBlock_.appendDummyInput('KEY')
   // .appendField( new Blockly.FieldDropdown([["private", "private"], ["public", "public"]]), "VALUE" )
   // .appendField(new Blockly.FieldTextInput('method' + i), 'item_key' + i)
-  debugger;
   // Handle special cases.
   if (this.sourceBlock_ && this.sourceBlock_.workspace) {
     if (id == Blockly.RENAME_VARIABLE_ID) {

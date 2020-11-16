@@ -17,6 +17,7 @@ goog.require('Blockly.Options');
 goog.require('Blockly.utils');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.VariableMap');
+goog.require('Blockly.ProcedureMap');
 
 
 /**
@@ -88,6 +89,8 @@ Blockly.Workspace = function(opt_options) {
    * @private
    */
   this.variableMap_ = new Blockly.VariableMap(this);
+
+  this.procedureMap_ = new Blockly.ProcedureMap(this);
 
   /**
    * Blocks in the flyout can refer to variables that don't exist in the main
@@ -386,6 +389,11 @@ Blockly.Workspace.prototype.renameVariableById = function(id, newName) {
  */
 Blockly.Workspace.prototype.createVariable = function(name, opt_type, opt_id) {
   return this.variableMap_.createVariable(name, opt_type, opt_id);
+};
+
+//创建函数对象   by zjie 2020年11月16日18:52:33
+Blockly.Workspace.prototype.createProcedure = function(name, opt_id) {
+  return this.procedureMap_.createProcedure(name, opt_id);
 };
 
 /**
