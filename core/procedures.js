@@ -82,6 +82,24 @@ Blockly.Procedures.allProcedures = function(root) {
   return [proceduresNoReturn, proceduresReturn];
 };
 
+Blockly.Procedures.getProceduresOfNoReturn = function(workspace){
+  var blocks = workspace.getAllBlocks(false);
+  var proceduresNoReturn = [];
+  for (var i = 0; i < blocks.length; i++) {
+    if (blocks[i].getProcedureDef) {
+      var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
+        blocks[i]);
+      var tuple = procedureBlock.getProcedureDef();
+      if (tuple) {
+        if (!tuple[2]) { // 没有return
+          proceduresNoReturn.push(procedureBlock);
+        } 
+      }
+    }
+  }
+  return proceduresNoReturn;
+}
+
 /**
  * Comparison function for case-insensitive sorting of the first element of
  * a tuple.
@@ -228,6 +246,12 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     // <block type="procedures_ifreturn" gap="16"></block>
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'procedures_ifreturn');
+    block.setAttribute('gap', 16);
+    xmlList.push(block);
+  }
+  if(Blockly.Blocks['select_procedure'] && Blockly.Procedures.getProceduresOfNoReturn(workspace).length){
+    var block = Blockly.utils.xml.createElement('block');
+    block.setAttribute('type', 'select_procedure');
     block.setAttribute('gap', 16);
     xmlList.push(block);
   }

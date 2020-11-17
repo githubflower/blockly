@@ -100,6 +100,35 @@ Blockly.FieldProcedure.prototype.workspace_ = null;
  */
 Blockly.FieldProcedure.prototype.SERIALIZABLE = true;
 
+Blockly.FieldProcedure.prototype.initModel = function() {
+  if (this.procedure_) {
+    return; // Initialization already happened.
+  }
+  var procedure;
+  var procedureAry = Blockly.Procedures.getProceduresOfNoReturn(this.sourceBlock_.workspace);
+  if(procedureAry.length){
+    procedure = procedureAry[0];
+  }
+
+  
+  // Don't call setValue because we don't want to cause a rerender.
+  this.doValueUpdate_(procedure.id);
+};
+
+/* Blockly.FieldProcedure.prototype.alreadyExistThisBlock = function(id){
+  var workspace = this.sourceBlock_.workspace;
+  var existFlag = false;
+  var ary = [];
+  if(workspace.procedureMap_ && workspace.procedureMap_.procedureMap_ && workspace.procedureMap_.procedureMap_['procedure_noreturn']){
+    ary = workspace.procedureMap_.procedureMap_['procedure_noreturn'];
+  }
+  if(ary.length){
+    existFlag = !!ary.find(function(item){
+      return item.getId() === id;
+    })
+  }
+  return existFlag;
+}; */
 
 
 /**
@@ -214,8 +243,24 @@ Blockly.FieldProcedure.prototype.doClassValidation_ = function(opt_newValue) {
  * @protected
  */
 Blockly.FieldProcedure.prototype.doValueUpdate_ = function(newId) {
-  this.procedure_ = Blockly.Procedure.getProcedure(
-      this.sourceBlock_.workspace, /** @type {string} */ (newId));
+  var workspace =  this.sourceBlock_.workspace;
+  var ary = [];
+  var procedure;
+  if(workspace.procedureMap_ && workspace.procedureMap_.procedureMap_ && workspace.procedureMap_.procedureMap_['procedure_noreturn']){
+    ary = workspace.procedureMap_.procedureMap_['procedure_noreturn'];
+  }
+  if(ary.length){
+    procedure = ary.find(function(item){
+      return item.getId() === newId;
+    })
+    if(procedure){
+      this.procedure_ = procedure;
+    }
+  }else{
+    debugger;
+    console.log('procedureMap_中无数据。');
+  }
+
   Blockly.FieldProcedure.superClass_.doValueUpdate_.call(this, newId);
 };
 
@@ -244,6 +289,8 @@ Blockly.FieldProcedure.dropdownCreate = function() {
   }
   var name = this.getText();
   var variableModelList = [];
+  var workspace = this.sourceBlock_.workspace;
+  debugger;
   if (this.sourceBlock_ && this.sourceBlock_.workspace) {
     var allProcedures = Blockly.Procedures.allProcedures(workspace);
     

@@ -4,7 +4,7 @@
 goog.provide('Blockly.ProcedureModel');
 
 goog.require('Blockly.Events');
-goog.require('Blockly.Events.VarCreate');
+goog.require('Blockly.Events.ProcedureCreate');
 goog.require('Blockly.utils');
 
 
@@ -45,7 +45,7 @@ Blockly.ProcedureModel = function(workspace, name, opt_id) {
    */
   this.id_ = opt_id || Blockly.utils.genUid();
 
-  Blockly.Events.fire(new Blockly.Events.VarCreate(this)); //TODO
+  Blockly.Events.fire(new Blockly.Events.ProcedureCreate(this));
 };
 
 /**

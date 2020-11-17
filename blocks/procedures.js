@@ -20,7 +20,22 @@ goog.require('Blockly.FieldLabel');
 goog.require('Blockly.FieldTextInput');
 goog.require('Blockly.Mutator');
 goog.require('Blockly.Warning');
+goog.require('Blockly.FieldProcedure');
 
+
+Blockly.Blocks['select_procedure'] = {
+  init: function(){
+    this.appendDummyInput().appendField('select');
+    this.appendValueInput('NAME')
+    .appendField(new Blockly.FieldProcedure() ,'field_procedure');
+    this.setOutput(true, null);
+    this.setPreviousStatement(false);
+    this.setNextStatement(false);
+    this.setStyle("procedure_blocks");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
 
 Blockly.Blocks['procedures_defnoreturn'] = {
   /**
@@ -28,7 +43,12 @@ Blockly.Blocks['procedures_defnoreturn'] = {
    * @this {Blockly.Block}
    */
   init: function() {
-    debugger;
+    // 如果这个block的id在workspace中已经存在则不需要添加到ProcedureMap中，否则需要push到ProcedureMap
+    if(!this.alreadyExistThisBlock(this.id) && !this.workspace.isFlyout){
+      console.log('this.workspace.isFlyout: ' + this.workspace.isFlyout);
+      console.log('id: ' + this.id);
+      this.workspace.procedureMap_.createProcedure('procedureName', this.id);
+    }
     var nameField = new Blockly.FieldTextInput('',
         Blockly.Procedures.rename);
     nameField.setSpellcheck(false);
@@ -50,6 +70,20 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     this.argumentVarModels_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
+  },
+
+  alreadyExistThisBlock: function(id){
+    var existFlag = false;
+    var ary = [];
+    if(this.workspace.procedureMap_ && this.workspace.procedureMap_.procedureMap_ && this.workspace.procedureMap_.procedureMap_['procedure_noreturn']){
+      ary = this.workspace.procedureMap_.procedureMap_['procedure_noreturn'];
+    }
+    if(ary.length){
+      existFlag = !!ary.find(function(item){
+        return item.getId() === id;
+      })
+    }
+    return existFlag;
   },
   /**
    * Add or remove the statement block from this function definition.

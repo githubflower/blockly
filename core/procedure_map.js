@@ -17,7 +17,7 @@ Blockly.ProcedureMap = function(workspace) {
   this.workspace = workspace;
 };
 
-Blockly.VariableMap.prototype.clear = function() {
+Blockly.ProcedureMap.prototype.clear = function() {
   this.procedureMap_ = Object.create(null);
 };
 
@@ -34,8 +34,9 @@ Blockly.VariableMap.prototype.clear = function() {
  *     a UUID.
  * @return {!Blockly.VariableModel} The newly created procedure.
  */
-Blockly.VariableMap.prototype.createProcedure = function(name,
-     opt_id) {
+Blockly.ProcedureMap.prototype.createProcedure = function(name,
+     opt_id, opt_type) {
+  opt_type = opt_type || 'procedure_noreturn';
   var procedure = this.getProcedure(name);
   if (procedure) {
     if (opt_id && procedure.getId() != opt_id) {
@@ -46,16 +47,14 @@ Blockly.VariableMap.prototype.createProcedure = function(name,
     // The variable already exists and has the same ID.
     return procedure;
   }
-  if (opt_id && this.getProcedureId(opt_id)) {
-    throw Error('procedure id, "' + opt_id + '", is already in use.');
-  }
+ 
   var id = opt_id || Blockly.utils.genUid();
-  procedure = new Blockly.ProcedureModel(this.workspace, name, id); //TODO
-
-  var procedures = this.procedureMap_ || [];
+  procedure = new Blockly.ProcedureModel(this.workspace, name, id);
+  this.procedureMap_[opt_type] = this.procedureMap_[opt_type] || [];
+  var procedures = this.procedureMap_[opt_type];
   procedures.push(procedure);
  
-  this.procedureMap_ = procedures;
+  this.procedureMap_[opt_type] = procedures;
 
   return procedure;
 };
