@@ -105,14 +105,14 @@ Blockly.FieldProcedure.prototype.initModel = function() {
     return; // Initialization already happened.
   }
   var procedure;
-  var procedureAry = Blockly.Procedures.getProceduresOfNoReturn(this.sourceBlock_.workspace);
+  var workspace = this.sourceBlock_.workspace.targetWorkspace;
+  var procedureAry = workspace.procedureMap_.getAllProceduresByType('procedure_noreturn');
   if(procedureAry.length){
     procedure = procedureAry[0];
   }
 
-  
   // Don't call setValue because we don't want to cause a rerender.
-  this.doValueUpdate_(procedure.id);
+  this.doValueUpdate_(procedure.getId());
 };
 
 /* Blockly.FieldProcedure.prototype.alreadyExistThisBlock = function(id){
@@ -145,12 +145,9 @@ Blockly.FieldProcedure.prototype.shouldAddBorderRect_ = function() {
  */
 Blockly.FieldProcedure.prototype.fromXml = function(fieldElement) {
   var id = fieldElement.getAttribute('id');
-  var procedureName = fieldElement.textContent;
+  // var procedureName = fieldElement.textContent;
 
-  var procedure = Blockly.Procedures.getOrCreateProcedurePackage(
-      this.sourceBlock_.workspace, id, procedureName);
-
-  this.setValue(procedure.getId());
+  this.setValue(id);
 };
 
 /**
@@ -174,6 +171,8 @@ Blockly.FieldProcedure.prototype.toXml = function(fieldElement) {
 Blockly.FieldProcedure.prototype.getValue = function() {
   return this.procedure_ ? this.procedure_.getId() : null;
 };
+
+
 
 /**
  * Get the text from this field, which is the selected variable's name.
@@ -208,7 +207,7 @@ Blockly.FieldProcedure.prototype.getValidator = function() {
   // Normally this is achieved by calling setValidator after setValue, but
   // this is not a possibility with variable fields.
   if (this.procedure_) {
-    return this.procedure_;
+    return this.validator_;
   }
   return null;
 };
@@ -224,8 +223,10 @@ Blockly.FieldProcedure.prototype.doClassValidation_ = function(opt_newValue) {
     return null;
   }
   var newId = /** @type {string} */ (opt_newValue);
-  var procedure = Blockly.Procedures.getProcedure(
+ /*  var procedure = Blockly.Procedures.getProcedure(
       this.sourceBlock_.workspace, newId);
+ */
+  var procedure = this.sourceBlock_.workspace.procedureMap_.getProcedureById(newId)
   if (!procedure) {
     console.warn('Procedure id doesn\'t point to a real procedure! ' +
         'ID was ' + newId);
@@ -243,11 +244,12 @@ Blockly.FieldProcedure.prototype.doClassValidation_ = function(opt_newValue) {
  * @protected
  */
 Blockly.FieldProcedure.prototype.doValueUpdate_ = function(newId) {
-  var workspace =  this.sourceBlock_.workspace;
+  var workspace =  this.sourceBlock_.workspace.targetWorkspace || this.sourceBlock_.workspace;
   var ary = [];
   var procedure;
-  if(workspace.procedureMap_ && workspace.procedureMap_.procedureMap_ && workspace.procedureMap_.procedureMap_['procedure_noreturn']){
-    ary = workspace.procedureMap_.procedureMap_['procedure_noreturn'];
+  
+  if(workspace.procedureMap_){
+    ary = workspace.procedureMap_.getAllProceduresByType();
   }
   if(ary.length){
     procedure = ary.find(function(item){
@@ -257,7 +259,6 @@ Blockly.FieldProcedure.prototype.doValueUpdate_ = function(newId) {
       this.procedure_ = procedure;
     }
   }else{
-    debugger;
     console.log('procedureMap_中无数据。');
   }
 
@@ -288,30 +289,20 @@ Blockly.FieldProcedure.dropdownCreate = function() {
         ' procedure selected.');
   }
   var name = this.getText();
-  var variableModelList = [];
-  var workspace = this.sourceBlock_.workspace;
-  debugger;
+  var procedureModelList = [];
+  var workspace = this.sourceBlock_.workspace.targetWorkspace || this.sourceBlock_.workspace;
   if (this.sourceBlock_ && this.sourceBlock_.workspace) {
-    var allProcedures = Blockly.Procedures.allProcedures(workspace);
-    
-    // Get a copy of the list, so that adding rename and new variable options
-    // doesn't modify the workspace's list.
-    for (var i = 0; i < variableTypes.length; i++) {
-      var variableType = variableTypes[i];
-      var variables =
-        this.sourceBlock_.workspace.getVariablesOfType(variableType);
-      variableModelList = variableModelList.concat(variables);
-    }
+    procedureModelList = workspace.procedureMap_.getAllProceduresByType();
+    procedureModelList.sort(Blockly.ProcedureModel.compareByName);
   }
-  variableModelList.sort(Blockly.VariableModel.compareByName);
 
   var options = [];
-  /* for (var i = 0; i < variableModelList.length; i++) {
+  for (var i = 0; i < procedureModelList.length; i++) {
     // Set the UUID as the internal representation of the variable.
-    options[i] = [variableModelList[i].name, variableModelList[i].getId()];
+    options[i] = [procedureModelList[i].name, procedureModelList[i].getId()];
   }
-  options.push([Blockly.Msg['RENAME_VARIABLE'], Blockly.RENAME_VARIABLE_ID]);
-  if (Blockly.Msg['DELETE_VARIABLE']) {
+  // options.push([Blockly.Msg['RENAME_VARIABLE'], Blockly.RENAME_VARIABLE_ID]);
+  /* if (Blockly.Msg['DELETE_VARIABLE']) {
     options.push(
         [
           Blockly.Msg['DELETE_VARIABLE'].replace('%1', name),
@@ -350,17 +341,15 @@ Blockly.FieldProcedure.prototype.onItemSelected_ = function(menu, menuItem) {
     }
   }
   // Handle unspecial case.
+  
   this.setValue(id);
 };
 
-/**
- * Overrides referencesVariables(), indicating this field refers to a variable.
- * @return {boolean} True.
- * @package
- * @override
- */
-Blockly.FieldProcedure.prototype.referencesProcedures = function() {
+// 表示这个field是否和函数相关
+Blockly.FieldProcedure.prototype.referencesProcedure = function() {
   return true;
 };
+
+
 
 Blockly.fieldRegistry.register('field_procedure', Blockly.FieldProcedure);

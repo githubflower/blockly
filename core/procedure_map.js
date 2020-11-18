@@ -4,7 +4,9 @@
 goog.provide('Blockly.ProcedureMap');
 
 goog.require('Blockly.Events');
-
+goog.require('Blockly.Events.ProcedureCreate');
+goog.require('Blockly.Events.ProcedureDelete');
+goog.require('Blockly.Events.ProcedureRename');
 goog.require('Blockly.Msg');
 goog.require('Blockly.utils');
 goog.require('Blockly.utils.object');
@@ -47,7 +49,6 @@ Blockly.ProcedureMap.prototype.createProcedure = function(name,
     // The variable already exists and has the same ID.
     return procedure;
   }
- 
   var id = opt_id || Blockly.utils.genUid();
   procedure = new Blockly.ProcedureModel(this.workspace, name, id);
   this.procedureMap_[opt_type] = this.procedureMap_[opt_type] || [];
@@ -59,7 +60,26 @@ Blockly.ProcedureMap.prototype.createProcedure = function(name,
   return procedure;
 };
 
-/* Begin functions for procedure deletion. */
+Blockly.ProcedureMap.prototype.renameProcedure = function(procedure, newName) {
+  var type = procedure.type;
+  var conflictVar = this.getProcedure(newName, type);
+  var blocks = this.workspace.getAllBlocks(false);
+  Blockly.Events.setGroup(true);
+  try {
+    // The IDs may match if the rename is a simple case change (name1 -> Name1).
+    if (!conflictVar || conflictVar.getId() == procedure.getId()) {
+      Blockly.Events.fire(new Blockly.Events.ProcedureRename(procedure, newName));
+      procedure.name = newName;
+      for (var i = 0; i < blocks.length; i++) {
+        blocks[i].updateProcedureName(procedure);
+      }
+    } else {
+      // this.renameVariableWithConflict_(variable, newName, conflictVar, blocks);
+    }
+  } finally {
+    Blockly.Events.setGroup(false);
+  }
+};
 
 /**
  * Delete a procedure.
@@ -92,7 +112,7 @@ Blockly.VariableMap.prototype.deleteProcedureById = function(id) {
  *     it was not found.
  */
 Blockly.ProcedureMap.prototype.getProcedure = function(name, opt_type) {
-  var type = opt_type || '';
+  var type = opt_type || 'procedure_noreturn';
   var list = this.procedureMap_[type];
   if (list) {
     for (var j = 0, procedure; (procedure = list[j]); j++) {
@@ -149,4 +169,10 @@ Blockly.ProcedureMap.prototype.getAllProcedureNames = function() {
     }
   }
   return allNames;
+};
+
+
+Blockly.ProcedureMap.prototype.getAllProceduresByType = function(type) {
+  type = type || 'procedure_noreturn';
+  return this.procedureMap_[type];
 };

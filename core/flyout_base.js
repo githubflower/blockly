@@ -28,6 +28,7 @@ goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.WorkspaceSvg');
 goog.require('Blockly.Xml');
+goog.require('Blockly.ProcedureModel');
 
 
 /**
@@ -657,6 +658,15 @@ Blockly.Flyout.prototype.createBlock = function(originalBlock) {
     for (var i = 0; i < newVariables.length; i++) {
       var thisVariable = newVariables[i];
       Blockly.Events.fire(new Blockly.Events.VarCreate(thisVariable));
+    }
+    // 如果这个块是函数或者线程 则需要建立相应的函数对象和线程对象（类似于变量）
+    if(newBlock.type === 'procedures_defnoreturn'){
+      log('11-18');
+      // var procedure = new Blockly.ProcedureModel(this.targetWorkspace_, newBlock.getFieldValue('NAME'), newBlock.id);
+
+      //往workspace的procedureMap_中存储这个procedure
+      var workspace = this.targetWorkspace_;
+      workspace.createProcedure( newBlock.getFieldValue('NAME'), newBlock.id, 'procedure_noreturn');
     }
   }
   if (this.autoClose) {

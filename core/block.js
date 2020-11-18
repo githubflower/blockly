@@ -1028,6 +1028,17 @@ Blockly.Block.prototype.updateVarName = function(variable) {
   }
 };
 
+Blockly.Block.prototype.updateProcedureName = function(procedure) {
+  for (var i = 0, input; (input = this.inputList[i]); i++) {
+    for (var j = 0, field; (field = input.fieldRow[j]); j++) {
+      if (field.referencesProcedure() &&
+          variable.getId() == field.getValue()) {
+        field.refreshProcedureName();
+      }
+    }
+  }
+};
+
 /**
  * Notification that a variable is renaming.
  * If the ID matches one of this block's variables, rename it.

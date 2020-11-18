@@ -72,6 +72,7 @@ Blockly.Events.ProcedureCreate = function(procedure) {
   Blockly.Events.ProcedureCreate.superClass_.constructor.call(this, procedure);
   this.procedureType = procedure.type;
   this.procedureName = procedure.name;
+
 };
 Blockly.utils.object.inherits(Blockly.Events.ProcedureCreate, Blockly.Events.ProcedureBase);
 

@@ -203,6 +203,12 @@ Blockly.Procedures.rename = function(name) {
             /** @type {string} */ (oldName), legalName);
       }
     }
+
+    //更新procedureMap
+    if(this.workspace_){
+      var procedure = this.workspace_.procedureMap_.getProcedure(oldName);
+      procedure.name = name;
+    }
   }
   return legalName;
 };

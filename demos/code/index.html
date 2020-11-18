@@ -522,10 +522,19 @@
   <script src="../../dart_compressed.js"></script>
 
   <script src="./code.js"></script>
-  
+
   <script type="text/javascript" src="./defineBlock.js"></script>
   <script type="text/javascript" src="./generate.js"></script>
   <script>
+    window.log = function(str){
+      if(typeof str === 'object'){
+        console.log('zjie---' + JSON.stringify(str));  
+        console.log('zjie---obj:');
+        console.log(str);
+      }else{
+        console.log('zjie---' + str);
+      }
+    }
     const isStateInOptions = (state, options) => {
       let flag = false;
       options.forEach(option => {

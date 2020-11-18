@@ -27,14 +27,29 @@ Blockly.Blocks['select_procedure'] = {
   init: function(){
     this.appendDummyInput().appendField('select');
     this.appendValueInput('NAME')
-    .appendField(new Blockly.FieldProcedure() ,'field_procedure');
+    .appendField(new Blockly.FieldProcedure('PROCEDURE_NAME', function(id){return id;}) ,'field_procedure');
     this.setOutput(true, null);
     this.setPreviousStatement(false);
     this.setNextStatement(false);
     this.setStyle("procedure_blocks");
     this.setTooltip("");
     this.setHelpUrl("");
+  },
+  renameProcedure: function(oldName, newName) {
+    var fieldProcedure = this.getField('field_procedure');
+    log('oldName: ' + oldName + ' --- fieldProcedure.selectedOption_[0]: ' + fieldProcedure.selectedOption_[0]);
+  if (Blockly.Names.equals(oldName, fieldProcedure.selectedOption_[0])) {
+    log('equals');
+    debugger;
+    fieldProcedure.refreshProcedureName();
+    fieldProcedure.renderSelectedText_();
+    // this.setFieldValue(newName, 'NAME');
+   /*  var baseMsg = this.outputConnection ?
+        Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP'] :
+        Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
+    this.setTooltip(baseMsg.replace('%1', newName)); */
   }
+},
 };
 
 Blockly.Blocks['procedures_defnoreturn'] = {
@@ -44,11 +59,11 @@ Blockly.Blocks['procedures_defnoreturn'] = {
    */
   init: function() {
     // 如果这个block的id在workspace中已经存在则不需要添加到ProcedureMap中，否则需要push到ProcedureMap
-    if(!this.alreadyExistThisBlock(this.id) && !this.workspace.isFlyout){
+  /*   if(!this.alreadyExistThisBlock(this.id) && !this.workspace.isFlyout){
       console.log('this.workspace.isFlyout: ' + this.workspace.isFlyout);
       console.log('id: ' + this.id);
       this.workspace.procedureMap_.createProcedure('procedureName', this.id);
-    }
+    } */
     var nameField = new Blockly.FieldTextInput('',
         Blockly.Procedures.rename);
     nameField.setSpellcheck(false);
