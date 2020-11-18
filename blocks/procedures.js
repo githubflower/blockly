@@ -40,7 +40,11 @@ Blockly.Blocks['select_procedure'] = {
     log('oldName: ' + oldName + ' --- fieldProcedure.selectedOption_[0]: ' + fieldProcedure.selectedOption_[0]);
   if (Blockly.Names.equals(oldName, fieldProcedure.selectedOption_[0])) {
     log('equals');
-    debugger;
+    
+    var procedureId = fieldProcedure.getValue();
+    var procedure = this.workspace.procedureMap_.getProcedureById(procedureId);
+    this.workspace.procedureMap_.renameProcedure(procedure, newName);
+
     fieldProcedure.refreshProcedureName();
     fieldProcedure.renderSelectedText_();
     // this.setFieldValue(newName, 'NAME');

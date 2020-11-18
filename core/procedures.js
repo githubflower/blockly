@@ -207,7 +207,9 @@ Blockly.Procedures.rename = function(name) {
     //更新procedureMap
     if(this.workspace_){
       var procedure = this.workspace_.procedureMap_.getProcedure(oldName);
-      procedure.name = name;
+      if(procedure){
+        procedure.name = name;
+      }
     }
   }
   return legalName;
