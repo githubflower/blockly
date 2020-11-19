@@ -1089,13 +1089,14 @@ Blockly.Blocks['thread'] = {
       .appendField(new Blockly.FieldTextInput("default"), "NAME");
     /* this.appendStatementInput("NAME")
       .setCheck(null); */
-    this.appendValueInput('CALLBACK')
+    this.appendStatementInput('CALLBACK')
     .appendField('callback')
     .setAlign(Blockly.ALIGN_RIGHT);
     this.appendValueInput('ARGS')
     .appendField('args')
     .setAlign(Blockly.ALIGN_RIGHT);
     this.setInputsInline(false);
+    this.setOutput(true);
     this.setColour(230);
     this.setTooltip("");
     this.setHelpUrl("");

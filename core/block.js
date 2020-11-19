@@ -1033,8 +1033,8 @@ Blockly.Block.prototype.updateProcedureName = function(procedure) {
     for (var j = 0, field; (field = input.fieldRow[j]); j++) {
       if (field.referencesProcedure && field.referencesProcedure() &&
           procedure.getId() == field.getValue()) {
-        debugger;
         field.refreshProcedureName();
+        // field.setValue(procedure.getId());
       }
     }
   }

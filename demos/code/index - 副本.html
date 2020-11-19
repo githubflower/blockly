@@ -10,7 +10,7 @@
   <style>
     .blocklyMainBackground {
       /* fill: #fff !important; */
-      fill: #0A0B44  !important;
+      fill: #0B1725 !important;
     }
 
     .black .blocklyMainBackground {
@@ -31,13 +31,9 @@
       fill: #F9AA0F !important;
     }
 
-    table{
-      background-color: #272b42;
-    color: #fff;
-    }
 
     .white .blocklyMainBackground {
-      /* fill: #fff !important; */
+      fill: #fff !important;
     }
 
     .white .geras-renderer.classic-theme .blocklyEditableText>rect {
@@ -113,13 +109,13 @@
             <td class="tabmin tab_collapse">&nbsp;</td>
             <td id="tab_javascript" class="taboff tab_collapse">JavaScript</td>
             <td class="tabmin tab_collapse">&nbsp;</td>
-            <!-- <td id="tab_python" class="taboff tab_collapse">Python</td> -->
+            <td id="tab_python" class="taboff tab_collapse">Python</td>
             <td class="tabmin tab_collapse">&nbsp;</td>
-            <!-- <td id="tab_php" class="taboff tab_collapse">PHP</td> -->
+            <td id="tab_php" class="taboff tab_collapse">PHP</td>
             <td class="tabmin tab_collapse">&nbsp;</td>
             <td id="tab_lua" class="taboff tab_collapse">Lua</td>
             <td class="tabmin tab_collapse">&nbsp;</td>
-            <!-- <td id="tab_dart" class="taboff tab_collapse">Dart</td> -->
+            <td id="tab_dart" class="taboff tab_collapse">Dart</td>
             <td class="tabmin tab_collapse">&nbsp;</td>
             <td id="tab_xml" class="taboff tab_collapse">XML</td>
             <td class="tabmin">
@@ -469,7 +465,13 @@
     <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
     <category name="Class" colour="%{BKY_CLASS_HUE}">
-      <block type="thread"></block>
+      <block type="thread">
+     <!--  <value name="CALLBACK">
+        <shadow type="anonymous_function">
+            <field name="callback">function</field>
+          </shadow>
+        </value> -->
+      </block>
       <block type="anonymous_function"></block>
       <block type="state"></block>
       <block type="def_state"></block>

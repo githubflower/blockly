@@ -392,7 +392,7 @@ Blockly.Workspace.prototype.createVariable = function(name, opt_type, opt_id) {
 };
 
 //创建函数对象   by zjie 2020年11月16日18:52:33
-Blockly.Workspace.prototype.createProcedure = function(name, opt_id) {
+Blockly.Workspace.prototype.createProcedure = function(name, opt_id, opt_type) {
   return this.procedureMap_.createProcedure(name, opt_id);
 };
 

@@ -25,11 +25,12 @@ goog.require('Blockly.FieldProcedure');
 
 Blockly.Blocks['select_procedure'] = {
   init: function(){
-    this.appendDummyInput().appendField('select');
-    this.appendValueInput('NAME')
+    // this.appendDummyInput().appendField('select');
+    this.appendDummyInput('NAME')
     .appendField(new Blockly.FieldProcedure('PROCEDURE_NAME', function(id){return id;}) ,'field_procedure');
-    this.setOutput(true, null);
-    this.setPreviousStatement(false);
+    this.setOutput(false, null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
     this.setNextStatement(false);
     this.setStyle("procedure_blocks");
     this.setTooltip("");
@@ -38,6 +39,7 @@ Blockly.Blocks['select_procedure'] = {
   renameProcedure: function(oldName, newName) {
     var fieldProcedure = this.getField('field_procedure');
     log('oldName: ' + oldName + ' --- fieldProcedure.selectedOption_[0]: ' + fieldProcedure.selectedOption_[0]);
+    debugger;
   if (Blockly.Names.equals(oldName, fieldProcedure.selectedOption_[0])) {
     log('equals');
     
@@ -45,9 +47,9 @@ Blockly.Blocks['select_procedure'] = {
     var procedure = this.workspace.procedureMap_.getProcedureById(procedureId);
     this.workspace.procedureMap_.renameProcedure(procedure, newName);
 
-    fieldProcedure.refreshProcedureName();
-    fieldProcedure.renderSelectedText_();
-    // this.setFieldValue(newName, 'NAME');
+    fieldProcedure.getOptions(false);
+    fieldProcedure.doValueUpdate_(procedure.getId());
+    // this.setFieldValue(newName, 'field_procedure');
    /*  var baseMsg = this.outputConnection ?
         Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP'] :
         Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];

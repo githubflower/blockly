@@ -174,3 +174,10 @@ button {
     display: table-cell;
   }
 }
+
+.blocklyToolboxDiv{
+      background-color: #FFFFFF;
+}
+#tabRow>td{
+  border: none;
+}
