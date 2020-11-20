@@ -1040,6 +1040,16 @@ Blockly.Block.prototype.updateProcedureName = function(procedure) {
   }
 };
 
+Blockly.Block.prototype.updateThreadName = function(thread) {
+  for (var i = 0, input; (input = this.inputList[i]); i++) {
+    for (var j = 0, field; (field = input.fieldRow[j]); j++) {
+      if (field.referencesThread && field.referencesThread() && thread.getId() == field.getValue()) {
+        field.refreshThreadName();
+      }
+    }
+  }
+};
+
 /**
  * Notification that a variable is renaming.
  * If the ID matches one of this block's variables, rename it.

@@ -1275,6 +1275,23 @@ Blockly.WorkspaceSvg.prototype.paste = function(xmlBlock) {
 };
 
 /**
+ * 在创建某些特定的block时创建相应的对象对其管理，如创建“定义函数block”时创建一个procedure对象，对象内部的逻辑会将其存储到procedureMap_中
+ * 变量、线程、状态都是如此
+ */
+Blockly.WorkspaceSvg.prototype.injectSomeModel2Map = function(block) {
+  if(block.type === 'procedures_defnoreturn'){
+    //往workspace的procedureMap_中存储这个procedure
+    var workspace = this;
+    workspace.createProcedure( block.getFieldValue('NAME'), block.id, 'procedure_noreturn');
+  }
+
+  if(block.type === 'thread_def'){
+    var workspace = this;
+    workspace.createThread( block.getFieldValue('NAME'), block.id);
+  }
+}
+
+/**
  * Paste the provided block onto the workspace.
  * @param {!Element} xmlBlock XML block element.
  * @private
@@ -1284,11 +1301,8 @@ Blockly.WorkspaceSvg.prototype.pasteBlock_ = function(xmlBlock) {
   try {
     var block = Blockly.Xml.domToBlock(xmlBlock, this);
     // add by zjie 如果粘贴的元素是函数的定义则需要建立相应的procedure  TODO: 这里还有问题，应该是遍历这个block及其子节点，因为可以粘贴一个包含很多子模块的block
-    if(block.type === 'procedures_defnoreturn'){
-      //往workspace的procedureMap_中存储这个procedure
-      var workspace = this;
-      workspace.createProcedure( block.getFieldValue('NAME'), block.id, 'procedure_noreturn');
-    }
+    this.injectSomeModel2Map(block);
+    
 
     // Handle paste for keyboard navigation
     var markedNode = this.getMarker(Blockly.navigation.MARKER_NAME).getCurNode();

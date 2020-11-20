@@ -18,6 +18,7 @@ goog.require('Blockly.utils');
 goog.require('Blockly.utils.math');
 goog.require('Blockly.VariableMap');
 goog.require('Blockly.ProcedureMap');
+goog.require('Blockly.ThreadMap');
 
 
 /**
@@ -91,6 +92,7 @@ Blockly.Workspace = function(opt_options) {
   this.variableMap_ = new Blockly.VariableMap(this);
 
   this.procedureMap_ = new Blockly.ProcedureMap(this);
+  this.threadMap_ = new Blockly.ThreadMap(this);
 
   /**
    * Blocks in the flyout can refer to variables that don't exist in the main
@@ -393,8 +395,15 @@ Blockly.Workspace.prototype.createVariable = function(name, opt_type, opt_id) {
 
 //创建函数对象   by zjie 2020年11月16日18:52:33
 Blockly.Workspace.prototype.createProcedure = function(name, opt_id, opt_type) {
-  return this.procedureMap_.createProcedure(name, opt_id);
+  return this.procedureMap_.createProcedure(name, opt_id, opt_type);
 };
+
+// 创建线程对象 by zjie 2020年11月20日10:18:17
+Blockly.Workspace.prototype.createThread = function(name, opt_id, opt_type) {
+  window.aa = this;
+  return this.threadMap_.createThread(name, opt_id, opt_type);
+};
+
 
 /**
  * Find all the uses of the given variable, which is identified by ID.

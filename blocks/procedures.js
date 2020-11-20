@@ -40,22 +40,22 @@ Blockly.Blocks['select_procedure'] = {
     var fieldProcedure = this.getField('field_procedure');
     log('oldName: ' + oldName + ' --- fieldProcedure.selectedOption_[0]: ' + fieldProcedure.selectedOption_[0]);
     debugger;
-  if (Blockly.Names.equals(oldName, fieldProcedure.selectedOption_[0])) {
-    log('equals');
-    
-    var procedureId = fieldProcedure.getValue();
-    var procedure = this.workspace.procedureMap_.getProcedureById(procedureId);
-    this.workspace.procedureMap_.renameProcedure(procedure, newName);
+    if (Blockly.Names.equals(oldName, fieldProcedure.selectedOption_[0])) {
+      log('equals');
+      
+      var procedureId = fieldProcedure.getValue();
+      var procedure = this.workspace.procedureMap_.getProcedureById(procedureId);
+      this.workspace.procedureMap_.renameProcedure(procedure, newName);
 
-    fieldProcedure.getOptions(false);
-    fieldProcedure.doValueUpdate_(procedure.getId());
-    // this.setFieldValue(newName, 'field_procedure');
-   /*  var baseMsg = this.outputConnection ?
-        Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP'] :
-        Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
-    this.setTooltip(baseMsg.replace('%1', newName)); */
-  }
-},
+      fieldProcedure.getOptions(false);
+      fieldProcedure.doValueUpdate_(procedure.getId());
+      // this.setFieldValue(newName, 'field_procedure');
+     /*  var baseMsg = this.outputConnection ?
+          Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP'] :
+          Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
+      this.setTooltip(baseMsg.replace('%1', newName)); */
+    }
+  },
 };
 
 Blockly.Blocks['procedures_defnoreturn'] = {
@@ -70,8 +70,7 @@ Blockly.Blocks['procedures_defnoreturn'] = {
       console.log('id: ' + this.id);
       this.workspace.procedureMap_.createProcedure('procedureName', this.id);
     } */
-    var nameField = new Blockly.FieldTextInput('',
-        Blockly.Procedures.rename);
+    var nameField = new Blockly.FieldTextInput('', Blockly.Procedures.rename);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
         .appendField(Blockly.Msg['PROCEDURES_DEFNORETURN_TITLE'])
@@ -93,6 +92,40 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     this.statementConnection_ = null;
   },
 
+  /**
+   * [validatorProcedureName 这个就是blockly\core\procedures.js  Blockly.Procedures.rename   作用就是校验名称是否符合规范，然后通知相关的组件更新名称]
+   * @param  {[type]} name [description]
+   * @return {[type]}      [description]
+   */
+  validatorProcedureName: function(name){
+    name = name.trim();
+    var legalName = Blockly.Procedures.findLegalName(name,
+        /** @type {!Blockly.Block} */ (this.getSourceBlock()));
+    var oldName = this.getValue();
+    if (oldName != name && oldName != legalName) {
+      // Rename any callers.
+      var blocks = this.getSourceBlock().workspace.getAllBlocks(false);
+      for (var i = 0; i < blocks.length; i++) {
+        if (blocks[i].renameProcedure) {
+          var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
+            blocks[i]);
+          procedureBlock.renameProcedure(
+              /** @type {string} */ (oldName), legalName);
+        }
+      }
+
+      //更新procedureMap
+      if(this.workspace_){
+        var procedure = this.workspace_.procedureMap_.getProcedure(oldName);
+        if(procedure){
+          procedure.name = name;
+        }
+      }
+    }
+    return legalName;
+  },
+
+  // 暂时没有用到这个函数
   alreadyExistThisBlock: function(id){
     var existFlag = false;
     var ary = [];
