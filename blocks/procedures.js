@@ -23,7 +23,7 @@ goog.require('Blockly.Warning');
 goog.require('Blockly.FieldProcedure');
 
 
-Blockly.Blocks['select_procedure'] = {
+Blockly.Blocks['procedure_select'] = {
   init: function(){
     // this.appendDummyInput().appendField('select');
     this.appendDummyInput('NAME')

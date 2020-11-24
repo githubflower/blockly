@@ -178,3 +178,14 @@ Blockly.ThreadMap.prototype.getAllThreadsByType = function(type) {
   type = type || 'thread_noreturn';
   return this.threadMap_[type];
 };
+
+Blockly.ThreadMap.isNameUsed = function(name, threadMap) {
+  var allNames = threadMap.getAllThreadNames();
+  if(allNames.length){
+    var result = allNames.find(function(threadName){
+      return Blockly.Names.equals(threadName, name);
+    })
+    return !!result;
+  }
+  return false;
+};

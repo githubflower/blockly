@@ -64,7 +64,7 @@ Blockly.Procedures.allProcedures = function(root) {
   var proceduresReturn = [];
   var proceduresNoReturn = [];
   for (var i = 0; i < blocks.length; i++) {
-    if (blocks[i].getProcedureDef) {
+    if (blocks[i].type !== 'state_def' && blocks[i].getProcedureDef) {
       var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
         blocks[i]);
       var tuple = procedureBlock.getProcedureDef();
@@ -86,7 +86,7 @@ Blockly.Procedures.getProceduresOfNoReturn = function(workspace){
   var blocks = workspace.getAllBlocks(false);
   var proceduresNoReturn = [];
   for (var i = 0; i < blocks.length; i++) {
-    if (blocks[i].getProcedureDef) {
+    if (blocks[i].type !== "state_def" && blocks[i].getProcedureDef) {
       var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
         blocks[i]);
       var tuple = procedureBlock.getProcedureDef();
@@ -257,9 +257,9 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     block.setAttribute('gap', 16);
     xmlList.push(block);
   }
-  if(Blockly.Blocks['select_procedure'] && Blockly.Procedures.getProceduresOfNoReturn(workspace).length){
+  if(Blockly.Blocks['procedure_select'] && Blockly.Procedures.getProceduresOfNoReturn(workspace).length){
     var block = Blockly.utils.xml.createElement('block');
-    block.setAttribute('type', 'select_procedure');
+    block.setAttribute('type', 'procedure_select');
     block.setAttribute('gap', 16);
     xmlList.push(block);
   }

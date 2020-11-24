@@ -93,6 +93,7 @@ Blockly.Workspace = function(opt_options) {
 
   this.procedureMap_ = new Blockly.ProcedureMap(this);
   this.threadMap_ = new Blockly.ThreadMap(this);
+  this.stateMap_ = new Blockly.StateMap(this);
 
   /**
    * Blocks in the flyout can refer to variables that don't exist in the main
@@ -400,8 +401,12 @@ Blockly.Workspace.prototype.createProcedure = function(name, opt_id, opt_type) {
 
 // 创建线程对象 by zjie 2020年11月20日10:18:17
 Blockly.Workspace.prototype.createThread = function(name, opt_id, opt_type) {
-  window.aa = this;
   return this.threadMap_.createThread(name, opt_id, opt_type);
+};
+
+// 创建状态对象 by zjie 2020年11月24日16:48:20
+Blockly.Workspace.prototype.createState = function(name, opt_id, opt_type) {
+  return this.stateMap_.createState(name, opt_id, opt_type);
 };
 
 

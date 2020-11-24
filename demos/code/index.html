@@ -427,6 +427,7 @@
       </block>
       <block type="lists_sort"></block>
       <block type="thread_opr"></block>
+      <block type="state_opr"></block>
     </category>
     <!-- <category name="%{BKY_CATCOLOUR}" colour="%{BKY_COLOUR_HUE}">
       <block type="colour_picker"></block>
@@ -471,8 +472,6 @@
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
     <category name="Class" colour="%{BKY_CLASS_HUE}">
       <block type="thread_def"></block>
-      
-
       <block type="anonymous_function"></block>
       <block type="state"></block>
       <block type="def_state"></block>
@@ -480,7 +479,7 @@
       <block type="class"></block>
       <block type="class_property"></block>
       <block type="class_method"></block>
-      <block type="get_class_property"></block>
+    <!--   <block type="get_class_property"></block>
       <block type="get_class_property3"></block>
       <block type="set_class_property"></block>
       <block type="set_class_property3"></block>
@@ -495,9 +494,11 @@
       <block type="create_obj"></block>
       <block type="start"></block>
       <block type="new"></block>
-      
-      
-      <!-- <block type="methods_defreturn"></block> -->
+      <block type="methods_defreturn"></block> -->
+    </category>
+    <!-- <category name="%{BKY_CATSTATES}" colour="%{BKY_STATES_HUE}" custom="STATE"></category> -->
+    <category name="State" colour="%{BKY_STATES_HUE}">
+      <block type="state_def"></block>
     </category>
   </xml>
 
@@ -529,11 +530,10 @@
   <script>
     window.log = function(str){
       if(typeof str === 'object'){
-        console.log('zjie---' + JSON.stringify(str));  
         console.log('zjie---obj:');
         console.log(str);
       }else{
-        console.log('zjie---' + str);
+        console.log('zjie---str:' + str);
       }
     }
     const isStateInOptions = (state, options) => {

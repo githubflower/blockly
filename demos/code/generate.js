@@ -1,19 +1,3 @@
-Blockly.JavaScript['thread'] = function(block) {
-    return '-thread todo-';
-}
-
-Blockly.JavaScript['state'] = function (block) {
-    var stateName = block.getFieldValue('NAME');
-    var stateCode = Blockly.JavaScript.statementToCode(block, 'NAME');
-    return `State ${stateName}(){\n${stateCode}}\n`;
-}
-
-Blockly.JavaScript['run_state'] = function (block) {
-    var stateName = block.getFieldValue('NAME');
-    var code = `// 进入State: ${stateName}\n${stateName}();\n`;
-    return code;
-}
-
 Blockly.Lua['run_state'] = function (block) {
     var stateName = block.getFieldValue('NAME');
     var code = `// 进入State: ${stateName}\n${stateName}();\n`;
@@ -27,3 +11,51 @@ Blockly.Lua['run_state'] = function (block) {
     return code;
 }
 
+Object.defineProperty(Blockly.Lua, 'thread_def', {
+    value: function(block){
+        var threadName = block.getFieldValue('NAME');
+        var code_function_type = block.getInputTargetBlock('CALLBACK');
+        if(!code_function_type){
+            console.log('语法错误：没有给线程指定相应的函数。')
+        }else{
+            code_function_type = code_function_type.type;
+        }
+        var code_function;
+        // var code_function = Blockly.Lua.statementToCode(block, 'CALLBACK');
+        if(code_function_type === 'procedure_select'){
+            code_function = Blockly.Lua.statementToCode(block, 'CALLBACK');
+        }else{
+            code_function = `function `;//Lua没有匿名函数，不会走到这里面来
+        }
+
+        var code_args = Blockly.Lua.valueToCode(block, 'ARGS', Blockly.Lua.ORDER_ATOMIC);
+        var code = `${threadName} = Thread.New(${code_function})(${code_args});`
+        // return code;
+        return [code, Blockly.Lua.ORDER_ATOMIC];
+    },
+    writable: false,
+    enumerable: true
+})
+
+Object.defineProperty(Blockly.Lua, 'procedure_select', {
+    value: function(block){
+        var procedureId = block.getFieldValue('field_procedure');
+        var procedureName = block.workspace.procedureMap_.getProcedureById(procedureId).name;
+        var code = `${procedureName}`;
+        return code;
+    },
+    writable: false
+})
+
+var luaBlocks = [{
+    type: 'state_def',
+    generator: Blockly.Lua['procedures_defreturn']
+}];
+
+luaBlocks.forEach(item => {
+    Object.defineProperty(Blockly.Lua, item.type, {
+        value: item.generator,
+        writable: false,
+        enumerable: true
+    })
+})

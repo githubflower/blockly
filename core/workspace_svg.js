@@ -1285,6 +1285,18 @@ Blockly.WorkspaceSvg.prototype.injectSomeModel2Map = function(block) {
     workspace.createProcedure( block.getFieldValue('NAME'), block.id, 'procedure_noreturn');
   }
 
+  // 这个procedure_return类型的map暂时没用到
+  if(block.type === 'procedures_defreturn'){
+    //往workspace的procedureMap_中存储这个procedure
+    var workspace = this;
+    workspace.createProcedure( block.getFieldValue('NAME'), block.id, 'procedure_return');
+  }
+
+  if(block.type === 'state_def'){
+    var workspace = this;
+    workspace.createState( block.getFieldValue('NAME'), block.id, 'state_def');
+  }
+
   if(block.type === 'thread_def'){
     var workspace = this;
     workspace.createThread( block.getFieldValue('NAME'), block.id);
