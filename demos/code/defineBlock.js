@@ -1292,13 +1292,13 @@ Blockly.Blocks['run_state'] = {
 //状态定义
 Blockly.Blocks['state_def'] = {
   init: function() {
-    var nameField = new Blockly.FieldTextInput('', Blockly.Procedures.rename);
+    var nameField = new Blockly.FieldTextInput('state', this.validatorStateName);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
         .appendField(Blockly.Msg['PROCEDURES_DEFNORETURN_TITLE'])
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
-    this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
+    // this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
     if ((this.workspace.options.comments ||
          (this.workspace.options.parentWorkspace &&
           this.workspace.options.parentWorkspace.options.comments)) &&
@@ -1319,32 +1319,44 @@ Blockly.Blocks['state_def'] = {
    * @param  {[type]} name [description]
    * @return {[type]}      [description]
    */
-  validatorProcedureName: function(name){
+  validatorStateName: function(name){
     name = name.trim();
-    var legalName = Blockly.Procedures.findLegalName(name,
-        /** @type {!Blockly.Block} */ (this.getSourceBlock()));
+    var findLeagalName = function(name, block){
+        if (block.isInFlyout) {
+          return name;
+        }
+        name = name || Blockly.Msg['UNNAMED_KEY'] || 'unnamed';
+        while (Blockly.StateMap.isNameUsed(name, block.workspace.stateMap_)) {
+          var r = name.match(/^(.*?)(\d+)$/);
+          if (!r) {
+            name += '2';
+          } else {
+            name = r[1] + (parseInt(r[2], 10) + 1);
+          }
+        }
+        return name;
+      
+    }
+    name = findLeagalName(name, this.getSourceBlock());
     var oldName = this.getValue();
-    if (oldName != name && oldName != legalName) {
-      // Rename any callers.
+    if (oldName != name) {
       var blocks = this.getSourceBlock().workspace.getAllBlocks(false);
       for (var i = 0; i < blocks.length; i++) {
-        if (blocks[i].renameProcedure) {
-          var procedureBlock = /** @type {!Blockly.Procedures.ProcedureBlock} */ (
-            blocks[i]);
-          procedureBlock.renameProcedure(
-              /** @type {string} */ (oldName), legalName);
+        if (blocks[i].renameState) {
+          var stateBlock = (blocks[i]);
+          stateBlock.renameState(oldName, name);
         }
       }
 
-      //更新procedureMap
+      //更新stateMap
       if(this.workspace_){
-        var procedure = this.workspace_.procedureMap_.getProcedure(oldName);
-        if(procedure){
-          procedure.name = name;
+        var state = this.workspace_.stateMap_.getState(oldName);
+        if(state){
+          state.name = name;
         }
       }
     }
-    return legalName;
+    return name;
   },
 
   // 暂时没有用到这个函数
@@ -1714,7 +1726,7 @@ goog.require('Blockly.FieldState');
 Blockly.Blocks['state_opr'] = {
   init: function(){
     this.appendDummyInput('NAME')
-    .appendField(new Blockly.FieldThread('THREAD_NAME', function(name){return name;}) ,'field_thread');
+    .appendField(new Blockly.FieldState('STATE_NAME', function(name){return name;}) ,'field_state');
     this.setOutput(false, null);
     this.setInputsInline(true);
     this.setPreviousStatement(true);
@@ -1724,22 +1736,22 @@ Blockly.Blocks['state_opr'] = {
     this.setHelpUrl("");
   },
   renameState: function(oldName, newName) {
-    var fieldThread = this.getField('field_thread');
-    log('oldName: ' + oldName + ' --- fieldThread.selectedOption_[0]: ' + fieldThread.selectedOption_[0]);
-    if (Blockly.Names.equals(oldName, fieldThread.selectedOption_[0])) {
+    var fieldState = this.getField('field_state');
+    log('oldName: ' + oldName + ' --- fieldState.selectedOption_[0]: ' + fieldState.selectedOption_[0]);
+    if (Blockly.Names.equals(oldName, fieldState.selectedOption_[0])) {
       log('equals');
       
-      var threadId = fieldThread.getValue();
-      var thread = this.workspace.threadMap_.getThreadById(threadId);
-      this.workspace.threadMap_.renameThread(thread, newName);
+      var stateId = fieldState.getValue();
+      var state = this.workspace.stateMap_.getStateById(stateId);
+      this.workspace.stateMap_.renameState(state, newName);
 
-      fieldThread.getOptions(false);
-      fieldThread.doValueUpdate_(thread.getId());
+      fieldState.getOptions(false);
+      fieldState.doValueUpdate_(state.getId());
       // this.setFieldValue(newName, 'field_procedure');
      /*  var baseMsg = this.outputConnection ?
           Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP'] :
           Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
       this.setTooltip(baseMsg.replace('%1', newName)); */
     }
-  },
+  }
 };

@@ -40,7 +40,7 @@ Blockly.StateMap.prototype.clear = function() {
  */
 Blockly.StateMap.prototype.createState = function(name,
      opt_id, opt_type) {
-  opt_type = opt_type || 'state_noreturn';
+  opt_type = opt_type || 'state_def';
   var state = this.getState(name);
   if (state) {
     if (opt_id && state.getId() != opt_id) {
@@ -114,7 +114,7 @@ Blockly.VariableMap.prototype.deleteStateById = function(id) {
  *     it was not found.
  */
 Blockly.StateMap.prototype.getState = function(name, opt_type) {
-  var type = opt_type || 'state_noreturn';
+  var type = opt_type || 'state_def';
   var list = this.stateMap_[type];
   if (list) {
     for (var j = 0, state; (state = list[j]); j++) {

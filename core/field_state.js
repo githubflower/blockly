@@ -105,7 +105,7 @@ Blockly.FieldState.prototype.initModel = function() {
   }
   var state;
   var workspace = this.sourceBlock_.workspace.targetWorkspace;
-  var stateAry = workspace.stateMap_.getAllStatesByType('state_noreturn');
+  var stateAry = workspace.stateMap_.getAllStatesByType('state_def');
   if(stateAry.length){
     state = stateAry[0];
   }
