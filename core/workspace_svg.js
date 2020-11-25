@@ -134,6 +134,9 @@ Blockly.WorkspaceSvg = function(options,
         Blockly.Procedures.flyoutCategory);
     this.addChangeListener(Blockly.Procedures.mutatorOpenListener);
   }
+  if(Blockly.Threads && lockly.Threads.flyoutCategory){
+    this.registerToolboxCategoryCallback(Blockly.THREAD_CATEGORY_NAME, Blockly.Threads.flyoutCategory);
+  }
 
   /**
    * Object in charge of storing and updating the workspace theme.

@@ -106,7 +106,6 @@ Blockly.Workspace = function(opt_options) {
    * @private
    */
   this.potentialVariableMap_ = null;
-  window.aa = this;
 };
 
 /**
