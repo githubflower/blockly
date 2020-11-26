@@ -1306,7 +1306,7 @@ Blockly.Blocks['state_def'] = {
       this.setCommentText(Blockly.Msg['PROCEDURES_DEFNORETURN_COMMENT']);
     }
     this.setStyle('procedure_blocks');
-    this.setTooltip(Blockly.Msg['PROCEDURES_DEFNORETURN_TOOLTIP']);
+    // this.setTooltip(Blockly.Msg['PROCEDURES_DEFNORETURN_TOOLTIP']);
     this.setHelpUrl(Blockly.Msg['PROCEDURES_DEFNORETURN_HELPURL']);
     this.arguments_ = [];
     this.argumentVarModels_ = [];
@@ -1344,7 +1344,7 @@ Blockly.Blocks['state_def'] = {
       for (var i = 0; i < blocks.length; i++) {
         if (blocks[i].renameState) {
           var stateBlock = (blocks[i]);
-          stateBlock.renameState(oldName, name);
+          stateBlock.renameState(oldName, name, this.getSourceBlock());
         }
       }
 
@@ -1735,7 +1735,7 @@ Blockly.Blocks['state_opr'] = {
     this.setTooltip("");
     this.setHelpUrl("");
   },
-  renameState: function(oldName, newName) {
+  renameState: function(oldName, newName, newBlock) {
     var fieldState = this.getField('field_state');
     log('oldName: ' + oldName + ' --- fieldState.selectedOption_[0]: ' + fieldState.selectedOption_[0]);
     if (Blockly.Names.equals(oldName, fieldState.selectedOption_[0])) {
@@ -1744,9 +1744,10 @@ Blockly.Blocks['state_opr'] = {
       var stateId = fieldState.getValue();
       var state = this.workspace.stateMap_.getStateById(stateId);
       this.workspace.stateMap_.renameState(state, newName);
-
-      fieldState.getOptions(false);
-      fieldState.doValueUpdate_(state.getId());
+      if(newBlock && newBlock.id === stateId){
+        fieldState.getOptions(false);
+        fieldState.doValueUpdate_(state.getId());
+      }
       // this.setFieldValue(newName, 'field_procedure');
      /*  var baseMsg = this.outputConnection ?
           Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP'] :

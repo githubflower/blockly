@@ -50,6 +50,13 @@ Object.defineProperty(Blockly.Lua, 'procedure_select', {
 var luaBlocks = [{
     type: 'state_def',
     generator: Blockly.Lua['procedures_defreturn']
+},{
+    type: 'state_opr',
+    generator: function(block){
+        var stateId = block.getFieldValue('field_state');
+        var stateName = block.workspace.stateMap_.getStateById(stateId).name;
+        return `${stateName}();\n`;
+    }
 }];
 
 luaBlocks.forEach(item => {

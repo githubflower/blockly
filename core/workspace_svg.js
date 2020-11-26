@@ -134,8 +134,11 @@ Blockly.WorkspaceSvg = function(options,
         Blockly.Procedures.flyoutCategory);
     this.addChangeListener(Blockly.Procedures.mutatorOpenListener);
   }
-  if(Blockly.Threads && lockly.Threads.flyoutCategory){
+  if(Blockly.Threads && Blockly.Threads.flyoutCategory){
     this.registerToolboxCategoryCallback(Blockly.THREAD_CATEGORY_NAME, Blockly.Threads.flyoutCategory);
+  }
+  if(Blockly.States && Blockly.States.flyoutCategory){
+    this.registerToolboxCategoryCallback(Blockly.STATE_CATEGORY_NAME, Blockly.States.flyoutCategory);
   }
 
   /**

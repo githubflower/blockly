@@ -44,6 +44,7 @@ Blockly.StateMap.prototype.createState = function(name,
   var state = this.getState(name);
   if (state) {
     if (opt_id && state.getId() != opt_id) {
+  debugger;
       throw Error('state "' + name + '" is already in use and its id is "' +
           state.getId() + '" which conflicts with the passed in ' +
           'id, "' + opt_id + '".');

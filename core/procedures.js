@@ -257,16 +257,7 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     block.setAttribute('gap', 16);
     xmlList.push(block);
   }
-  if(Blockly.Blocks['procedure_select'] && Blockly.Procedures.getProceduresOfNoReturn(workspace).length){
-    var block = Blockly.utils.xml.createElement('block');
-    block.setAttribute('type', 'procedure_select');
-    block.setAttribute('gap', 16);
-    xmlList.push(block);
-  }
-  if (xmlList.length) {
-    // Add slightly larger gap between system blocks and user calls.
-    xmlList[xmlList.length - 1].setAttribute('gap', 24);
-  }
+ 
 
   function populateProcedures(procedureList, templateName) {
     for (var i = 0; i < procedureList.length; i++) {

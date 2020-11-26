@@ -1052,6 +1052,7 @@ Blockly.Block.prototype.updateThreadName = function(thread) {
 Blockly.Block.prototype.updateStateName = function(state) {
   for (var i = 0, input; (input = this.inputList[i]); i++) {
     for (var j = 0, field; (field = input.fieldRow[j]); j++) {
+      //这里有问题
       if (field.referencesState && field.referencesState() && state.getId() == field.getValue()) {
         field.refreshStateName();
       }

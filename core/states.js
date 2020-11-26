@@ -4,10 +4,10 @@
 'use strict';
 
 /**
- * @name Blockly.Threads
+ * @name Blockly.States
  * @namespace
  */
-goog.provide('Blockly.Threads');
+goog.provide('Blockly.States');
 
 goog.require('Blockly.Blocks');
 goog.require('Blockly.constants');
@@ -22,68 +22,68 @@ goog.require('Blockly.Xml');
 
 
 /**
- * Constant to separate thread names from variables and generated functions
+ * Constant to separate state names from variables and generated functions
  * when running generators.
  * @deprecated Use Blockly.PROCEDURE_CATEGORY_NAME
  */
-Blockly.Threads.NAME_TYPE = Blockly.THREAD_CATEGORY_NAME;
+Blockly.States.NAME_TYPE = Blockly.THREAD_CATEGORY_NAME;
 
 /**
- * The default argument for a threads_mutatorarg block.
+ * The default argument for a states_mutatorarg block.
  * @type {string}
  */
-Blockly.Threads.DEFAULT_ARG = 'x';
+Blockly.States.DEFAULT_ARG = 'x';
 
 /**
- * Thread block type.
+ * State block type.
  * @typedef {{
- *    getThreadCall: function():string,
- *    renameThread: function(string,string),
- *    getThreadDef: function():!Array
+ *    getStateCall: function():string,
+ *    renameState: function(string,string),
+ *    getStateDef: function():!Array
  * }}
  */
-Blockly.Threads.ThreadBlock;
+Blockly.States.StateBlock;
 
 
-Blockly.Threads.allThreads = function(root) {
+Blockly.States.allStates = function(root) {
   var blocks = root.getAllBlocks(false);
-  var threadsReturn = [];
-  var threadsNoReturn = [];
+  var statesReturn = [];
+  var statesNoReturn = [];
   for (var i = 0; i < blocks.length; i++) {
-    if (blocks[i].type !== 'state_def' && blocks[i].getThreadDef) {
-      var threadBlock = /** @type {!Blockly.Threads.ThreadBlock} */ (
+    if (blocks[i].getStateDef) {
+      var stateBlock = /** @type {!Blockly.States.StateBlock} */ (
         blocks[i]);
-      var tuple = threadBlock.getThreadDef();
+      var tuple = stateBlock.getStateDef();
       if (tuple) {
         if (tuple[2]) {
-          threadsReturn.push(tuple);
+          statesReturn.push(tuple);
         } else {
-          threadsNoReturn.push(tuple);
+          statesNoReturn.push(tuple);
         }
       }
     }
   }
-  threadsNoReturn.sort(Blockly.Threads.procTupleComparator_);
-  threadsReturn.sort(Blockly.Threads.procTupleComparator_);
-  return [threadsNoReturn, threadsReturn];
+  statesNoReturn.sort(Blockly.States.procTupleComparator_);
+  statesReturn.sort(Blockly.States.procTupleComparator_);
+  return [statesNoReturn, statesReturn];
 };
 
-Blockly.Threads.getThreadsOfNoReturn = function(workspace){
+Blockly.States.getStatesOfNoReturn = function(workspace){
   var blocks = workspace.getAllBlocks(false);
-  var threadsNoReturn = [];
+  var statesNoReturn = [];
   for (var i = 0; i < blocks.length; i++) {
-    if ( blocks[i].getThreadDef) {
-      var threadBlock = /** @type {!Blockly.Threads.ThreadBlock} */ (
+    if ( blocks[i].getStateDef) {
+      var stateBlock = /** @type {!Blockly.States.StateBlock} */ (
         blocks[i]);
-      var tuple = threadBlock.getThreadDef();
+      var tuple = stateBlock.getStateDef();
       if (tuple) {
         if (!tuple[2]) { // 没有return
-          threadsNoReturn.push(threadBlock);
+          statesNoReturn.push(stateBlock);
         } 
       }
     }
   }
-  return threadsNoReturn;
+  return statesNoReturn;
 }
 
 /**
@@ -94,26 +94,26 @@ Blockly.Threads.getThreadsOfNoReturn = function(workspace){
  * @return {number} -1, 0, or 1 to signify greater than, equality, or less than.
  * @private
  */
-Blockly.Threads.procTupleComparator_ = function(ta, tb) {
+Blockly.States.procTupleComparator_ = function(ta, tb) {
   return ta[0].toLowerCase().localeCompare(tb[0].toLowerCase());
 };
 
 /**
- * Ensure two identically-named threads don't exist.
- * Take the proposed thread name, and return a legal name i.e. one that
- * is not empty and doesn't collide with other threads.
- * @param {string} name Proposed thread name.
+ * Ensure two identically-named states don't exist.
+ * Take the proposed state name, and return a legal name i.e. one that
+ * is not empty and doesn't collide with other states.
+ * @param {string} name Proposed state name.
  * @param {!Blockly.Block} block Block to disambiguate.
  * @return {string} Non-colliding name.
  */
-Blockly.Threads.findLegalName = function(name, block) {
+Blockly.States.findLegalName = function(name, block) {
   if (block.isInFlyout) {
-    // Flyouts can have multiple threads called 'do something'.
+    // Flyouts can have multiple states called 'do something'.
     return name;
   }
   name = name || Blockly.Msg['UNNAMED_KEY'] || 'unnamed';
-  while (!Blockly.Threads.isLegalName_(name, block.workspace, block)) {
-    // Collision with another thread.
+  while (!Blockly.States.isLegalName_(name, block.workspace, block)) {
+    // Collision with another state.
     var r = name.match(/^(.*?)(\d+)$/);
     if (!r) {
       name += '2';
@@ -125,8 +125,8 @@ Blockly.Threads.findLegalName = function(name, block) {
 };
 
 /**
- * Does this thread have a legal name?  Illegal names include names of
- * threads already defined.
+ * Does this state have a legal name?  Illegal names include names of
+ * states already defined.
  * @param {string} name The questionable name.
  * @param {!Blockly.Workspace} workspace The workspace to scan for collisions.
  * @param {Blockly.Block=} opt_exclude Optional block to exclude from
@@ -134,29 +134,29 @@ Blockly.Threads.findLegalName = function(name, block) {
  * @return {boolean} True if the name is legal.
  * @private
  */
-Blockly.Threads.isLegalName_ = function(name, workspace, opt_exclude) {
-  return !Blockly.Threads.isNameUsed(name, workspace, opt_exclude);
+Blockly.States.isLegalName_ = function(name, workspace, opt_exclude) {
+  return !Blockly.States.isNameUsed(name, workspace, opt_exclude);
 };
 
 /**
- * Return if the given name is already a thread name.
+ * Return if the given name is already a state name.
  * @param {string} name The questionable name.
  * @param {!Blockly.Workspace} workspace The workspace to scan for collisions.
  * @param {Blockly.Block=} opt_exclude Optional block to exclude from
  *     comparisons (one doesn't want to collide with oneself).
  * @return {boolean} True if the name is used, otherwise return false.
  */
-Blockly.Threads.isNameUsed = function(name, workspace, opt_exclude) {
+Blockly.States.isNameUsed = function(name, workspace, opt_exclude) {
   var blocks = workspace.getAllBlocks(false);
   // Iterate through every block and check the name.
   for (var i = 0; i < blocks.length; i++) {
     if (blocks[i] == opt_exclude) {
       continue;
     }
-    if (blocks[i].getThreadDef) {
-      var threadBlock = /** @type {!Blockly.Threads.ThreadBlock} */ (
+    if (blocks[i].getStateDef) {
+      var stateBlock = /** @type {!Blockly.States.StateBlock} */ (
         blocks[i]);
-      var procName = threadBlock.getThreadDef();
+      var procName = stateBlock.getStateDef();
       if (Blockly.Names.equals(procName[0], name)) {
         return true;
       }
@@ -166,35 +166,35 @@ Blockly.Threads.isNameUsed = function(name, workspace, opt_exclude) {
 };
 
 /**
- * Rename a thread.  Called by the editable field.
+ * Rename a state.  Called by the editable field.
  * @param {string} name The proposed new name.
  * @return {string} The accepted name.
  * @this {Blockly.Field}
  */
-Blockly.Threads.rename = function(name) {
+Blockly.States.rename = function(name) {
   // Strip leading and trailing whitespace.  Beyond this, all names are legal.
   name = name.trim();
 
-  var legalName = Blockly.Threads.findLegalName(name,
+  var legalName = Blockly.States.findLegalName(name,
       /** @type {!Blockly.Block} */ (this.getSourceBlock()));
   var oldName = this.getValue();
   if (oldName != name && oldName != legalName) {
     // Rename any callers.
     var blocks = this.getSourceBlock().workspace.getAllBlocks(false);
     for (var i = 0; i < blocks.length; i++) {
-      if (blocks[i].renameThread) {
-        var threadBlock = /** @type {!Blockly.Threads.ThreadBlock} */ (
+      if (blocks[i].renameState) {
+        var stateBlock = /** @type {!Blockly.States.StateBlock} */ (
           blocks[i]);
-        threadBlock.renameThread(
+        stateBlock.renameState(
             /** @type {string} */ (oldName), legalName);
       }
     }
 
-    //更新threadMap
+    //更新stateMap
     if(this.workspace_){
-      var thread = this.workspace_.threadMap_.getThread(oldName);
-      if(thread){
-        thread.name = name;
+      var state = this.workspace_.stateMap_.getState(oldName);
+      if(state){
+        state.name = name;
       }
     }
   }
@@ -202,65 +202,53 @@ Blockly.Threads.rename = function(name) {
 };
 
 /**
- * Construct the blocks required by the flyout for the thread category.
- * @param {!Blockly.Workspace} workspace The workspace containing threads.
+ * Construct the blocks required by the flyout for the state category.
+ * @param {!Blockly.Workspace} workspace The workspace containing states.
  * @return {!Array.<!Element>} Array of XML block elements.
  */
-Blockly.Threads.flyoutCategory = function(workspace) {
+Blockly.States.flyoutCategory = function(workspace) {
   var xmlList = [];
   var block = Blockly.utils.xml.createElement('block');
-  block.setAttribute('type', 'thread_def');
+  block.setAttribute('type', 'state_def');
   block.setAttribute('gap', 16);
   var nameField = Blockly.utils.xml.createElement('field');
   nameField.setAttribute('name', 'NAME');
-  nameField.appendChild(Blockly.utils.xml.createTextNode('thread'));
+  nameField.appendChild(Blockly.utils.xml.createTextNode('state'));
   block.appendChild(nameField);
   xmlList.push(block); 
 
- var threads = workspace.threadMap_.getAllThreadsByType();
-  if(Blockly.Blocks['thread_opr'] && threads && threads.length){
+ var states = workspace.stateMap_.getAllStatesByType();
+  if(Blockly.Blocks['state_opr'] && states && states.length){
     var block = Blockly.utils.xml.createElement('block');
-    block.setAttribute('type', 'thread_opr');
+    block.setAttribute('type', 'state_opr');
     block.setAttribute('gap', 16);
     xmlList.push(block);
-  }
-
-  if(Blockly.Blocks['procedure_select'] && Blockly.Procedures.getProceduresOfNoReturn(workspace).length){
-    var block = Blockly.utils.xml.createElement('block');
-    block.setAttribute('type', 'procedure_select');
-    block.setAttribute('gap', 16);
-    xmlList.push(block);
-  }
-  
-  if (xmlList.length) {
-    // Add slightly larger gap between system blocks and user calls.
-    xmlList[xmlList.length - 1].setAttribute('gap', 24);
   }
 
   return xmlList;
 };
 
 /**
- * Updates the thread mutator's flyout so that the arg block is not a
+ * Updates the state mutator's flyout so that the arg block is not a
  * duplicate of another arg.
- * @param {!Blockly.Workspace} workspace The thread mutator's workspace. This
+ * @param {!Blockly.Workspace} workspace The state mutator's workspace. This
  *     workspace's flyout is what is being updated.
  * @private
  */
-Blockly.Threads.updateMutatorFlyout_ = function(workspace) {
+Blockly.States.updateMutatorFlyout_ = function(workspace) {
   var usedNames = [];
-  var blocks = workspace.getBlocksByType('threads_mutatorarg', false);
+  var blocks = workspace.getBlocksByType('states_mutatorarg', false);
   for (var i = 0, block; (block = blocks[i]); i++) {
     usedNames.push(block.getFieldValue('NAME'));
   }
 
   var xml = Blockly.utils.xml.createElement('xml');
   var argBlock = Blockly.utils.xml.createElement('block');
-  argBlock.setAttribute('type', 'threads_mutatorarg');
+  argBlock.setAttribute('type', 'states_mutatorarg');
   var nameField = Blockly.utils.xml.createElement('field');
   nameField.setAttribute('name', 'NAME');
   var argValue = Blockly.Variables.generateUniqueNameFromOptions(
-      Blockly.Threads.DEFAULT_ARG, usedNames);
+      Blockly.States.DEFAULT_ARG, usedNames);
   var fieldContent = Blockly.utils.xml.createTextNode(argValue);
 
   nameField.appendChild(fieldContent);
@@ -271,12 +259,12 @@ Blockly.Threads.updateMutatorFlyout_ = function(workspace) {
 };
 
 /**
- * Listens for when a thread mutator is opened. Then it triggers a flyout
+ * Listens for when a state mutator is opened. Then it triggers a flyout
  * update and adds a mutator change listener to the mutator workspace.
  * @param {!Blockly.Events.Abstract} e The event that triggered this listener.
  * @package
  */
-Blockly.Threads.mutatorOpenListener = function(e) {
+Blockly.States.mutatorOpenListener = function(e) {
   if (e.type != Blockly.Events.UI || e.element != 'mutatorOpen' ||
       !e.newValue) {
     return;
@@ -285,21 +273,21 @@ Blockly.Threads.mutatorOpenListener = function(e) {
   var block = Blockly.Workspace.getById(workspaceId)
       .getBlockById(e.blockId);
   var type = block.type;
-  if (type != 'threads_defnoreturn' && type != 'threads_defreturn') {
+  if (type != 'states_defnoreturn' && type != 'states_defreturn') {
     return;
   }
   var workspace = block.mutator.getWorkspace();
-  Blockly.Threads.updateMutatorFlyout_(workspace);
-  workspace.addChangeListener(Blockly.Threads.mutatorChangeListener_);
+  Blockly.States.updateMutatorFlyout_(workspace);
+  workspace.addChangeListener(Blockly.States.mutatorChangeListener_);
 };
 
 /**
- * Listens for changes in a thread mutator and triggers flyout updates when
+ * Listens for changes in a state mutator and triggers flyout updates when
  * necessary.
  * @param {!Blockly.Events.Abstract} e The event that triggered this listener.
  * @private
  */
-Blockly.Threads.mutatorChangeListener_ = function(e) {
+Blockly.States.mutatorChangeListener_ = function(e) {
   if (e.type != Blockly.Events.BLOCK_CREATE &&
       e.type != Blockly.Events.BLOCK_DELETE &&
       e.type != Blockly.Events.BLOCK_CHANGE) {
@@ -308,25 +296,25 @@ Blockly.Threads.mutatorChangeListener_ = function(e) {
   var workspaceId = /** @type {string} */ (e.workspaceId);
   var workspace = /** @type {!Blockly.WorkspaceSvg} */
       (Blockly.Workspace.getById(workspaceId));
-  Blockly.Threads.updateMutatorFlyout_(workspace);
+  Blockly.States.updateMutatorFlyout_(workspace);
 };
 
 /**
- * Find all the callers of a named thread.
- * @param {string} name Name of thread.
+ * Find all the callers of a named state.
+ * @param {string} name Name of state.
  * @param {!Blockly.Workspace} workspace The workspace to find callers in.
  * @return {!Array.<!Blockly.Block>} Array of caller blocks.
  */
-Blockly.Threads.getCallers = function(name, workspace) {
+Blockly.States.getCallers = function(name, workspace) {
   var callers = [];
   var blocks = workspace.getAllBlocks(false);
   // Iterate through every block and check the name.
   for (var i = 0; i < blocks.length; i++) {
-    if (blocks[i].getThreadCall) {
-      var threadBlock = /** @type {!Blockly.Threads.ThreadBlock} */ (
+    if (blocks[i].getStateCall) {
+      var stateBlock = /** @type {!Blockly.States.StateBlock} */ (
         blocks[i]);
-      var procName = threadBlock.getThreadCall();
-      // Thread name may be null if the block is only half-built.
+      var procName = stateBlock.getStateCall();
+      // State name may be null if the block is only half-built.
       if (procName && Blockly.Names.equals(procName, name)) {
         callers.push(blocks[i]);
       }
@@ -336,17 +324,17 @@ Blockly.Threads.getCallers = function(name, workspace) {
 };
 
 /**
- * When a thread definition changes its parameters, find and edit all its
+ * When a state definition changes its parameters, find and edit all its
  * callers.
- * @param {!Blockly.Block} defBlock Thread definition block.
+ * @param {!Blockly.Block} defBlock State definition block.
  */
-Blockly.Threads.mutateCallers = function(defBlock) {
+Blockly.States.mutateCallers = function(defBlock) {
   var oldRecordUndo = Blockly.Events.recordUndo;
-  var threadBlock = /** @type {!Blockly.Threads.ThreadBlock} */ (
+  var stateBlock = /** @type {!Blockly.States.StateBlock} */ (
     defBlock);
-  var name = threadBlock.getThreadDef()[0];
+  var name = stateBlock.getStateDef()[0];
   var xmlElement = defBlock.mutationToDom(true);
-  var callers = Blockly.Threads.getCallers(name, defBlock.workspace);
+  var callers = Blockly.States.getCallers(name, defBlock.workspace);
   for (var i = 0, caller; (caller = callers[i]); i++) {
     var oldMutationDom = caller.mutationToDom();
     var oldMutation = oldMutationDom && Blockly.Xml.domToText(oldMutationDom);
@@ -355,7 +343,7 @@ Blockly.Threads.mutateCallers = function(defBlock) {
     var newMutation = newMutationDom && Blockly.Xml.domToText(newMutationDom);
     if (oldMutation != newMutation) {
       // Fire a mutation on every caller block.  But don't record this as an
-      // undo action since it is deterministically tied to the thread's
+      // undo action since it is deterministically tied to the state's
       // definition mutation.
       Blockly.Events.recordUndo = false;
       Blockly.Events.fire(new Blockly.Events.BlockChange(
@@ -366,19 +354,19 @@ Blockly.Threads.mutateCallers = function(defBlock) {
 };
 
 /**
- * Find the definition block for the named thread.
- * @param {string} name Name of thread.
+ * Find the definition block for the named state.
+ * @param {string} name Name of state.
  * @param {!Blockly.Workspace} workspace The workspace to search.
- * @return {Blockly.Block} The thread definition block, or null not found.
+ * @return {Blockly.Block} The state definition block, or null not found.
  */
-Blockly.Threads.getDefinition = function(name, workspace) {
-  // Assume that a thread definition is a top block.
+Blockly.States.getDefinition = function(name, workspace) {
+  // Assume that a state definition is a top block.
   var blocks = workspace.getTopBlocks(false);
   for (var i = 0; i < blocks.length; i++) {
-    if (blocks[i].getThreadDef) {
-      var threadBlock = /** @type {!Blockly.Threads.ThreadBlock} */ (
+    if (blocks[i].getStateDef) {
+      var stateBlock = /** @type {!Blockly.States.StateBlock} */ (
         blocks[i]);
-      var tuple = threadBlock.getThreadDef();
+      var tuple = stateBlock.getStateDef();
       if (tuple && Blockly.Names.equals(tuple[0], name)) {
         return blocks[i];
       }

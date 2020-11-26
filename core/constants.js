@@ -260,6 +260,7 @@ Blockly.VARIABLE_DYNAMIC_CATEGORY_NAME = 'VARIABLE_DYNAMIC';
  */
 Blockly.PROCEDURE_CATEGORY_NAME = 'PROCEDURE';
 Blockly.THREAD_CATEGORY_NAME = 'THREAD';
+Blockly.STATE_CATEGORY_NAME = 'STATE';
 
 /**
  * String for use in the dropdown created in field_variable.
