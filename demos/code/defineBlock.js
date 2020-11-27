@@ -1086,7 +1086,7 @@ Blockly.Blocks['thread_def'] = {
 
     this.appendDummyInput()
       .appendField("new Thread")
-      .appendField(new Blockly.FieldTextInput("default", this.validateThreadName), "NAME");
+      .appendField(new Blockly.FieldTextInput("thread", this.validateThreadName), "NAME");
     /* this.appendStatementInput("NAME")
       .setCheck(null); */
     this.appendStatementInput('CALLBACK')
@@ -1131,7 +1131,7 @@ Blockly.Blocks['thread_def'] = {
       for (var i = 0; i < blocks.length; i++) {
         if (blocks[i].renameThread) {
           var threadBlock = (blocks[i]);
-          threadBlock.renameThread(oldName, name);
+          threadBlock.renameThread(oldName, name, this.getSourceBlock());
         }
       }
 
@@ -1145,13 +1145,6 @@ Blockly.Blocks['thread_def'] = {
     }
     return name;
   },
-
-  /*renameThread: function(oldName, newName){
-    if(oldName !== newName){
-      this.setFieldValue(newName, 'NAME');
-      //更新tooltip TODO
-    }
-  }*/
 };
 Blockly.Blocks['anonymous_function'] = {
   init: function () {
@@ -1188,19 +1181,17 @@ Blockly.Blocks['thread_opr'] = {
     this.setTooltip("");
     this.setHelpUrl("");
   },
-  renameThread: function(oldName, newName) {
+  renameThread: function(oldName, newName, newBlock) {
+    debugger;
     var fieldThread = this.getField('field_thread');
-    log('oldName: ' + oldName + ' --- fieldThread.selectedOption_[0]: ' + fieldThread.selectedOption_[0]);
     if (Blockly.Names.equals(oldName, fieldThread.selectedOption_[0])) {
-      log('equals');
-      
       var threadId = fieldThread.getValue();
       var thread = this.workspace.threadMap_.getThreadById(threadId);
-      this.workspace.threadMap_.renameThread(thread, newName);
-
-      fieldThread.getOptions(false);
-      fieldThread.doValueUpdate_(thread.getId());
-      // this.setFieldValue(newName, 'field_procedure');
+      if(threadId === newBlock.id){
+        this.workspace.threadMap_.renameThread(thread, newName);
+        fieldThread.getOptions(false);
+        fieldThread.doValueUpdate_(thread.getId());
+      }
      /*  var baseMsg = this.outputConnection ?
           Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP'] :
           Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
@@ -1299,11 +1290,10 @@ Blockly.Blocks['state_def'] = {
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
     // this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
-    if ((this.workspace.options.comments ||
-         (this.workspace.options.parentWorkspace &&
-          this.workspace.options.parentWorkspace.options.comments)) &&
-        Blockly.Msg['PROCEDURES_DEFNORETURN_COMMENT']) {
-      this.setCommentText(Blockly.Msg['PROCEDURES_DEFNORETURN_COMMENT']);
+    if ((this.workspace.options.comments || 
+      (this.workspace.options.parentWorkspace && 
+        this.workspace.options.parentWorkspace.options.comments)) && Blockly.Msg['STATES_DEF_COMMENT']) { 
+      this.setCommentText(Blockly.Msg['STATES_DEF_COMMENT']);
     }
     this.setStyle('procedure_blocks');
     // this.setTooltip(Blockly.Msg['PROCEDURES_DEFNORETURN_TOOLTIP']);
@@ -1718,7 +1708,24 @@ Blockly.Blocks['state_def'] = {
         options.push(argOption);
       }
     }
+    // 修改删除block的回调   options[4]
+    var deleteOption = options[4];
+    log(deleteOption);
+    if(deleteOption){
+      var oldCallback = deleteOption.callback;
+      var stateDefBlock = this;
+      deleteOption.callback = function(){
+        stateDefBlock.triggerDeleteState();
+        oldCallback && oldCallback();
+      }
+    }
   },
+  triggerDeleteState: function(){
+    this.workspace.deleteStateById(this.id);
+  },
+  /*dispose: function(healStack){
+    debugger;
+  },*/
   callType_: 'state_call'
 };
 
@@ -1743,8 +1750,9 @@ Blockly.Blocks['state_opr'] = {
       
       var stateId = fieldState.getValue();
       var state = this.workspace.stateMap_.getStateById(stateId);
-      this.workspace.stateMap_.renameState(state, newName);
+      //如果id相等才需要重命名，复制粘贴某个“状态定义块（state_def）”时这个id是不一样的，而且此时stateMap_中还没有这个newBlock所创建的state数据
       if(newBlock && newBlock.id === stateId){
+        this.workspace.stateMap_.renameState(state, newName);
         fieldState.getOptions(false);
         fieldState.doValueUpdate_(state.getId());
       }
@@ -1754,5 +1762,17 @@ Blockly.Blocks['state_opr'] = {
           Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
       this.setTooltip(baseMsg.replace('%1', newName)); */
     }
+  },
+  dispose: function(healStack){
+    debugger;
+  },
+  customContextMenu: function(options){
+debugger;
+    return options;
   }
+  /*extensions: [{
+    customContextMenu: function(options){
+
+    }
+  }]*/
 };

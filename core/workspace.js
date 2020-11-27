@@ -409,6 +409,10 @@ Blockly.Workspace.prototype.createState = function(name, opt_id, opt_type) {
   return this.stateMap_.createState(name, opt_id, opt_type);
 };
 
+Blockly.Workspace.prototype.deleteStateById = function(id) {
+  this.stateMap_.deleteStateById(id);
+};
+
 
 /**
  * Find all the uses of the given variable, which is identified by ID.

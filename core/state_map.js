@@ -44,7 +44,6 @@ Blockly.StateMap.prototype.createState = function(name,
   var state = this.getState(name);
   if (state) {
     if (opt_id && state.getId() != opt_id) {
-  debugger;
       throw Error('state "' + name + '" is already in use and its id is "' +
           state.getId() + '" which conflicts with the passed in ' +
           'id, "' + opt_id + '".');
@@ -97,10 +96,72 @@ Blockly.StateMap.prototype.deleteState = function(state) {
  * workspace. May prompt the user for confirmation.
  * @param {string} id ID of variable to delete.
  */
-Blockly.VariableMap.prototype.deleteStateById = function(id) {
+Blockly.StateMap.prototype.deleteStateById = function(id) {
+  var map = this;
   var state = this.getStateById(id);
- //TOOD
+  var uses = [];
+  if(state){
+    var stateName = state.name;
+    uses = this.getStateUsesById(id);
+    
+    //只要有一个state正在被引用就应该提示用户
+    if(uses.length > 0){
+      var confirmText = stateName + ' is used in ' + uses.length + 'states.';
+      Blockly.confirm(confirmText, function(ok){
+        if(ok){
+          map.deleteStateInternal(state, uses);
+        }
+      })
+    }
+    
+  }else{
+    map.deleteStateInternal(state, uses);
+  }
 };
+
+/**
+ * [getStateUsesById 获取正在引用id为指定值的所有block]
+ * @param  {[type]} id [description]
+ * @return {[type]}    [description]
+ */
+Blockly.StateMap.prototype.getStateUsesById = function(id){
+  var blocks = this.workspace.getAllBlocks();
+  var uses = [];
+  for(var i = 0, block; block = blocks[i]; i++){
+    if(block.type === 'state_opr' && block.getFieldValue('field_state') === id){
+      uses.push(block);
+    }
+  }
+  return uses;
+} 
+
+Blockly.StateMap.prototype.deleteStateInternal = function(state, uses){
+  var existingGroup = Blockly.Events.getGroup();
+  if (!existingGroup) {
+    Blockly.Events.setGroup(true);
+  }
+  try {
+    for (var i = 0; i < uses.length; i++) {
+      // 逻辑1.这里的block只可能是type === 'state_opr'的block, 如果这个block的options只有1个，则直接删掉这个block，否则只删除和这个state相关的option并默认选中第1个选项
+      // 逻辑2.直接删除这个block   感觉这个业务逻辑更合理   
+      /*var fieldState = block.getField('STATE_NAME');
+      if(fieldState){
+        if(fieldState.getOptions().length === 1){
+          block.dispose(true);
+        }else if(fieldState.getOptions().length > 1){
+          // TODO
+        }
+      }*/
+      block.dispose(true);
+    }
+    this.deleteState(state);
+  } finally {
+    if (!existingGroup) {
+      Blockly.Events.setGroup(false);
+    }
+  }
+}
+
 
 
 /* End functions for variable deletion. */
