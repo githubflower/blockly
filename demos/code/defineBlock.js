@@ -1096,7 +1096,7 @@ Blockly.Blocks['thread_def'] = {
     .appendField('args')
     .setAlign(Blockly.ALIGN_RIGHT);
     this.setInputsInline(false);
-    this.setOutput(true);
+    this.setOutput(false);
     this.setColour(230);
     this.setTooltip("");
     this.setHelpUrl("");
@@ -1145,6 +1145,22 @@ Blockly.Blocks['thread_def'] = {
     }
     return name;
   },
+  customContextMenu: function(options) {
+    // 修改删除block的回调   options[4]
+    var deleteOption = options[4];
+    log(deleteOption);
+    if(deleteOption){
+      var oldCallback = deleteOption.callback;
+      var threadDefBlock = this;
+      deleteOption.callback = function(){
+        threadDefBlock.triggerDeleteThread();
+        oldCallback && oldCallback();
+      }
+    }
+  },
+  triggerDeleteThread: function(){
+    this.workspace.deleteThreadById(this.id);
+  },
 };
 Blockly.Blocks['anonymous_function'] = {
   init: function () {
@@ -1162,13 +1178,13 @@ goog.require('Blockly.FieldThread');
 Blockly.Blocks['thread_opr'] = {
   init: function(){
     // this.appendDummyInput().appendField('select');
-    this.appendDummyInput('NAME')
+    this.appendDummyInput('OPERATE')
    .appendField(
       new Blockly.FieldDropdown([
-        ["stop", "0"],
-        ["start", "1"],
-        ["pause", "2"],
-        ["resume", "3"],
+        [Blockly.Msg["THREAD_OPERATE_STOP"], "THREAD_OPERATE_STOP"],
+        [Blockly.Msg["THREAD_OPERATE_START"], "THREAD_OPERATE_START"],
+        [Blockly.Msg["THREAD_OPERATE_PAUSE"], "THREAD_OPERATE_PAUSE"],
+        [Blockly.Msg["THREAD_OPERATE_RESUME"], "THREAD_OPERATE_RESUME"],
       ]),
       "field_opr"
     )
@@ -1197,6 +1213,30 @@ Blockly.Blocks['thread_opr'] = {
           Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
       this.setTooltip(baseMsg.replace('%1', newName)); */
     }
+  },
+};
+
+Blockly.Blocks['set_thread_priority'] = {
+  init: function(){
+    this.appendDummyInput()
+   .appendField('set thread\'s priority')
+   .appendField(new Blockly.FieldThread('THREAD_NAME', function(name){return name;}) ,'field_thread')
+    .appendField(
+      new Blockly.FieldDropdown([
+        ['0', '0'],
+        ['1', '1'],
+        ['2', '2'],
+        ['3', '3'],
+      ]), 'field_thread_priority'
+    );
+    // this.appendValueInput(new Blockly.FieldNumber(0, 0, 3, 1), 'THREAD_PRIORITY');
+    this.setOutput(false, null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setStyle("thread_blocks");
+    this.setTooltip("");
+    this.setHelpUrl("");
   },
 };
 /* Blockly.Blocks['anonymous_function'] = {
@@ -1723,9 +1763,6 @@ Blockly.Blocks['state_def'] = {
   triggerDeleteState: function(){
     this.workspace.deleteStateById(this.id);
   },
-  /*dispose: function(healStack){
-    debugger;
-  },*/
   callType_: 'state_call'
 };
 
@@ -1762,9 +1799,6 @@ Blockly.Blocks['state_opr'] = {
           Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
       this.setTooltip(baseMsg.replace('%1', newName)); */
     }
-  },
-  dispose: function(healStack){
-    debugger;
   },
   customContextMenu: function(options){
 debugger;

@@ -29,9 +29,9 @@ Object.defineProperty(Blockly.Lua, 'thread_def', {
         }
 
         var code_args = Blockly.Lua.valueToCode(block, 'ARGS', Blockly.Lua.ORDER_ATOMIC);
-        var code = `${threadName} = Thread.New(${code_function})(${code_args});`
-        // return code;
-        return [code, Blockly.Lua.ORDER_ATOMIC];
+        var code = `${threadName} = Thread.New(${code_function})(${code_args})`
+        return code;
+        // return [code, Blockly.Lua.ORDER_ATOMIC];
     },
     writable: false,
     enumerable: true
@@ -55,7 +55,23 @@ var luaBlocks = [{
     generator: function(block){
         var stateId = block.getFieldValue('field_state');
         var stateName = block.workspace.stateMap_.getStateById(stateId).name;
-        return `${stateName}();\n`;
+        return `${stateName}()\n`;
+    }
+},{
+    type: 'thread_opr',
+    generator: function(block){
+        var operator = block.getFieldValue('field_opr');
+        var threadId = block.getFieldValue('field_thread');
+        var threadName = block.workspace.threadMap_.getThreadById(threadId).name;
+        return `${threadName}:${Blockly[operator]}()`;
+    }
+},{
+    type: 'set_thread_priority',
+    generator: function(block){
+        var priority = block.getFieldValue('field_thread_priority');
+        var threadId = block.getFieldValue('field_thread');
+        var threadName = block.workspace.threadMap_.getThreadById(threadId).name;
+        return `${threadName}:${Blockly.THREAD_SET_PRIORITY}(${priority})`;
     }
 }];
 

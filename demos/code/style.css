@@ -123,6 +123,7 @@ td {
 pre.content {
   border: 1px solid #ccc;
   overflow: scroll;
+  color: #ffffff;
 }
 #content_blocks {
   padding: 0;

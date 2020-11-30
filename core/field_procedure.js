@@ -101,13 +101,20 @@ Blockly.FieldProcedure.prototype.workspace_ = null;
 Blockly.FieldProcedure.prototype.SERIALIZABLE = true;
 
 Blockly.FieldProcedure.prototype.initModel = function() {
+  debugger;
   if (this.procedure_) {
     return; // Initialization already happened.
   }
   var procedure;
-  var workspace = this.sourceBlock_.workspace.targetWorkspace;
+  var workspace;
+  if(this.sourceBlock_.workspace.isFlyout){
+    workspace = this.sourceBlock_.workspace.targetWorkspace;
+  }else{
+    workspace = this.sourceBlock_.workspace;
+  }
+
   var procedureAry = workspace.procedureMap_.getAllProceduresByType('procedure_noreturn');
-  if(procedureAry.length){
+  if(procedureAry && procedureAry.length){
     procedure = procedureAry[0];
   }
 
@@ -144,8 +151,11 @@ Blockly.FieldProcedure.prototype.shouldAddBorderRect_ = function() {
  *    variable field's state.
  */
 Blockly.FieldProcedure.prototype.fromXml = function(fieldElement) {
+  debugger;
   var id = fieldElement.getAttribute('id');
-  // var procedureName = fieldElement.textContent;
+  var procedureName = fieldElement.textContent;
+
+  var variable = Blockly.Procedures.getOrCreateProcedure(this.sourceBlock_.workspace, id, procedureName/*, type*/);
 
   this.setValue(id);
 };

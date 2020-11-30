@@ -88,18 +88,85 @@ Blockly.ThreadMap.prototype.renameThread = function(thread, newName) {
  * @param {!Blockly.VariableModel} thread Variable to delete.
  */
 Blockly.ThreadMap.prototype.deleteThread = function(thread) {
-  //TODO
+  var threadList = this.threadMap_[thread.type || 'thread_noreturn'];
+  for (var i = 0, tempThread; (tempThread = threadList[i]); i++) {
+    if (tempThread.getId() == thread.getId()) {
+      threadList.splice(i, 1);
+      Blockly.Events.fire(new Blockly.Events.ThreadDelete(thread));
+      return;
+    }
+  }
 };
 
-/**
- * Delete a variables by the passed in ID and all of its uses from this
- * workspace. May prompt the user for confirmation.
- * @param {string} id ID of variable to delete.
- */
-Blockly.VariableMap.prototype.deleteThreadById = function(id) {
+
+Blockly.ThreadMap.prototype.deleteThreadById = function(id) {
+  var map = this;
   var thread = this.getThreadById(id);
- //TOOD
+  var uses = [];
+  if(thread){
+    var threadName = thread.name;
+    uses = this.getThreadUsesById(id);
+    
+    //只要有一个thread正在被引用就应该提示用户
+    if(uses.length > 0){
+      var confirmText = threadName + ' is used in ' + uses.length + 'threads.';
+      Blockly.confirm(confirmText, function(ok){
+        if(ok){
+          map.deleteThreadInternal(thread, uses);
+        }
+      })
+    }
+    
+  }else{
+    map.deleteThreadInternal(thread, uses);
+  }
 };
+
+
+/**
+ * [getThreadUsesById 获取正在引用id为指定值的所有block]
+ * @param  {[type]} id [description]
+ * @return {[type]}    [description]
+ */
+Blockly.ThreadMap.prototype.getThreadUsesById = function(id){
+  var blocks = this.workspace.getAllBlocks();
+  var uses = [];
+  for(var i = 0, block; block = blocks[i]; i++){
+    if(block.type === 'thread_opr' && block.getFieldValue('field_thread') === id){
+      uses.push(block);
+    }
+  }
+  return uses;
+} 
+
+
+Blockly.ThreadMap.prototype.deleteThreadInternal = function(thread, uses){
+  var existingGroup = Blockly.Events.getGroup();
+  if (!existingGroup) {
+    Blockly.Events.setGroup(true);
+  }
+  try {
+    for (var i = 0; i < uses.length; i++) {
+      // 逻辑1.这里的block只可能是type === 'thread_opr'的block, 如果这个block的options只有1个，则直接删掉这个block，否则只删除和这个thread相关的option并默认选中第1个选项
+      // 逻辑2.直接删除这个block   感觉这个业务逻辑更合理   
+      /*var fieldThread = block.getField('THREAD_NAME');
+      if(fieldThread){
+        if(fieldThread.getOptions().length === 1){
+          block.dispose(true);
+        }else if(fieldThread.getOptions().length > 1){
+          // TODO
+        }
+      }*/
+      var block = uses[i];
+      block.dispose(true);
+    }
+    this.deleteThread(thread);
+  } finally {
+    if (!existingGroup) {
+      Blockly.Events.setGroup(false);
+    }
+  }
+}
 
 
 /* End functions for variable deletion. */

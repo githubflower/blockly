@@ -277,3 +277,9 @@ Blockly.RENAME_VARIABLE_ID = 'RENAME_VARIABLE_ID';
  * @const {string}
  */
 Blockly.DELETE_VARIABLE_ID = 'DELETE_VARIABLE_ID';
+
+Blockly.THREAD_OPERATE_STOP = 'Stop';
+Blockly.THREAD_OPERATE_START = 'Start';
+Blockly.THREAD_OPERATE_PAUSE = 'Pause';
+Blockly.THREAD_OPERATE_RESUME = 'Resume';
+Blockly.THREAD_SET_PRIORITY = 'Priority';

@@ -435,3 +435,19 @@ Blockly.Procedures.getDefinition = function(name, workspace) {
   }
   return null;
 };
+
+Blockly.Procedures.getOrCreateProcedure = function(workspace, id, procedureName, procedureType){
+  var procedure = Blockly.Procedures.getProcedure(workspace, id, procedureName, procedureType);
+  if (!procedure) {
+    procedure = Blockly.Procedures.createProcedure_(workspace, id, procedureName, procedureType);
+  }
+  return procedure;
+}
+
+Blockly.Procedures.getProcedure = function(workspace, id, procedureName, procedureType){
+  return workspace.procedureMap_.getProcedureById(id);
+}
+
+Blockly.Procedures.createProcedure_ = function(workspace, id, procedureName, procedureType){
+  return workspace.procedureMap_.createProcedure(procedureName, id, procedureType);
+}

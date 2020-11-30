@@ -425,6 +425,11 @@ Blockly.Msg["TEXT_CREATE_JOIN_ITEM_TITLE_ITEM"] = Blockly.Msg["VARIABLES_DEFAULT
 Blockly.Msg["STATES_DEF_COMMENT"] = "Describe this state...";
 
 
+Blockly.Msg["THREAD_OPERATE_START"] = "start";
+Blockly.Msg["THREAD_OPERATE_STOP"] = "stop";
+Blockly.Msg["THREAD_OPERATE_PAUSE"] = "pause";
+Blockly.Msg["THREAD_OPERATE_RESUME"] = "resume";
+
 var colorAryByType = [
     "#1B67B3",
     "#F92672",

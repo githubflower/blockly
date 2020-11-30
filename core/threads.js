@@ -218,11 +218,19 @@ Blockly.Threads.flyoutCategory = function(workspace) {
   xmlList.push(block); 
 
  var threads = workspace.threadMap_.getAllThreadsByType();
-  if(Blockly.Blocks['thread_opr'] && threads && threads.length){
-    var block = Blockly.utils.xml.createElement('block');
-    block.setAttribute('type', 'thread_opr');
-    block.setAttribute('gap', 16);
-    xmlList.push(block);
+  if(threads && threads.length){
+    if(Blockly.Blocks['thread_opr']){
+      var block = Blockly.utils.xml.createElement('block');
+      block.setAttribute('type', 'thread_opr');
+      block.setAttribute('gap', 16);
+      xmlList.push(block);
+    }
+    if(Blockly.Blocks['set_thread_priority']){
+      var block = Blockly.utils.xml.createElement('block');
+      block.setAttribute('type', 'set_thread_priority');
+      block.setAttribute('gap', 16);
+      xmlList.push(block);
+    }
   }
 
   if(Blockly.Blocks['procedure_select'] && Blockly.Procedures.getProceduresOfNoReturn(workspace).length){

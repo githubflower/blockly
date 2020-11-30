@@ -88,7 +88,14 @@ Blockly.StateMap.prototype.renameState = function(state, newName) {
  * @param {!Blockly.VariableModel} state Variable to delete.
  */
 Blockly.StateMap.prototype.deleteState = function(state) {
-  //TODO
+  var stateList = this.stateMap_[state.type || 'state_def'];
+  for (var i = 0, tempState; (tempState = stateList[i]); i++) {
+    if (tempState.getId() == state.getId()) {
+      stateList.splice(i, 1);
+      Blockly.Events.fire(new Blockly.Events.StateDelete(state));
+      return;
+    }
+  }
 };
 
 /**
@@ -105,6 +112,7 @@ Blockly.StateMap.prototype.deleteStateById = function(id) {
     uses = this.getStateUsesById(id);
     
     //只要有一个state正在被引用就应该提示用户
+    debugger;
     if(uses.length > 0){
       var confirmText = stateName + ' is used in ' + uses.length + 'states.';
       Blockly.confirm(confirmText, function(ok){
@@ -152,6 +160,7 @@ Blockly.StateMap.prototype.deleteStateInternal = function(state, uses){
           // TODO
         }
       }*/
+      var block = uses[i];
       block.dispose(true);
     }
     this.deleteState(state);

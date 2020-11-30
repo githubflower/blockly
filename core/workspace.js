@@ -413,6 +413,10 @@ Blockly.Workspace.prototype.deleteStateById = function(id) {
   this.stateMap_.deleteStateById(id);
 };
 
+Blockly.Workspace.prototype.deleteThreadById = function(id) {
+  this.threadMap_.deleteThreadById(id);
+};
+
 
 /**
  * Find all the uses of the given variable, which is identified by ID.

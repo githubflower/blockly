@@ -499,7 +499,7 @@
     <!-- <category name="%{BKY_CATSTATES}" colour="%{BKY_STATES_HUE}" custom="STATE"></category> -->
   </xml>
 
-  <!-- <script src="/storage.js"></script> -->
+  <script src="/static/blockly/appengine/storage.js"></script>
   <!-- <script src="../../blockly_compressed.js"></script> -->
   <!-- <script src="../../blocks_compressed.js"></script> -->
 
@@ -556,6 +556,7 @@
       //重新定义run_state块 
     }
     window.addEventListener('message', function (e) {
+      debugger;
       // Code.workspace.clear();
       beforeLoadBlocks(e.data);
       Code.loadBlocks(e.data);
@@ -567,7 +568,7 @@
       var reader = new FileReader();
       reader.onload = (fe) => {
         // alert(localStorage.getItem('stateData'));
-        beforeLoadBlocks(fe.target.result);
+        // beforeLoadBlocks(fe.target.result);
         Code.loadBlocks(fe.target.result);
       };
       reader.readAsText(file);
@@ -687,7 +688,7 @@
       debugger;
     });
 
-    window.addEventListener('load', function () {
+    /*window.addEventListener('load', function () {
 
       var svg = document.querySelector('svg.blocklySvg');
       var defs = Blockly.utils.dom.createSvgElement('defs', {}, svg);
@@ -714,25 +715,9 @@
         in2: "blurOut",
         mode: "normal"
       }, shadowGrey);
-    })
-
-
+    })*/
    
   </script>
 
 </body>
-<!-- <script>
-  window.less = {
-    env: "development",
-    async: false,
-    fileAsync: false,
-    poll: 1000,
-    functions: {},
-    dumpLineNumbers: "comments",
-    relativeUrls: false,
-    rootpath: "./"
-  };
-</script>
-<script src="less.js" type="text/javascript"></script> -->
-
 </html>

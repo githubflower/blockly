@@ -1454,6 +1454,10 @@ Blockly.WorkspaceSvg.prototype.deleteStateById = function(id) {
   Blockly.WorkspaceSvg.superClass_.deleteStateById.call(this, id);
   this.refreshToolboxSelection();
 };
+Blockly.WorkspaceSvg.prototype.deleteThreadById = function(id) {
+  Blockly.WorkspaceSvg.superClass_.deleteThreadById.call(this, id);
+  this.refreshToolboxSelection();
+};
 
 /**
  * Create a new variable with the given name.  Update the flyout to show the
