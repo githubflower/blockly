@@ -73,6 +73,9 @@ var luaBlocks = [{
         var threadName = block.workspace.threadMap_.getThreadById(threadId).name;
         return `${threadName}:${Blockly.THREAD_SET_PRIORITY}(${priority})`;
     }
+},{
+    type: 'state_trigger_event',
+    generator: Blockly.Lua['controls_if']
 }];
 
 luaBlocks.forEach(item => {

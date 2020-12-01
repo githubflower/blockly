@@ -130,8 +130,9 @@ Blockly.FieldState.prototype.shouldAddBorderRect_ = function() {
  */
 Blockly.FieldState.prototype.fromXml = function(fieldElement) {
   var id = fieldElement.getAttribute('id');
-  // var stateName = fieldElement.textContent;
+  var stateName = fieldElement.textContent;
 
+  var state = Blockly.States.getOrCreateState(this.sourceBlock_.workspace, id, stateName);
   this.setValue(id);
 };
 

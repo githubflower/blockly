@@ -208,6 +208,7 @@ Blockly.States.rename = function(name) {
  */
 Blockly.States.flyoutCategory = function(workspace) {
   var xmlList = [];
+  
   var block = Blockly.utils.xml.createElement('block');
   block.setAttribute('type', 'state_def');
   block.setAttribute('gap', 16);
@@ -216,6 +217,11 @@ Blockly.States.flyoutCategory = function(workspace) {
   nameField.appendChild(Blockly.utils.xml.createTextNode('state'));
   block.appendChild(nameField);
   xmlList.push(block); 
+
+  var block = Blockly.utils.xml.createElement('block');
+  block.setAttribute('type', 'state_trigger_event');
+  block.setAttribute('gap', 16);
+  xmlList.push(block);
 
  var states = workspace.stateMap_.getAllStatesByType();
   if(Blockly.Blocks['state_opr'] && states && states.length){
@@ -374,3 +380,20 @@ Blockly.States.getDefinition = function(name, workspace) {
   }
   return null;
 };
+
+
+Blockly.States.getOrCreateState = function(workspace, id, stateName, stateType){
+  var state = Blockly.States.getState(workspace, id, stateName, stateType);
+  if (!state) {
+    state = Blockly.States.createState_(workspace, id, stateName, stateType);
+  }
+  return state;
+}
+
+Blockly.States.getState = function(workspace, id, stateName, stateType){
+  return workspace.stateMap_.getStateById(id);
+}
+
+Blockly.States.createState_ = function(workspace, id, stateName, stateType){
+  return workspace.stateMap_.createState(stateName, id, stateType);
+}
