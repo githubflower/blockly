@@ -660,8 +660,8 @@ Blockly.Flyout.prototype.createBlock = function(originalBlock) {
       Blockly.Events.fire(new Blockly.Events.VarCreate(thisVariable));
     }
 
-    var workspace = this.targetWorkspace_;
-    workspace.injectSomeModel2Map(newBlock);
+    /*var workspace = this.targetWorkspace_;
+    workspace.injectSomeModel2Map(newBlock);*/
   }
   if (this.autoClose) {
     this.hide();

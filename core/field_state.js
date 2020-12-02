@@ -104,7 +104,8 @@ Blockly.FieldState.prototype.initModel = function() {
     return; // Initialization already happened.
   }
   var state;
-  var workspace = this.sourceBlock_.workspace.targetWorkspace;
+  var workspace = this.sourceBlock_.workspace;
+  workspace = workspace.targetWorkspace || workspace;
   var stateAry = workspace.stateMap_.getAllStatesByType('state_def');
   if(stateAry.length){
     state = stateAry[0];
@@ -131,7 +132,7 @@ Blockly.FieldState.prototype.shouldAddBorderRect_ = function() {
 Blockly.FieldState.prototype.fromXml = function(fieldElement) {
   var id = fieldElement.getAttribute('id');
   var stateName = fieldElement.textContent;
-
+log(id + '---' + stateName);
   var state = Blockly.States.getOrCreateState(this.sourceBlock_.workspace, id, stateName);
   this.setValue(id);
 };

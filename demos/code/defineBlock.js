@@ -1323,6 +1323,7 @@ Blockly.Blocks['run_state'] = {
 //状态定义
 Blockly.Blocks['state_def'] = {
   init: function() {
+    log('def');
     var nameField = new Blockly.FieldTextInput('state', this.validatorStateName);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
@@ -1330,11 +1331,11 @@ Blockly.Blocks['state_def'] = {
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
     // this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
-    if ((this.workspace.options.comments || 
+    /*if ((this.workspace.options.comments || 
       (this.workspace.options.parentWorkspace && 
         this.workspace.options.parentWorkspace.options.comments)) && Blockly.Msg['STATES_DEF_COMMENT']) { 
       this.setCommentText(Blockly.Msg['STATES_DEF_COMMENT']);
-    }
+    }*/
     this.setStyle('procedure_blocks');
     // this.setTooltip(Blockly.Msg['PROCEDURES_DEFNORETURN_TOOLTIP']);
     this.setHelpUrl(Blockly.Msg['PROCEDURES_DEFNORETURN_HELPURL']);
@@ -1367,7 +1368,9 @@ Blockly.Blocks['state_def'] = {
         return name;
       
     }
+    
     name = findLeagalName(name, this.getSourceBlock());
+    log(name);
     var oldName = this.getValue();
     if (oldName != name) {
       var blocks = this.getSourceBlock().workspace.getAllBlocks(false);

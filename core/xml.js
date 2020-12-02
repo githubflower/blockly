@@ -536,6 +536,15 @@ Blockly.Xml.domToBlock = function(xmlBlock, workspace) {
       // Render each block.
       for (var i = blocks.length - 1; i >= 0; i--) {
         blocks[i].initSvg();
+        var block = blocks[i];
+        if(!block.isInFlyout){
+          /*if(this.workspace.stateMap_ 
+            && ( !this.workspace.stateMap_.getStateById(this.id) ) 
+            ){
+            this.workspace.createState( block.getFieldValue('NAME'), block.id, 'state_def');
+          }*/
+          workspace.injectSomeModel2Map(block);
+        }
       }
       for (var i = blocks.length - 1; i >= 0; i--) {
         blocks[i].render(false);

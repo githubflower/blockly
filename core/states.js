@@ -174,7 +174,6 @@ Blockly.States.isNameUsed = function(name, workspace, opt_exclude) {
 Blockly.States.rename = function(name) {
   // Strip leading and trailing whitespace.  Beyond this, all names are legal.
   name = name.trim();
-
   var legalName = Blockly.States.findLegalName(name,
       /** @type {!Blockly.Block} */ (this.getSourceBlock()));
   var oldName = this.getValue();
