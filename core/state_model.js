@@ -45,6 +45,8 @@ Blockly.StateModel = function(workspace, name, opt_id) {
    */
   this.id_ = opt_id || Blockly.utils.genUid();
 
+  this._name = Blockly.utils.genUname();
+
   Blockly.Events.fire(new Blockly.Events.StateCreate(this));
 };
 

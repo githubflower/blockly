@@ -86,6 +86,8 @@ Blockly.Xml.blockToDomWithXY = function(block, opt_noId) {
   element.setAttribute('x',
       Math.round(block.workspace.RTL ? width - xy.x : xy.x));
   element.setAttribute('y', Math.round(xy.y));
+  element.setAttribute('sx', block.getStateXY().sx);
+  element.setAttribute('sy', block.getStateXY().sy);
   return element;
 };
 
@@ -411,6 +413,13 @@ Blockly.Xml.domToWorkspace = function(xml, workspace) {
             parseInt(xmlChildElement.getAttribute('y'), 10) : 10;
         if (!isNaN(blockX) && !isNaN(blockY)) {
           block.moveBy(workspace.RTL ? width - blockX : blockX, blockY);
+        }
+        // 保存状态块的位置信息
+        if(xmlChildElement.hasAttribute('sx')){
+          block.setStateXY('sx', parseInt(xmlChildElement.getAttribute('sx'), 10));
+        }
+        if(xmlChildElement.hasAttribute('sy')){
+          block.setStateXY('sy', parseInt(xmlChildElement.getAttribute('sy'), 10));
         }
         variablesFirst = false;
       } else if (name == 'shadow') {

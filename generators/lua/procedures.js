@@ -19,6 +19,7 @@ Blockly.Lua['procedures_defreturn'] = function(block) {
   // Define a procedure with a return value.
   var funcName = Blockly.Lua.variableDB_.getName(
       block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
+  var oldFuncName = block.getFieldValue('NAME');
   var xfix1 = '';
   if (Blockly.Lua.STATEMENT_PREFIX) {
     xfix1 += Blockly.Lua.injectId(Blockly.Lua.STATEMENT_PREFIX, block);
@@ -53,7 +54,11 @@ Blockly.Lua['procedures_defreturn'] = function(block) {
     args[i] = Blockly.Lua.variableDB_.getName(block.arguments_[i],
         Blockly.VARIABLE_CATEGORY_NAME);
   }
-  var code = 'function ' + funcName + '(' + args.join(', ') + ')\n' +
+  var commentOfSafeName = '-- ' + funcName + ': ' + oldFuncName + '\n';
+  if(oldFuncName === funcName){
+    commentOfSafeName = '';
+  }
+  var code = commentOfSafeName + 'function ' + funcName + '(' + args.join(', ') + ')\n' +
       xfix1 + loopTrap + branch + xfix2 + returnValue + 'end\n';
   code = Blockly.Lua.scrub_(block, code);
   // Add % so as not to collide with helper functions in definitions list.

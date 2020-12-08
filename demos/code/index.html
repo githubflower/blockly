@@ -67,7 +67,7 @@
       /* fill: rgba(0,0,0,.1) !important; */
       /* fill: rgba(255, 255, 255, 0.2) !important; */
       /* fill: transparent !important; */
-      /* filter: url(#shadowGrey); */
+       /*filter: url(#shadowGrey); */
     }
 
     .block-fill>.blocklyPathLight {
@@ -472,6 +472,7 @@
     <category name="States" colour="%{BKY_PROCEDURES_HUE}" custom="STATE"></category>
     <category name="Class" colour="%{BKY_CLASS_HUE}">
       
+      <block type="lists_state"></block>
       <block type="state_trigger_event"></block>
       <block type="anonymous_function"></block>
       <block type="state"></block>
@@ -499,7 +500,33 @@
     </category>
     <!-- <category name="%{BKY_CATSTATES}" colour="%{BKY_STATES_HUE}" custom="STATE"></category> -->
   </xml>
-
+  <script>
+    window.Util = {
+      deepCopy: (obj) => {
+        if (typeof obj !== 'object') {
+          return obj;
+        }
+        let type = Object.prototype.toString.apply(obj);
+        let ret = type === '[object Array]' ? [] : {};
+        if (type === '[object Array]') {
+          ret = [];
+          let i = 0;
+          while (i < obj.length) {
+            ret[i] = Util.deepCopy(obj[i]);
+            i++;
+          }
+        } else {
+          ret = {};
+          for (let k in obj) {
+            if (obj.hasOwnProperty(k)) {
+              ret[k] = Util.deepCopy(obj[k]);
+            }
+          }
+        }
+        return ret;
+      }
+    };
+  </script>
   <script src="/static/blockly/appengine/storage.js"></script>
   <!-- <script src="../../blockly_compressed.js"></script> -->
   <!-- <script src="../../blocks_compressed.js"></script> -->
@@ -518,7 +545,19 @@
   <script src="../../javascript_compressed.js"></script>
   <script src="../../python_compressed.js"></script>
   <script src="../../php_compressed.js"></script>
-  <script src="../../lua_compressed.js"></script>
+
+  <!-- <script src="../../lua_compressed.js"></script> -->
+  <script src="../../generators/lua.js"></script>
+  <script src="../../generators/lua/colour.js"></script>
+  <script src="../../generators/lua/lists.js"></script>
+  <script src="../../generators/lua/logic.js"></script>
+  <script src="../../generators/lua/loops.js"></script>
+  <script src="../../generators/lua/math.js"></script>
+  <script src="../../generators/lua/procedures.js"></script>
+  <script src="../../generators/lua/text.js"></script>
+  <script src="../../generators/lua/variables.js"></script>
+  <script src="../../generators/lua/variables_dynamic.js"></script> 
+
   <script src="../../dart_compressed.js"></script>
 
   <script src="./code.js"></script>

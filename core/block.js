@@ -1842,6 +1842,13 @@ Blockly.Block.prototype.setMutator = function(_mutator) {
 Blockly.Block.prototype.getRelativeToSurfaceXY = function() {
   return this.xy_;
 };
+Blockly.Block.prototype.getStateXY = function() {
+  return this.sxy_ || {};
+};
+Blockly.Block.prototype.setStateXY = function(propertyName, propertyValue) {
+  this.sxy_ = this.sxy_ || {};
+  this.sxy_[propertyName] = propertyValue;
+};
 
 /**
  * Move a block by a relative offset.

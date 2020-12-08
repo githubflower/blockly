@@ -200,7 +200,7 @@ Blockly.Generator.prototype.blockToCode = function(block, opt_thisOnly) {
     function addTag(block){
       return `--QBlock-${block.id}\n`;
     }
-    code = addTag(block) + code;
+    // code = addTag(block) + code;
     // modify by zjie 2020年9月21日11:14:04 给除了表达式之外的block增加特殊标记  ---end
     return this.scrub_(block, code, opt_thisOnly);
   } else if (code === null) {

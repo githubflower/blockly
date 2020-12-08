@@ -1323,11 +1323,10 @@ Blockly.Blocks['run_state'] = {
 //状态定义
 Blockly.Blocks['state_def'] = {
   init: function() {
-    log('def');
     var nameField = new Blockly.FieldTextInput('state', this.validatorStateName);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
-        .appendField(Blockly.Msg['PROCEDURES_DEFNORETURN_TITLE'])
+        // .appendField('define')
         .appendField(nameField, 'NAME')
         .appendField('', 'PARAMS');
     // this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
@@ -1343,6 +1342,7 @@ Blockly.Blocks['state_def'] = {
     this.argumentVarModels_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
+    this.setOutput(true);
   },
 
   /**
@@ -1772,6 +1772,8 @@ Blockly.Blocks['state_def'] = {
 goog.require('Blockly.FieldState');
 Blockly.Blocks['state_opr'] = {
   init: function(){
+    this.appendDummyInput('SX')
+    this.appendDummyInput('SY')
     this.appendDummyInput('NAME')
     .appendField(new Blockly.FieldState('STATE_NAME', function(name){return name;}) ,'field_state');
     this.setOutput(false, null);

@@ -363,6 +363,15 @@ Blockly.Workspace.prototype.clear = function() {
     if (this.potentialVariableMap_) {
       this.potentialVariableMap_.clear();
     }
+    if(this.stateMap_){
+      this.stateMap_.clear();
+    }
+    if(this.threadMap_){
+      this.threadMap_.clear();
+    }
+    if(this.procedureMap_){
+      this.procedureMap_.clear();
+    }
   } finally {
     this.isClearing = false;
   }

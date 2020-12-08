@@ -410,6 +410,15 @@ Blockly.utils.genUid = function() {
   }
   return id.join('');
 };
+Blockly.utils.genUname = function() {
+  var length = 30;
+  var soupLength = Blockly.utils.genUname.soup_.length;
+  var id = [];
+  for (var i = 0; i < length; i++) {
+    id[i] = Blockly.utils.genUname.soup_.charAt(Math.random() * soupLength);
+  }
+  return id.join('');
+};
 
 /**
  * Legal characters for the unique ID.  Should be all on a US keyboard.
@@ -420,6 +429,8 @@ Blockly.utils.genUid = function() {
  */
 Blockly.utils.genUid.soup_ = '!#$%()*+,-./:;=?@[]^_`{|}~' +
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+Blockly.utils.genUname.soup_ = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 /**
  * Check if 3D transforms are supported by adding an element

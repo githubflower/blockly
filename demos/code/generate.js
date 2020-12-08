@@ -14,6 +14,8 @@ Blockly.Lua['run_state'] = function (block) {
 Object.defineProperty(Blockly.Lua, 'thread_def', {
     value: function(block){
         var threadName = block.getFieldValue('NAME');
+        var oldThreadName = threadName;
+        threadName = Blockly.Lua.variableDB_.getName(threadName);
         var code_function_type = block.getInputTargetBlock('CALLBACK');
         if(!code_function_type){
             console.log('语法错误：没有给线程指定相应的函数。')
@@ -24,12 +26,16 @@ Object.defineProperty(Blockly.Lua, 'thread_def', {
         // var code_function = Blockly.Lua.statementToCode(block, 'CALLBACK');
         if(code_function_type === 'procedure_select'){
             code_function = Blockly.Lua.statementToCode(block, 'CALLBACK');
+            if(String.prototype.trim){
+                code_function = String.prototype.trim.call(code_function);
+            }
         }else{
             code_function = `function `;//Lua没有匿名函数，不会走到这里面来
         }
 
         var code_args = Blockly.Lua.valueToCode(block, 'ARGS', Blockly.Lua.ORDER_ATOMIC);
-        var code = `${threadName} = Thread.New(${code_function})(${code_args})`
+        var commentOfThreadName = threadName === oldThreadName ? '' : `-- ${threadName}:${oldThreadName}\n`;
+        var code = commentOfThreadName + `${threadName} = Thread.New(${code_function})(${code_args})`
         return code;
         // return [code, Blockly.Lua.ORDER_ATOMIC];
     },
@@ -41,6 +47,7 @@ Object.defineProperty(Blockly.Lua, 'procedure_select', {
     value: function(block){
         var procedureId = block.getFieldValue('field_procedure');
         var procedureName = block.workspace.procedureMap_.getProcedureById(procedureId).name;
+        procedureName = Blockly.Lua.variableDB_.getName(procedureName);
         var code = `${procedureName}`;
         return code;
     },
@@ -50,12 +57,19 @@ Object.defineProperty(Blockly.Lua, 'procedure_select', {
 var luaBlocks = [{
     type: 'state_def',
     generator: Blockly.Lua['procedures_defreturn']
+    /*function(block){
+      var code = Blockly.Lua['procedures_defreturn'].call(this, block);
+      return [code, Blockly.Lua.ORDER_ATOMIC]
+    },*/
 },{
     type: 'state_opr',
     generator: function(block){
         var stateId = block.getFieldValue('field_state');
         var stateName = block.workspace.stateMap_.getStateById(stateId).name;
-        return `${stateName}()\n`;
+        var oldStateName = stateName;
+        stateName = Blockly.Lua.variableDB_.getName(stateName, Blockly.PROCEDURE_CATEGORY_NAME);//这样写是为了处理中文问题
+        var commentOfStateName = oldStateName === stateName ? '' : `-- ${stateName}: ${oldStateName}\n`;
+        return commentOfStateName + `${stateName}()\n`;
     }
 },{
     type: 'thread_opr',
@@ -63,7 +77,8 @@ var luaBlocks = [{
         var operator = block.getFieldValue('field_opr');
         var threadId = block.getFieldValue('field_thread');
         var threadName = block.workspace.threadMap_.getThreadById(threadId).name;
-        return `${threadName}:${Blockly[operator]}()`;
+        threadName = Blockly.Lua.variableDB_.getName(threadName);
+        return `${threadName}:${Blockly[operator]}()\n`;
     }
 },{
     type: 'set_thread_priority',
@@ -71,11 +86,26 @@ var luaBlocks = [{
         var priority = block.getFieldValue('field_thread_priority');
         var threadId = block.getFieldValue('field_thread');
         var threadName = block.workspace.threadMap_.getThreadById(threadId).name;
+        threadName = Blockly.Lua.variableDB_.getName(threadName);
         return `${threadName}:${Blockly.THREAD_SET_PRIORITY}(${priority})`;
     }
 },{
     type: 'state_trigger_event',
     generator: Blockly.Lua['controls_if']
+},{
+    type: 'lists_state',
+    generator: function(block){
+      // TODO 还需修改 将此类型的block优先提取生成代码
+      var elements = new Array(block.itemCount_);
+      for (var i = 0; i < block.itemCount_; i++) {
+        elements[i] = Blockly.Lua.valueToCode(block, 'ADD' + i,
+            Blockly.Lua.ORDER_NONE) || 'None';
+        debugger;
+      }
+      var code = '{' + elements.join(', ') + '}';
+      code = '';
+      return code;
+    }
 }];
 
 luaBlocks.forEach(item => {
