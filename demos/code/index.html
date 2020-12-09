@@ -622,7 +622,7 @@
       if (xmlDom.children.length) {
 
       }
-      const STATE_BLOCK = 'run_state';
+      const STATE_BLOCK = 'state_opr';
       let stateAry = [];
       let lineAry = [];
       let tmpIndex = 0;
@@ -635,10 +635,10 @@
           let stateObj = {
             stateId: item.getAttribute('id'),
             stateType: item.getAttribute('type') === STATE_BLOCK ? 'stateDiv': 'loopDiv',
-            bx: parseInt(item.x, 10), // blockly画布中的x
-            by: parseInt(item.y, 10), // blockly画布中的y
-            x: randomXY, //'? todo',
-            y: randomXY, //'? todo',
+            bx: parseInt(item.getAttribute('x'), 10), // blockly画布中的x
+            by: parseInt(item.getAttribute('y'), 10), // blockly画布中的y
+            x: item.getAttribute('sx'),
+            y: item.getAttribute('sy'),
             width: '76px',
             height: '40px',
             name: item.firstChild.textContent,
@@ -648,7 +648,84 @@
             nodeHeight: 0 // 如果该节点有2个分支，且分支是叶子节点，则这个节点的nodeHeight = 2; 总之，nodeHeight = 各分支nodeHeight之和 - 这个参数为自动布局所用
           }
 
-          let children = Array.prototype.slice.call(item.children);
+          function dom2State(dom){
+            return {
+              stateId: dom.getAttribute('id'),
+              stateType: STATE_BLOCK
+            };
+          }
+          var lineAry = []; //所有的连线数据集合
+          function findOutputLinesOfStateDom(stateDom, outputLines){
+            // 如果stateDom中有next节点 且 next节点的children中有block.state_trigger_event 则将这个block.state_trigger_event push 到 outputLines
+            // 然后将这个block.state_trigger_event作为新的stateDom，查找其包含的block.state_trigger_event 这样遍历查找所有的block.state_trigger_event就找到了outputLines
+            let children = stateDom.children;
+            stateDom.children.forEach(child => {
+              if(child.tagName === 'next'){ //所有next节点的children都只有1个
+                if(child.children && child.children[0] && child.children[0].getAttribute('type') === 'state_trigger_event'){
+                  let lineDom = child.children[0];
+                  let newLine = {
+                    lineId: lineDom.getAttribute('id'),
+                    d: lineDom.getAttribute('d'),
+                    startState: dom2State(stateDom),
+                    endState: dom2State(lineDom.children[0].children[0]), //TODO 需保证代码健壮性
+                  };
+                  
+                  let existLineOfOutputLines = outputLines.find(item => {
+                    return item.lineId === lineDom.getAttribute('id');
+                  })
+                  if(!existLineOfOutputLines){
+                    outputLines.push(newLine);
+                  }
+
+                  let existLineOfLineAry = lineAry.find(item => {
+                    return item.lineId === lineDom.getAttribute('id')
+                  })
+                  if(!existLineOfLineAry){
+                    lineAry.push(newLine);
+                  }
+
+                  findOutputLinesOfStateDom(lineDom.children[0].children[0], outputLines);
+                }
+              }
+            })
+            return outputLines;
+          }
+
+          function findInputLinesOfStateDom(stateDom, inputLines){
+            //逐级往上寻找type === 'state_opr'的块即inputLines    //  block.state_trigger_event > statement > block.state_opr
+            let parent = stateDom.parent && stateDom.parent.parent;
+            if(parent && parent.getAttribute('type') === 'state_trigger_event'){
+              let newLine = {
+                lineId: lineDom.getAttribute('id'),
+                d: lineDom.getAttribute('d'),
+                startState: dom2State(parent),
+                endState: dom2State(stateDom)
+              };
+
+              let existLineOfInputLines = inputLines.find(item => {
+                return item.lineId === newLine.lineId;
+              })
+              if(!existLineOfInputLines){
+                inputLines.push(newLine);
+              }
+
+              let existLineOfLineAry = lineAry.find(item => {
+                return item.lineId === newLine.lineId;
+              })
+              if(!existLineOfLineAry){
+                lineAry.push(newLine);
+              }
+            }
+            return inputLines;
+          }
+
+          findOutputLinesOfStateDom(stateDom, stateObj.outputAry);
+          findInputLinesOfStateDom(stateDom, stateObj.inputAry);
+
+
+
+
+          /*let children = Array.prototype.slice.call(item.children);
           children.forEach(dom => {
             if (dom.tagName === 'next' && dom.children.length) { // dom-next
               let block = dom.children[0];  // block-controls_if
@@ -675,7 +752,9 @@
                 }
               }
             }
-          })
+          })*/
+
+          
           stateAry.push(stateObj);
         }
 

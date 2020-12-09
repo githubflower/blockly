@@ -101,7 +101,6 @@ Blockly.FieldProcedure.prototype.workspace_ = null;
 Blockly.FieldProcedure.prototype.SERIALIZABLE = true;
 
 Blockly.FieldProcedure.prototype.initModel = function() {
-  debugger;
   if (this.procedure_) {
     return; // Initialization already happened.
   }
@@ -151,7 +150,6 @@ Blockly.FieldProcedure.prototype.shouldAddBorderRect_ = function() {
  *    variable field's state.
  */
 Blockly.FieldProcedure.prototype.fromXml = function(fieldElement) {
-  debugger;
   var id = fieldElement.getAttribute('id');
   var procedureName = fieldElement.textContent;
 

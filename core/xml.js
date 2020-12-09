@@ -86,8 +86,6 @@ Blockly.Xml.blockToDomWithXY = function(block, opt_noId) {
   element.setAttribute('x',
       Math.round(block.workspace.RTL ? width - xy.x : xy.x));
   element.setAttribute('y', Math.round(xy.y));
-  element.setAttribute('sx', block.getStateXY().sx);
-  element.setAttribute('sy', block.getStateXY().sy);
   return element;
 };
 
@@ -141,6 +139,25 @@ Blockly.Xml.blockToDom = function(block, opt_noId) {
     // the block's id when domToText is called.
     element.setAttribute('id', block.id);
   }
+
+  if (block.getStateXY()) {
+    var sx = block.getStateXY().sx;
+    var sy = block.getStateXY().sy;
+    if (sx) {
+      element.setAttribute('sx', sx);
+    }
+    if (sy) {
+      element.setAttribute('sy', sy);
+    }
+  }
+  if(block.getSubsidiaryData){
+    var data = block.getSubsidiaryData();
+    for(var k in data){
+      element.setAttribute(k, data[k]);
+    }
+  }
+
+
   if (block.mutationToDom) {
     // Custom data for an advanced block.
     var mutation = block.mutationToDom();
@@ -414,13 +431,7 @@ Blockly.Xml.domToWorkspace = function(xml, workspace) {
         if (!isNaN(blockX) && !isNaN(blockY)) {
           block.moveBy(workspace.RTL ? width - blockX : blockX, blockY);
         }
-        // 保存状态块的位置信息
-        if(xmlChildElement.hasAttribute('sx')){
-          block.setStateXY('sx', parseInt(xmlChildElement.getAttribute('sx'), 10));
-        }
-        if(xmlChildElement.hasAttribute('sy')){
-          block.setStateXY('sy', parseInt(xmlChildElement.getAttribute('sy'), 10));
-        }
+  
         variablesFirst = false;
       } else if (name == 'shadow') {
         throw TypeError('Shadow block cannot be a top-level block.');
@@ -628,6 +639,27 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
   }
   var id = xmlBlock.getAttribute('id');
   block = workspace.newBlock(prototypeName, id);
+  // 保存状态块的位置信息
+  log(xmlBlock);
+  log('x', xmlBlock.getAttribute('sx'));
+  if (xmlBlock.hasAttribute('sx')) {
+    block.setStateXY('sx', parseInt(xmlBlock.getAttribute('sx'), 10));
+  }
+  if (xmlBlock.hasAttribute('sy')) {
+    block.setStateXY('sy', parseInt(xmlBlock.getAttribute('sy'), 10));
+  }
+  
+  //设置startState linePath等数据 TODO
+  var attrs = xmlBlock.getAttributeNames();
+  var excludeAttrs = ['type', 'id', 'x', 'y', 'sx', 'sy'];
+  for(var i = 0; i < attrs.length; i++){
+    var k = attrs[i];
+    if(excludeAttrs.indexOf(k) < 0){
+      block.setSubsidiaryData({
+        [k]: xmlBlock.getAttribute(k)
+      })
+    }
+  }
 
   var blockChild = null;
   for (var i = 0, xmlChild; (xmlChild = xmlBlock.childNodes[i]); i++) {

@@ -1842,6 +1842,18 @@ Blockly.Block.prototype.setMutator = function(_mutator) {
 Blockly.Block.prototype.getRelativeToSurfaceXY = function() {
   return this.xy_;
 };
+Blockly.Block.prototype.getSubsidiaryData = function() {
+  return this.subsidiaryData_;
+}
+Blockly.Block.prototype.setSubsidiaryData = function(obj) {
+  this.subsidiaryData_ = this.subsidiaryData_ || {};
+  if(typeof obj === 'object'){
+    for (var k in obj) {
+      this.subsidiaryData_[k] = obj[k];
+    }
+  }
+}
+
 Blockly.Block.prototype.getStateXY = function() {
   return this.sxy_ || {};
 };
