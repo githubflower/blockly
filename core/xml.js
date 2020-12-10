@@ -651,7 +651,8 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
   
   //设置startState linePath等数据 TODO
   var attrs = xmlBlock.getAttributeNames();
-  var excludeAttrs = ['type', 'id', 'x', 'y', 'sx', 'sy'];
+  log(attrs);
+  var excludeAttrs = ['type', 'id', 'name', 'x', 'y', 'sx', 'sy'];
   for(var i = 0; i < attrs.length; i++){
     var k = attrs[i];
     if(excludeAttrs.indexOf(k) < 0){

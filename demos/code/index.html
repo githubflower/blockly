@@ -616,32 +616,22 @@
 
     var genStateDataBtn = document.getElementById('genStateData');
     genStateDataBtn.addEventListener('click', function (e) {
-      //TODO
-      var xmlDom = Blockly.Xml.workspaceToDom(Code.workspace);
-      debugger;
-      if (xmlDom.children.length) {
-
-      }
       const STATE_BLOCK = 'state_opr';
-      let stateAry = [];
-      let lineAry = [];
-      let tmpIndex = 0;
-      function parseStateAndLine(stateDom) {
-
-        // let randomXY = Math.floor(Math.random() * 10) * 50;
-        let randomXY = (tmpIndex++) * 150;
-        let item = stateDom;
-        if (item.tagName === 'block' && item.getAttribute('type') === STATE_BLOCK) {
+      let xmlDom = Blockly.Xml.workspaceToDom(Code.workspace);
+      let stateAry = []; //所有的状态数据集合
+      let lineAry = []; //所有的连线数据集合
+      function extractStateAndLine(stateDom) {
+        if (stateDom.tagName === 'block' && stateDom.getAttribute('type') === STATE_BLOCK) {
           let stateObj = {
-            stateId: item.getAttribute('id'),
-            stateType: item.getAttribute('type') === STATE_BLOCK ? 'stateDiv': 'loopDiv',
-            bx: parseInt(item.getAttribute('x'), 10), // blockly画布中的x
-            by: parseInt(item.getAttribute('y'), 10), // blockly画布中的y
-            x: item.getAttribute('sx'),
-            y: item.getAttribute('sy'),
+            stateId: stateDom.getAttribute('id'),
+            stateType: stateDom.getAttribute('type') === STATE_BLOCK ? 'stateDiv': 'loopDiv',
+            bx: parseInt(stateDom.getAttribute('x'), 10), // blockly中与此对应的图形块的x
+            by: parseInt(stateDom.getAttribute('y'), 10), // blockly中与此对应的图形块的y
+            x: stateDom.getAttribute('sx'),
+            y: stateDom.getAttribute('sy'),
             width: '76px',
             height: '40px',
-            name: item.firstChild.textContent,
+            name: stateDom.firstChild.textContent,
             inputAry: [],
             outputAry: [],
             children: [],
@@ -654,7 +644,6 @@
               stateType: STATE_BLOCK
             };
           }
-          var lineAry = []; //所有的连线数据集合
           function findOutputLinesOfStateDom(stateDom, outputLines){
             // 如果stateDom中有next节点 且 next节点的children中有block.state_trigger_event 则将这个block.state_trigger_event push 到 outputLines
             // 然后将这个block.state_trigger_event作为新的stateDom，查找其包含的block.state_trigger_event 这样遍历查找所有的block.state_trigger_event就找到了outputLines
@@ -721,84 +710,22 @@
 
           findOutputLinesOfStateDom(stateDom, stateObj.outputAry);
           findInputLinesOfStateDom(stateDom, stateObj.inputAry);
-
-
-
-
-          /*let children = Array.prototype.slice.call(item.children);
-          children.forEach(dom => {
-            if (dom.tagName === 'next' && dom.children.length) { // dom-next
-              let block = dom.children[0];  // block-controls_if
-              for (let k = 0; k < block.children.length; k++) {
-                let branch = block.children[k];
-                if (branch.tagName === 'statement') { // 还有可能是mutation
-                  let lineObj = {
-                    lineId: branch.getAttribute('id') || window.parent.genId('line'), // TODO 需改写controls_if的statement逻辑，并定义id
-                    d: null,
-                    desc: '',
-                    startPoint: null,
-                    endPoint: null,
-                    startState: {
-                      stateId: stateObj.stateId,
-                      stateIndex: null
-                    },
-                    endState: {
-                      stateId: branch.firstChild.getAttribute('id'),
-                      stateIndex: null
-                    }
-                  }
-                  lineAry.push(lineObj);
-                  parseStateAndLine(branch.firstChild);
-                }
-              }
-            }
-          })*/
-
           
-          stateAry.push(stateObj);
+          let existStateInStateAry = stateAry.find(state => {
+            return state.stateId === stateObj.stateId;
+          })
+          if(!existStateInStateAry){
+            stateAry.push(stateObj);
+          }
         }
-
-      }
-      for (let j = 0; j < xmlDom.children.length; j++) {
-        let item = xmlDom.children[j];
-        parseStateAndLine(item);
-      }
-      let updateLineAry = (lineAry, stateAry)=>{
-        let createPathByStates = (startState, endState)=>{
-          const MID_POINT_X = 50;
-          let toNum = (strWithPx)=>{
-            return parseInt(strWithPx.replace('px', ''), 10);
+        if(stateDom.children && stateDom.children.length){
+          for (let j = 0; j < stateDom.children.length; j++) {
+            let child = stateDom.children[j];
+            extractStateAndLine(child);
           }
-          let startPoint = {
-            x: startState.x + toNum(startState.width),
-            y: startState.y + 1/2 * toNum(startState.height) + 40 // 80是thread-body元素的纵向偏移
-          };
-          let endPoint = {
-            x: endState.x,
-            y: endState.y + 1 / 2 * toNum(endState.height) + 40
-          }
-          return `M ${startPoint.x} ${
-            startPoint.y
-            } h ${MID_POINT_X} m 0 0 V ${endPoint.y} m 0 0 L ${endPoint.x} ${
-            endPoint.y
-            } m 0 0 z`     
         }
-
-        lineAry.forEach(item => {
-          if(!item.d){
-            debugger;
-            let startState = stateAry.find(state => {
-              return state.stateId === item.startState.stateId;
-            })
-            let endState = stateAry.find(state => {
-              return state.stateId === item.endState.stateId;
-            })
-            item.d = createPathByStates(startState, endState);
-          }
-        })
       }
-
-      updateLineAry(lineAry, stateAry);
+      extractStateAndLine(xmlDom);
 
       window.aa = {
         stateAry: stateAry,
@@ -807,34 +734,6 @@
       debugger;
     });
 
-    /*window.addEventListener('load', function () {
-
-      var svg = document.querySelector('svg.blocklySvg');
-      var defs = Blockly.utils.dom.createSvgElement('defs', {}, svg);
-      var shadowGrey = Blockly.utils.dom.createSvgElement('filter', {
-        id: 'shadowGrey',
-        x: "0",
-        y: "0",
-        width: "100%",
-        height: "100%"
-      }, defs);
-      Blockly.utils.dom.createSvgElement('feOffset', {
-        in: 'SourceGraphic',
-        result: 'offOut',
-        dx: 0,
-        dy: 0
-      }, shadowGrey);
-      Blockly.utils.dom.createSvgElement('feGaussianBlur', {
-        in: 'offOut',
-        stdDeviation: 1,
-        result: 'blurOut',
-      }, shadowGrey);
-      Blockly.utils.dom.createSvgElement('feBlend', {
-        in: 'SourceGraphic',
-        in2: "blurOut",
-        mode: "normal"
-      }, shadowGrey);
-    })*/
    
   </script>
 
