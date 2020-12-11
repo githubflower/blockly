@@ -596,7 +596,6 @@
       //重新定义run_state块 
     }
     window.addEventListener('message', function (e) {
-      debugger;
       // Code.workspace.clear();
       beforeLoadBlocks(e.data);
       Code.loadBlocks(e.data);
@@ -613,128 +612,6 @@
       };
       reader.readAsText(file);
     })
-
-    var genStateDataBtn = document.getElementById('genStateData');
-    genStateDataBtn.addEventListener('click', function (e) {
-      const STATE_BLOCK = 'state_opr';
-      let xmlDom = Blockly.Xml.workspaceToDom(Code.workspace);
-      let stateAry = []; //所有的状态数据集合
-      let lineAry = []; //所有的连线数据集合
-      function extractStateAndLine(stateDom) {
-        if (stateDom.tagName === 'block' && stateDom.getAttribute('type') === STATE_BLOCK) {
-          let stateObj = {
-            stateId: stateDom.getAttribute('id'),
-            stateType: stateDom.getAttribute('type') === STATE_BLOCK ? 'stateDiv': 'loopDiv',
-            bx: parseInt(stateDom.getAttribute('x'), 10), // blockly中与此对应的图形块的x
-            by: parseInt(stateDom.getAttribute('y'), 10), // blockly中与此对应的图形块的y
-            x: stateDom.getAttribute('sx'),
-            y: stateDom.getAttribute('sy'),
-            width: '76px',
-            height: '40px',
-            name: stateDom.firstChild.textContent,
-            inputAry: [],
-            outputAry: [],
-            children: [],
-            nodeHeight: 0 // 如果该节点有2个分支，且分支是叶子节点，则这个节点的nodeHeight = 2; 总之，nodeHeight = 各分支nodeHeight之和 - 这个参数为自动布局所用
-          }
-
-          function dom2State(dom){
-            return {
-              stateId: dom.getAttribute('id'),
-              stateType: STATE_BLOCK
-            };
-          }
-          function findOutputLinesOfStateDom(stateDom, outputLines){
-            // 如果stateDom中有next节点 且 next节点的children中有block.state_trigger_event 则将这个block.state_trigger_event push 到 outputLines
-            // 然后将这个block.state_trigger_event作为新的stateDom，查找其包含的block.state_trigger_event 这样遍历查找所有的block.state_trigger_event就找到了outputLines
-            let children = stateDom.children;
-            stateDom.children.forEach(child => {
-              if(child.tagName === 'next'){ //所有next节点的children都只有1个
-                if(child.children && child.children[0] && child.children[0].getAttribute('type') === 'state_trigger_event'){
-                  let lineDom = child.children[0];
-                  let newLine = {
-                    lineId: lineDom.getAttribute('id'),
-                    d: lineDom.getAttribute('d'),
-                    startState: dom2State(stateDom),
-                    endState: dom2State(lineDom.children[0].children[0]), //TODO 需保证代码健壮性
-                  };
-                  
-                  let existLineOfOutputLines = outputLines.find(item => {
-                    return item.lineId === lineDom.getAttribute('id');
-                  })
-                  if(!existLineOfOutputLines){
-                    outputLines.push(newLine);
-                  }
-
-                  let existLineOfLineAry = lineAry.find(item => {
-                    return item.lineId === lineDom.getAttribute('id')
-                  })
-                  if(!existLineOfLineAry){
-                    lineAry.push(newLine);
-                  }
-
-                  findOutputLinesOfStateDom(lineDom.children[0].children[0], outputLines);
-                }
-              }
-            })
-            return outputLines;
-          }
-
-          function findInputLinesOfStateDom(stateDom, inputLines){
-            //逐级往上寻找type === 'state_opr'的块即inputLines    //  block.state_trigger_event > statement > block.state_opr
-            let parent = stateDom.parent && stateDom.parent.parent;
-            if(parent && parent.getAttribute('type') === 'state_trigger_event'){
-              let newLine = {
-                lineId: lineDom.getAttribute('id'),
-                d: lineDom.getAttribute('d'),
-                startState: dom2State(parent),
-                endState: dom2State(stateDom)
-              };
-
-              let existLineOfInputLines = inputLines.find(item => {
-                return item.lineId === newLine.lineId;
-              })
-              if(!existLineOfInputLines){
-                inputLines.push(newLine);
-              }
-
-              let existLineOfLineAry = lineAry.find(item => {
-                return item.lineId === newLine.lineId;
-              })
-              if(!existLineOfLineAry){
-                lineAry.push(newLine);
-              }
-            }
-            return inputLines;
-          }
-
-          findOutputLinesOfStateDom(stateDom, stateObj.outputAry);
-          findInputLinesOfStateDom(stateDom, stateObj.inputAry);
-          
-          let existStateInStateAry = stateAry.find(state => {
-            return state.stateId === stateObj.stateId;
-          })
-          if(!existStateInStateAry){
-            stateAry.push(stateObj);
-          }
-        }
-        if(stateDom.children && stateDom.children.length){
-          for (let j = 0; j < stateDom.children.length; j++) {
-            let child = stateDom.children[j];
-            extractStateAndLine(child);
-          }
-        }
-      }
-      extractStateAndLine(xmlDom);
-
-      window.aa = {
-        stateAry: stateAry,
-        lineAry: lineAry
-      }
-      debugger;
-    });
-
-   
   </script>
 
 </body>
