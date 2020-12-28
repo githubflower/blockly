@@ -94,8 +94,9 @@ Blockly.utils.object.inherits(Blockly.FieldVariable, Blockly.FieldDropdown);
  */
 Blockly.FieldVariable.fromJson = function(options) {
   var varName = Blockly.utils.replaceMessageReferences(options['variable']);
+  var variabletype = options.variabletype;
   return new Blockly.FieldVariable(
-      varName, undefined, undefined, undefined, options);
+      varName, undefined, undefined, variabletype, options);
 };
 
 /**
@@ -403,11 +404,19 @@ Blockly.FieldVariable.dropdownCreate = function() {
     var variableTypes = this.getVariableTypes_();
     // Get a copy of the list, so that adding rename and new variable options
     // doesn't modify the workspace's list.
-    for (var i = 0; i < variableTypes.length; i++) {
-      var variableType = variableTypes[i];
+    //如果传了variabletype 则只返回variabletype类型的变量
+    if(this.defaultType_){
+      var variableType = this.defaultType_;
       var variables =
         this.sourceBlock_.workspace.getVariablesOfType(variableType);
       variableModelList = variableModelList.concat(variables);
+    }else{
+      for (var i = 0; i < variableTypes.length; i++) {
+        var variableType = variableTypes[i];
+        var variables =
+          this.sourceBlock_.workspace.getVariablesOfType(variableType);
+        variableModelList = variableModelList.concat(variables);
+      }
     }
   }
   variableModelList.sort(Blockly.VariableModel.compareByName);

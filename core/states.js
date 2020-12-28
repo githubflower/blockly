@@ -26,7 +26,7 @@ goog.require('Blockly.Xml');
  * when running generators.
  * @deprecated Use Blockly.PROCEDURE_CATEGORY_NAME
  */
-Blockly.States.NAME_TYPE = Blockly.THREAD_CATEGORY_NAME;
+Blockly.States.NAME_TYPE = Blockly.STATE_CATEGORY_NAME;
 
 /**
  * The default argument for a states_mutatorarg block.
