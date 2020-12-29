@@ -91,7 +91,24 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "%{BKY_VARIABLES_SET_TOOLTIP}",
     "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
     "extensions": ["contextMenu_variableSetterGetter"]
-  }
+  },
+  {
+    "type": "locations_get",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+        "variabletype": Blockly.LOCATIONS_TYPE
+      }
+    ],
+    "output": null,
+    "style": "variable_blocks",
+    "helpUrl": "%{BKY_VARIABLES_GET_HELPURL}",
+    "tooltip": "%{BKY_VARIABLES_GET_TOOLTIP}",
+    "extensions": ["contextMenu_variableSetterGetter"]
+  },
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 
 /**
@@ -161,6 +178,7 @@ Blockly.Constants.Variables.CUSTOM_CONTEXT_MENU_VARIABLE_GETTER_SETTER_MIXIN = {
 Blockly.Constants.Variables.RENAME_OPTION_CALLBACK_FACTORY = function(block) {
   return function() {
     var workspace = block.workspace;
+    debugger;
     var variable = block.getField('VAR').getVariable();
     Blockly.Variables.renameVariable(workspace, variable);
   };

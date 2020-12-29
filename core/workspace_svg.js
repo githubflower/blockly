@@ -1307,6 +1307,9 @@ Blockly.WorkspaceSvg.prototype.injectSomeModel2Map = function(block) {
   if(block.type === 'thread_def'){
     workspace.createThread( block.getFieldValue('NAME'), block.id);
   }
+  if(block.type === 'new_location'){
+    workspace.createVariable( block.getFieldValue('NAME'), Blockly.LOCATIONS_TYPE, block.id);
+  }
 }
 
 /**

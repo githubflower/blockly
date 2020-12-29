@@ -28,49 +28,88 @@ Blockly.Locations.flyoutCategory = function(workspace) {
 };
 
 Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
-  var variableModelList = workspace.getVariablesOfType(Blockly.Locations.type);
+	var variableModelList = workspace.getVariablesOfType(Blockly.Locations.type);
 
-  var xmlList = [];
-  if (variableModelList.length > 0) {
-    // New variables are added to the end of the variableModelList.
-    var mostRecentVariable = variableModelList[variableModelList.length - 1];
-    if (Blockly.Blocks['locations_set']) {
-      var block = Blockly.utils.xml.createElement('block');
-      block.setAttribute('type', 'locations_set');
-      block.setAttribute('variabletype', Blockly.Locations.type);
-      block.setAttribute('gap', Blockly.Blocks['math_change'] ? 8 : 24);
-      block.appendChild(
-          Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
-      xmlList.push(block);
-    }
-    if (Blockly.Blocks['math_change']) {
-      var block = Blockly.utils.xml.createElement('block');
-      block.setAttribute('type', 'math_change');
-      block.setAttribute('variabletype', Blockly.Locations.type);
-      block.setAttribute('gap', Blockly.Blocks['variables_get'] ? 20 : 8);
-      block.appendChild(
-          Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
-      var value = Blockly.Xml.textToDom(
-          '<value name="DELTA">' +
-          '<shadow type="math_number">' +
-          '<field name="NUM">1</field>' +
-          '</shadow>' +
-          '</value>');
-      block.appendChild(value);
-      xmlList.push(block);
-    }
+	var xmlList = [];
+	if (Blockly.Blocks['new_location']) {
+			var block = Blockly.utils.xml.createElement('block');
+			block.setAttribute('type', 'new_location');
+			block.setAttribute('gap', Blockly.Blocks['math_change'] ? 8 : 24);
+			xmlList.push(block);
+		}
+	if (variableModelList.length > 0) {
+		// New variables are added to the end of the variableModelList.
+		var mostRecentVariable = variableModelList[variableModelList.length - 1];
+		
+		if (Blockly.Blocks['locations_set']) {
+			var block = Blockly.utils.xml.createElement('block');
+			block.setAttribute('type', 'locations_set');
+			block.setAttribute('variabletype', Blockly.Locations.type);
+			block.setAttribute('gap', Blockly.Blocks['math_change'] ? 8 : 24);
+			block.appendChild(
+				Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
+			xmlList.push(block);
+		}
+		if (Blockly.Blocks['math_change']) {
+			var block = Blockly.utils.xml.createElement('block');
+			block.setAttribute('type', 'math_change');
+			block.setAttribute('variabletype', Blockly.Locations.type);
+			block.setAttribute('gap', Blockly.Blocks['locations_get'] ? 20 : 8);
+			block.appendChild(
+				Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
+			var value = Blockly.Xml.textToDom(
+				'<value name="DELTA">' +
+				'<shadow type="math_number">' +
+				'<field name="NUM">1</field>' +
+				'</shadow>' +
+				'</value>');
+			block.appendChild(value);
+			xmlList.push(block);
+		}
 
-    if (Blockly.Blocks['variables_get']) {
-      variableModelList.sort(Blockly.VariableModel.compareByName);
-      for (var i = 0, variable; (variable = variableModelList[i]); i++) {
-        var block = Blockly.utils.xml.createElement('block');
-        block.setAttribute('type', 'variables_get');
-        block.setAttribute('variabletype', Blockly.Locations.type);
-        block.setAttribute('gap', 8);
-        block.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
-        xmlList.push(block);
-      }
-    }
-  }
-  return xmlList;
+		if (Blockly.Blocks['locations_get']) {
+			variableModelList.sort(Blockly.VariableModel.compareByName);
+			/*for (var i = 0, variable;
+				(variable = variableModelList[i]); i++) {
+				var block = Blockly.utils.xml.createElement('block');
+				block.setAttribute('type', 'locations_get');
+				block.setAttribute('variabletype', Blockly.Locations.type);
+				block.setAttribute('gap', 8);
+				block.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
+				xmlList.push(block);
+			}*/
+			if (variableModelList.length) {
+				var block = Blockly.utils.xml.createElement('block');
+				block.setAttribute('type', 'locations_get');
+				block.setAttribute('variabletype', Blockly.Locations.type);
+				block.setAttribute('gap', 8);
+				block.appendChild(Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
+				xmlList.push(block);
+
+			}
+		}
+
+		if (Blockly.Blocks['get_location']) {
+			variableModelList.sort(Blockly.VariableModel.compareByName);
+			/*for (var i = 0, variable; (variable = variableModelList[i]); i++) {
+			  var block = Blockly.utils.xml.createElement('block');
+			  block.setAttribute('type', 'get_location');
+			  block.setAttribute('variabletype', Blockly.Locations.type);
+			  block.setAttribute('gap', 8);
+			  block.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
+			  xmlList.push(block);
+			}*/
+			if (variableModelList.length) {
+				var block = Blockly.utils.xml.createElement('block');
+				block.setAttribute('type', 'get_location');
+				block.setAttribute('variabletype', Blockly.Locations.type);
+				block.setAttribute('gap', 8);
+				block.appendChild(Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
+				xmlList.push(block);
+
+			}
+		}
+
+	}
+	return xmlList;
 };

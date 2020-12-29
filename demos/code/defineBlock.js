@@ -1237,7 +1237,7 @@ Blockly.Blocks['thread_opr'] = {
       var threadId = fieldThread.getValue();
       var thread = this.workspace.threadMap_.getThreadById(threadId);
       if (threadId === newBlock.id) {
-        this.workspace.threadMap_.renameThread(thread, newName);
+        this.workspace.threadMap_.renameThread(thread, newName);//TODO 在这里触发Map更新不太好 应该从源头触发更新
         fieldThread.getOptions(false);
         fieldThread.doValueUpdate_(thread.getId());
       }

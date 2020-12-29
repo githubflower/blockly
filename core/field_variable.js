@@ -405,8 +405,8 @@ Blockly.FieldVariable.dropdownCreate = function() {
     // Get a copy of the list, so that adding rename and new variable options
     // doesn't modify the workspace's list.
     //如果传了variabletype 则只返回variabletype类型的变量
-    if(this.defaultType_){
-      var variableType = this.defaultType_;
+    if(this.variable_.type){
+      var variableType = this.variable_.type;
       var variables =
         this.sourceBlock_.workspace.getVariablesOfType(variableType);
       variableModelList = variableModelList.concat(variables);
