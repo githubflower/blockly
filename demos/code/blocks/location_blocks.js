@@ -109,15 +109,20 @@ Blockly.Blocks['get_location'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("get location")
-            .appendField(new Blockly.FieldVariable('unnamed', function(name) {
-                return name;
-            }), 'location_name');
+            .appendField(new Blockly.FieldVariable('', this.validateLocationName), 'location_name');
         this.setOutput(true, "location");
         this.setColour(290);
         this.setTooltip("get location function");
         this.setHelpUrl("https://www.qkmtech.com");
     },
-    renameLocation: function(oldName, newName, newBlock) {
+    validateLocationName: function(name){
+        console.log(name);
+        if(!name){
+            return 'aaa';
+        }
+        return name;
+    },
+    /*renameLocation: function(oldName, newName, newBlock) {
         var fieldVariable = this.getField('field_variable');
         if (Blockly.Names.equals(oldName, fieldVariable.selectedOption_[0])) {
             var variableId = fieldVariable.getValue();
@@ -127,12 +132,8 @@ Blockly.Blocks['get_location'] = {
                 fieldVariable.getOptions(false);
                 fieldVariable.doValueUpdate_(variable.getId());
             }
-            /*  var baseMsg = this.outputConnection ?
-                 Blockly.Msg['PROCEDURES_CALLRETURN_TOOLTIP'] :
-                 Blockly.Msg['PROCEDURES_CALLNORETURN_TOOLTIP'];
-             this.setTooltip(baseMsg.replace('%1', newName)); */
         }
-    }
+    }*/
 };
 
 Blockly.Blocks['get_location_member'] = {
