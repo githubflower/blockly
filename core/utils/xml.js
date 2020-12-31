@@ -77,3 +77,14 @@ Blockly.utils.xml.domToText = function(dom) {
   var oSerializer = new XMLSerializer();
   return oSerializer.serializeToString(dom);
 };
+
+Blockly.utils.xml.createBlockDom = function(type, attrs){
+  var block = Blockly.utils.xml.createElement('block');
+  block.setAttribute('type', type);
+  if(typeof attrs === 'object'){
+  	for(var key in attrs){
+  		block.setAttribute(key, attrs[key]);
+  	}
+  }
+  return block;
+}

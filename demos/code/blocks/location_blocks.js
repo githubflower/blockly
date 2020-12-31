@@ -1,5 +1,5 @@
 'use strict';
-
+const HELP_URL = 'https://www.qkmtech.com';
 Blockly.Blocks['new_location'] = {
     init: function() {
         this.appendValueInput("location_x")
@@ -94,8 +94,9 @@ Blockly.Blocks['new_location'] = {
                 for (var i = 0; i < blocks.length; i++) {
                     blocks[i].updateVarName(variable)
                 }
-                workspace.renameVariableById(variable.getId(), name);
-                // Blockly.Variables.renameVariable(workspace, variable);
+                if (variable.getId() === this.getSourceBlock().id) {
+                    workspace.renameVariableById(variable.getId(), name);
+                }
             }
         }
         return name;
@@ -105,22 +106,30 @@ Blockly.Blocks['new_location'] = {
     }
 };
 
+Blockly.Blocks['set_location'] = {
+    init: function() {
+        this.appendValueInput("location_value")
+            .setCheck("location")
+            .appendField("set location")
+            .appendField(new Blockly.FieldVariable(''), 'VAR')
+            .appendField("to");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(290);
+        this.setTooltip("change location function");
+        this.setHelpUrl(HELP_URL);
+    }
+};
+
 Blockly.Blocks['get_location'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("get location")
-            .appendField(new Blockly.FieldVariable('', this.validateLocationName), 'location_name');
+            .appendField(new Blockly.FieldVariable(''), 'VAR');
         this.setOutput(true, "location");
         this.setColour(290);
         this.setTooltip("get location function");
-        this.setHelpUrl("https://www.qkmtech.com");
-    },
-    validateLocationName: function(name){
-        console.log(name);
-        if(!name){
-            return 'aaa';
-        }
-        return name;
+        this.setHelpUrl(HELP_URL);
     },
     /*renameLocation: function(oldName, newName, newBlock) {
         var fieldVariable = this.getField('field_variable');
@@ -135,6 +144,8 @@ Blockly.Blocks['get_location'] = {
         }
     }*/
 };
+
+
 
 Blockly.Blocks['get_location_member'] = {
     init: function() {
@@ -163,20 +174,6 @@ Blockly.Blocks['get_location_member'] = {
     }
 };
 
-Blockly.Blocks['change_location'] = {
-    init: function() {
-        this.appendValueInput("location_value")
-            .setCheck("location")
-            .appendField("change location")
-            .appendField(new Blockly.FieldTextInput("name"), "location_name")
-            .appendField("by");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(290);
-        this.setTooltip("change location function");
-        this.setHelpUrl("https://www.qkmtech.com");
-    }
-};
 
 Blockly.Blocks['change_location_member'] = {
     init: function() {
