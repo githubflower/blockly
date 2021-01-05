@@ -640,8 +640,6 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
   var id = xmlBlock.getAttribute('id');
   block = workspace.newBlock(prototypeName, id);
   // 保存状态块的位置信息
-  log(xmlBlock);
-  log('x', xmlBlock.getAttribute('sx'));
   if (xmlBlock.hasAttribute('sx')) {
     block.setStateXY('sx', parseInt(xmlBlock.getAttribute('sx'), 10));
   }
@@ -651,7 +649,6 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
   
   //设置startState linePath等数据 TODO
   var attrs = xmlBlock.getAttributeNames();
-  log(attrs);
   var excludeAttrs = ['type', 'id', 'name', 'x', 'y', 'sx', 'sy'];
   for(var i = 0; i < attrs.length; i++){
     var k = attrs[i];

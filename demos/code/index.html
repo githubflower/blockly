@@ -472,7 +472,7 @@
     <category name="States" colour="%{BKY_PROCEDURES_HUE}" custom="STATE"></category>
     <category name="Locations" colour="%{BKY_PROCEDURES_HUE}" custom="LOCATION"></category>
     <category name="Class" colour="%{BKY_CLASS_HUE}">
-      
+      <block type="slider"></block>
       <block type="lists_state"></block>
       <block type="state_trigger_event"></block>
       <block type="anonymous_function"></block>
@@ -528,7 +528,8 @@
       }
     };
   </script>
-  <script src="/static/blockly/appengine/storage.js"></script>
+  <!-- <script src="/static/blockly/appengine/storage.js"></script> -->
+  <script src="../../appengine/storage.js"></script>
   <!-- <script src="../../blockly_compressed.js"></script> -->
   <!-- <script src="../../blocks_compressed.js"></script> -->
 
@@ -562,10 +563,12 @@
   <script src="../../dart_compressed.js"></script>
 
   <script src="./code.js"></script>
+  <script src="./slider.js"></script>
 
   <script type="text/javascript" src="./defineBlock.js"></script>
   <script type="text/javascript" src="./generate.js"></script>
   <script type="text/javascript" src="./blocks/location_blocks.js"></script>
+  <script type="text/javascript" src="./blocks/profile_blocks.js"></script>
   <script>
     window.log = function(str){
       return ;
