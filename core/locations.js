@@ -52,7 +52,7 @@ Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
 		// New variables are added to the end of the variableModelList.
 		var mostRecentVariable = variableModelList[variableModelList.length - 1];
 		
-		if (Blockly.Blocks['locations_set']) {
+		/*if (Blockly.Blocks['locations_set']) {
 			var block = Blockly.utils.xml.createElement('block');
 			block.setAttribute('type', 'locations_set');
 			block.setAttribute('variabletype', Blockly.Locations.type);
@@ -60,8 +60,8 @@ Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
 			block.appendChild(
 				Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
 			xmlList.push(block);
-		}
-		if (Blockly.Blocks['math_change']) {
+		}*/
+		/*if (Blockly.Blocks['math_change']) {
 			var block = Blockly.utils.xml.createElement('block');
 			block.setAttribute('type', 'math_change');
 			block.setAttribute('variabletype', Blockly.Locations.type);
@@ -76,19 +76,10 @@ Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
 				'</value>');
 			block.appendChild(value);
 			xmlList.push(block);
-		}
+		}*/
 
-		if (Blockly.Blocks['locations_get']) {
+		/*if (Blockly.Blocks['locations_get']) {
 			variableModelList.sort(Blockly.VariableModel.compareByName);
-			/*for (var i = 0, variable;
-				(variable = variableModelList[i]); i++) {
-				var block = Blockly.utils.xml.createElement('block');
-				block.setAttribute('type', 'locations_get');
-				block.setAttribute('variabletype', Blockly.Locations.type);
-				block.setAttribute('gap', 8);
-				block.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
-				xmlList.push(block);
-			}*/
 			if (variableModelList.length) {
 				var block = Blockly.utils.xml.createElement('block');
 				block.setAttribute('type', 'locations_get');
@@ -98,7 +89,7 @@ Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
 				xmlList.push(block);
 
 			}
-		}
+		}*/
 
 		if (Blockly.Blocks['get_location']) {
 			if (variableModelList.length) {
@@ -114,6 +105,28 @@ Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
 		if(Blockly.Blocks['set_location']){
 			if (variableModelList.length) {
 				var block = Blockly.utils.xml.createBlockDom('set_location', {
+					variabletype: Blockly.Locations.type,
+					gap: 8
+				});
+				block.appendChild(Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
+				xmlList.push(block);
+			}
+		}
+
+		if(Blockly.Blocks['get_location_member']){
+			if (variableModelList.length) {
+				var block = Blockly.utils.xml.createBlockDom('get_location_member', {
+					variabletype: Blockly.Locations.type,
+					gap: 8
+				});
+				block.appendChild(Blockly.Variables.generateVariableFieldDom(mostRecentVariable));
+				xmlList.push(block);
+			}
+		}
+
+		if(Blockly.Blocks['change_location_member']){
+			if (variableModelList.length) {
+				var block = Blockly.utils.xml.createBlockDom('change_location_member', {
 					variabletype: Blockly.Locations.type,
 					gap: 8
 				});

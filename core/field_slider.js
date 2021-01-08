@@ -260,8 +260,7 @@ Blockly.FieldSlider.prototype.showEditor_ = function(opt_e) {
   var editor = this.dropdownCreate_();
   Blockly.DropDownDiv.getContentDiv().appendChild(editor);
 
-  Blockly.DropDownDiv.setColour(this.sourceBlock_.style.colourPrimary,
-    this.sourceBlock_.style.colourTertiary);
+  // Blockly.DropDownDiv.setColour(this.sourceBlock_.style.colourPrimary, this.sourceBlock_.style.colourTertiary);
 
   Blockly.DropDownDiv.showPositionedByField(
     this, this.dropdownDispose_.bind(this));
@@ -280,16 +279,24 @@ Blockly.FieldSlider.prototype.dropdownCreate_ = function() {
     'xmlns:html': Blockly.utils.dom.HTML_NS,
     'xmlns:xlink': Blockly.utils.dom.XLINK_NS,
     'version': '1.1',
-    'height': '30px',
-    'width': '200px',
+    'height': '25px',
+    'width': '250px',
     'style': 'touch-action: none'
   }, null);
   var self = this;
-  var slider = new Slider(20, 20, 150, svg, function(v) {
+  var oldValue;
+  if(this.slider_){
+    oldValue = this.getValue();
+  }
+  this.slider_ = new Slider(0, 15, 250, svg, function(v) {
     v = Math.round(v * 100);
-    console.log(v);
     self.setEditorValue_(v);
-  })
+    console.log(v);
+  }, 0)
+  if(typeof oldValue !== 'undefined'){
+    this.slider_.animateValue(oldValue / 100);
+  }
+
 
   // The angle picker is different from other fields in that it updates on
   // mousemove even if it's not in the middle of a drag.  In future we may

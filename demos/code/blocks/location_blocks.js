@@ -150,7 +150,7 @@ Blockly.Blocks['get_location'] = {
 Blockly.Blocks['get_location_member'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("get member")
+            .appendField("get")
             .appendField(new Blockly.FieldDropdown([
                 ["X", "x"],
                 ["Y", "y"],
@@ -165,12 +165,12 @@ Blockly.Blocks['get_location_member'] = {
                 ["ZClearance", "zclearance"],
                 ["ZWorld", "zworld"]
             ]), "location_member")
-            .appendField("of location")
-            .appendField(new Blockly.FieldTextInput("name"), "location_name");
+            .appendField("of")
+            .appendField(new Blockly.FieldVariable(''), 'VAR');
         this.setOutput(true, null);
         this.setColour(290);
         this.setTooltip("get location function");
-        this.setHelpUrl("https://www.qkmtech.com");
+        this.setHelpUrl(HELP_URL);
     }
 };
 
@@ -179,7 +179,7 @@ Blockly.Blocks['change_location_member'] = {
     init: function() {
         this.appendValueInput("location_member_value")
             .setCheck("Number")
-            .appendField("change member")
+            .appendField("change")
             .appendField(new Blockly.FieldDropdown([
                 ["X", "x"],
                 ["Y", "y"],
@@ -195,15 +195,17 @@ Blockly.Blocks['change_location_member'] = {
                 ["ZWorld", "zworld"]
             ]), "location_member")
             .appendField("of location")
-            .appendField(new Blockly.FieldTextInput("name"), "location_name")
+            .appendField(new Blockly.FieldVariable(''), 'VAR')
             .appendField("by");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(290);
         this.setTooltip("change location function");
-        this.setHelpUrl("https://www.qkmtech.com");
+        this.setHelpUrl(HELP_URL);
     }
 };
+
+//===================  以下内容从ARM那边拉过来的，还未修改  ===========================================================================
 
 Blockly.Blocks['location_to_joint'] = {
     init: function() {

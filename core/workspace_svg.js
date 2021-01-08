@@ -143,6 +143,9 @@ Blockly.WorkspaceSvg = function(options,
   if(Blockly.Locations && Blockly.Locations.flyoutCategory){
     this.registerToolboxCategoryCallback(Blockly.LOCATION_CATEGORY_NAME, Blockly.Locations.flyoutCategory);
   }
+  if(Blockly.Profiles && Blockly.Profiles.flyoutCategory){
+    this.registerToolboxCategoryCallback(Blockly.PROFILE_CATEGORY_NAME, Blockly.Profiles.flyoutCategory);
+  }
 
   /**
    * Object in charge of storing and updating the workspace theme.
@@ -1309,6 +1312,9 @@ Blockly.WorkspaceSvg.prototype.injectSomeModel2Map = function(block) {
   }
   if(block.type === 'new_location'){
     workspace.createVariable( block.getFieldValue('NAME'), Blockly.LOCATIONS_TYPE, block.id);
+  }
+  if(block.type === 'new_profile'){
+    workspace.createVariable( block.getFieldValue('NAME'), Blockly.PROFILES_TYPE, block.id);
   }
 }
 

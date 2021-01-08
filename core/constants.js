@@ -263,6 +263,8 @@ Blockly.THREAD_CATEGORY_NAME = 'THREAD';
 Blockly.STATE_CATEGORY_NAME = 'STATE';
 Blockly.LOCATION_CATEGORY_NAME = 'LOCATION';
 Blockly.LOCATIONS_TYPE = 'location';
+Blockly.PROFILE_CATEGORY_NAME = 'PROFILE';
+Blockly.PROFILES_TYPE = 'profile';
 
 /**
  * String for use in the dropdown created in field_variable.

@@ -471,8 +471,8 @@
     <category name="Threads" colour="%{BKY_THREADS_HUE}" custom="THREAD"></category>
     <category name="States" colour="%{BKY_PROCEDURES_HUE}" custom="STATE"></category>
     <category name="Locations" colour="%{BKY_PROCEDURES_HUE}" custom="LOCATION"></category>
+    <category name="Profiles" colour="%{BKY_PROCEDURES_HUE}" custom="PROFILE"></category>
     <category name="Class" colour="%{BKY_CLASS_HUE}">
-      <block type="slider"></block>
       <block type="lists_state"></block>
       <block type="state_trigger_event"></block>
       <block type="anonymous_function"></block>
@@ -499,6 +499,384 @@
       <block type="new"></block>
       <block type="methods_defreturn"></block> -->
     </category>
+
+    <category name="I/O" colour="#a56d5b">
+                <block type="digital_output_set">
+                    <field name="io_state">state_on</field>
+                    <value name="io_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="digital_iostate_get">
+                    <field name="io_mode">DIN</field>
+                    <value name="io_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+            </category>
+            <category name="Robot" colour="#80a55b">
+                <!--<block type="robot_power_enable">
+                    <field name="power_enable_state">power_enable_off</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_home">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>-->
+                <block type="robot_brake_set">
+                    <field name="brake_state">brake_unfree</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                    <field name="axis_index">1</field>
+                </block>
+                <!--<block type="robot_brake_get">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>-->
+                <block type="robot_where">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_where_angle">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <!--<block type="robot_limit_set">
+                    <field name="axis_index">1</field>
+                    <field name="angle_p">0</field>
+                    <field name="angle_n">30</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>-->
+                <!--<block type="robot_limit_get">
+                    <field name="axis_index">1</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>-->
+                <!--<block type="robot_frame_set">
+                    <field name="frame_type">type_1</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_frame_get">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>-->
+                <block type="robot_axis_number_get">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_speed_set">
+                    <field name="speed_value">0</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_speed_get">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <!--<block type="robot_state_get">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>-->
+                <!--<block type="robot_jog_mode_set">
+                    <field name="mode_type">type_0</field>
+                    <field name="switch_type">type_0</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_jog_mode_get">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_jog_distance_set">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_jog_distance_get">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="robot_calibrate_set">
+                    <field name="axis_index">1</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>-->
+                <!--<block type="robot_tool_set">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>-->
+            </category>
+            <category name="Move" colour="#5b80a5">
+                <block type="move_joint"></block>
+                <block type="move_line"></block>
+                <block type="move_axis">
+                    <field name="axis_index">1</field>
+                    <field name="angle_value">0</field>
+                </block>
+                <block type="move_joint_offset"></block>
+                <block type="move_line_offset"></block>
+                <!--<block type="move_arc"></block>-->
+                <!--<block type="move_circle"></block>-->
+                <!--<block type="move_jog">
+                    <field name="axis_index">X</field>
+                </block>
+                <block type="move_stop_jog"></block>-->
+                <block type="move_trigger">
+                    <field name="type_value">type_t_p</field>
+                    <field name="reference_position_value">r_p_start</field>
+                    <field name="do_status">status_on</field>
+                </block>
+                <block type="move_jump">
+                    <field name="trigger_id1_value">1</field>
+                    <field name="trigger_id2_value">1</field>
+                    <field name="trigger_id3_value">1</field>
+                    <field name="trigger_id4_value">1</field>
+                </block>
+                <block type="move_wait_for_eom"></block>
+            </category>
+            
+            <!-- <category name="Location Joint" colour="#a56d5b">
+                <block type="new_location_joint">
+                    <field name="location_name">name</field>
+                    <value name="location_angle1">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="location_angle2">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="location_angle3">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="location_angle4">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="location_angle5">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="location_angle6">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="location_angle7">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="location_angle8">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="location_angle9">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="get_location_joint">
+                    <field name="location_name">name</field>
+                </block>
+                <block type="change_location_joint">
+                    <field name="location_name">name</field>
+                </block>
+                <block type="change_location_joint_member">
+                    <field name="location_member">j1</field>
+                    <field name="location_name">name</field>
+                </block>
+                <block type="get_location_joint_member">
+                    <field name="location_member">j1</field>
+                    <field name="location_name">name</field>
+                </block>
+                <block type="location_joint_to_farme">
+                    <field name="location_name">name</field>
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="location_joint_delete">
+                    <field name="location_name">name</field>
+                </block>
+                <block type="location_joint_print">
+                    <field name="location_name">name</field>
+                </block>
+            </category> -->
+            
+            <!--<category name="Tool" colour="#5ba580">
+                <block type="new_tool">
+                    <field name="tool_name">name</field>
+                    <field name="tool_direct">Positive</field>
+                    <value name="tool_x">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="tool_y">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="tool_z">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="tool_yaw">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="tool_pitch">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="tool_roll">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name="tool_mass">
+                        <shadow type="math_number">
+                            <field name="NUM">0</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="get_tool">
+                    <field name="tool_name">name</field>
+                </block>
+                <block type="change_tool_member">
+                    <field name="tool_member">x</field>
+                    <field name="tool_name">name</field>
+                </block>
+                <block type="get_tool_member">
+                    <field name="tool_member">x</field>
+                    <field name="tool_name">name</field>
+                </block>
+                <block type="tool_delete">
+                    <field name="tool_name">name</field>
+                </block>
+                <block type="tool_print">
+                    <field name="tool_name">name</field>
+                </block>
+            </category>-->
+            <category name="System" colour="#a55b6d">
+                <block type="system_start"></block>
+                <block type="system_abort"></block>
+                <block type="system_continue">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="system_retry">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="system_stop">
+                    <value name="robot_index">
+                        <shadow type="math_number">
+                            <field name="NUM">1</field>
+                        </shadow>
+                    </value>
+                </block>
+                <block type="system_speed_get"></block>
+                <block type="system_speed_set">
+                    <field name="speed_value">0</field>
+                </block>
+                <block type="system_auto_set">
+                    <field name="mode_type">type_0</field>
+                </block>
+                <block type="system_auto_get"></block>
+                <block type="system_login">
+                    <field name="access_value">1</field>
+                </block>
+                <block type="system_logout"></block>
+                <block type="system_clear_variables"></block>
+                <!--<block type="system_clear_error"></block>-->
+            </category>
     <!-- <category name="%{BKY_CATSTATES}" colour="%{BKY_STATES_HUE}" custom="STATE"></category> -->
   </xml>
   <script>
@@ -566,12 +944,27 @@
   <script src="./slider.js"></script>
 
   <script type="text/javascript" src="./defineBlock.js"></script>
-  <script type="text/javascript" src="./generate.js"></script>
   <script type="text/javascript" src="./blocks/location_blocks.js"></script>
   <script type="text/javascript" src="./blocks/profile_blocks.js"></script>
+  <script type="text/javascript" src="./blocks/io_blocks.js"></script>
+  <script type="text/javascript" src="./blocks/move_blocks.js"></script>
+  <script type="text/javascript" src="./blocks/robot_blocks.js"></script>
+  <script type="text/javascript" src="./blocks/tool_blocks.js"></script>
+  <script type="text/javascript" src="./blocks/user_frame_blocks.js"></script>
+  <script type="text/javascript" src="./blocks/system_blocks.js"></script>
+
+  <script type="text/javascript" src="./generate.js"></script>
+  <script type="text/javascript" src="./generators/location_generators.js"></script>
+  <script type="text/javascript" src="./generators/profile_generators.js"></script>
+  <script type="text/javascript" src="./generators/io_generators.js"></script>
+  <script type="text/javascript" src="./generators/move_generators.js"></script>
+  <script type="text/javascript" src="./generators/robot_generators.js"></script>
+  <script type="text/javascript" src="./generators/tool_generators.js"></script>
+  <script type="text/javascript" src="./generators/user_frame_generators.js"></script>
+  <script type="text/javascript" src="./generators/system_generators.js"></script>
+    
   <script>
     window.log = function(str){
-      return ;
       if(typeof str === 'object'){
         console.log('zjie---obj:');
         console.log(str);
