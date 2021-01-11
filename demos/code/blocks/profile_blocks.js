@@ -26,9 +26,16 @@ Blockly.Blocks['speed_slider'] = {
   },
   validator: function(text) {
     // Update the current block's colour to match.
-    var hue = parseInt(text, 10);
+    /*var hue = parseInt(text, 10);
     if (!isNaN(hue)) {
       this.getSourceBlock().setColour(hue);
+    }*/
+    var speed = parseInt(text, 10);
+    if(speed > 100 || speed < 0){
+        this.getSourceBlock().setColour('#ff0000');
+        return null;
+    }else{
+        this.getSourceBlock().setColour('#1F7A00');
     }
   },
   mutationToDom: function(workspace) {
@@ -207,18 +214,14 @@ Blockly.Blocks['change_profile_member'] = {
             .setCheck("Number")
             .appendField("change")
             .appendField(new Blockly.FieldDropdown([
-                ["X", "x"],
-                ["Y", "y"],
-                ["Z", "z"],
-                ["Yaw", "yaw"],
-                ["Pitch", "pitch"],
-                ["Roll", "roll"],
-                ["Config", "config"],
-                ["Ext1", "ext1"],
-                ["Ext2", "ext2"],
-                ["Ext3", "ext3"],
-                ["ZClearance", "zclearance"],
-                ["ZWorld", "zworld"]
+                ["speed", "speed"],
+                ["speed2", "speed2"],
+                ["accel", "accel"],
+                ["decel", "decel"],
+                ["accel ramp", "accelramp"],
+                ["decel ramp", "decelramp"],
+                ["in range", "inrange"],
+                ["type", "type"]
             ]), "profile_member")
             .appendField("of profile")
             .appendField(new Blockly.FieldVariable(''), 'VAR')

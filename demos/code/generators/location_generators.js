@@ -56,7 +56,7 @@ Blockly.Lua['get_location_member'] = function(block) {
   return [code, Blockly.Lua.ORDER_NONE];
 };
 
-Blockly.Lua['change_location'] = function(block) {
+Blockly.Lua['set_location'] = function(block) {
   var text_location_name = Blockly.Lua.getVarNameOfBlock(block);
   var value_location_value = Blockly.Lua.valueToCode(block, 'location_value', Blockly.Lua.ORDER_NONE);
   // TODO: Assemble Lua into code variable.

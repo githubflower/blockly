@@ -131,7 +131,7 @@ Blockly.FieldSlider.prototype.SERIALIZABLE = true;
  * input. Must be a positive integer to support keyboard navigation.
  * @const {number}
  */
-Blockly.FieldSlider.ROUND = 15;
+Blockly.FieldSlider.ROUND = 10;
 
 /**
  * Half the width of protractor image.
@@ -159,7 +159,7 @@ Blockly.FieldSlider.OFFSET = 0;
  * Usually either 360 (for 0 to 359.9) or 180 (for -179.9 to 180).
  * @const {number}
  */
-Blockly.FieldSlider.WRAP = 360;
+Blockly.FieldSlider.WRAP = 100;
 
 /**
  * Radius of protractor circle.  Slightly smaller than protractor size since
