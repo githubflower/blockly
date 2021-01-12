@@ -25,6 +25,14 @@ Blockly.Blocks['move_line'] = {
             .setCheck(["location", "location_joint"])
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField("point");
+        this.appendValueInput("profile_value")
+            .setCheck(["profile"])
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("profile");
+        this.appendDummyInput('blend')
+            .appendField(new Blockly.FieldCheckbox(true), 'BLEND')
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField('wait for end of motion');
         this.setInputsInline(false);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -41,7 +49,7 @@ Blockly.Blocks['move_axis'] = {
         this.appendDummyInput()
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField("axis")
-            .appendField(new Blockly.FieldDropdown([["1", "1"], ["2", "2"], ["3", "3"], ["4", "3"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "axis_index");
+            .appendField(new Blockly.FieldDropdown([["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "axis_index");
         this.appendDummyInput()
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField("angle")

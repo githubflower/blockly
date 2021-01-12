@@ -278,6 +278,9 @@ Code.tabClick = function(clickedName) {
       if(Code.workspace.procedureMap_){
         Code.workspace.procedureMap_.clear();
       }
+      if(Code.workspace.variableMap_){
+        Code.workspace.variableMap_.clear();
+      }
       Blockly.Xml.domToWorkspace(xmlDom, Code.workspace);
     }
   }

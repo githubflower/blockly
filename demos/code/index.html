@@ -123,7 +123,10 @@
             <td class="tabmin tab_collapse">&nbsp;</td>
             <td id="tab_xml" class="taboff tab_collapse">XML</td>
             <td class="tabmin">
-              <input type="file" name="loadXml" id="loadXml" />
+              <input type="file" name="loadXml" id="loadXml" value="loadXml"/>
+            </td>
+            <td class="tabmin">
+              <input type="file" name="importLocation" id="importLocation" value="导入点位"/>
             </td>
             <td>
               <input type="button" value="生成状态图json" id="genStateData" />
@@ -1011,6 +1014,185 @@
       };
       reader.readAsText(file);
     })
+
+    var isComment = function(str){
+      if(str.indexOf('--') === 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    function genUid(){
+      return Blockly.utils.genUid();
+    }
+
+    var createLocation = function(line){
+      var reg = /Location.New\((.*)\)/g;
+      var ary = line.split('=');
+      var locationName = ary[0].trim();
+      var params = ary[1].trim();
+      
+        params = reg.exec(params)[1];
+        params = params.split(',');
+
+        // var variable = Code.workspace.variableMap_.createVariable(locationName, 'location');
+        var locationDom = Blockly.Xml.textToDom(
+          '<block type="new_location" id="' + genUid() + '" gap="8" collapsed="true">' +
+          '  <field name="NAME">' + locationName + '</field>' +
+          '  <value name="location_x">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">' + params[0] + '</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_y">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">' + params[1] + '</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_z">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">' + params[2] + '</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_yaw">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">' + params[3] + '</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_pitch">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">' + params[4] + '</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_roll">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">' + params[5] + '</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_config">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">0</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_ex1">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">0</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_ex2">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">0</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_ex3">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">0</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_zclearance">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">0</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '  <value name="location_zworld">' +
+          '    <shadow type="math_number" id="' + genUid() + '">' +
+          '      <field name="NUM">0</field>' +
+          '    </shadow>' +
+          '  </value>' +
+          '</block>' 
+        );
+      return locationDom;
+
+
+    }    
+
+    var parseLocation = function(data){
+      var dataAry = data.split('\n');
+      var domMap = {};
+      var locationsDom = [];
+      dataAry.forEach(line => {
+        line = line.trim();
+        if(!isComment(line)){
+          var ary = line.split('=');
+          var key = ary[0].trim();
+          var value = ary[1].trim();
+          //说明是创建点位
+          if(value.indexOf('Location.New') === 0){
+            domMap[key] = createLocation(line);
+            locationsDom.push(domMap[key]);
+          }else{
+            // 修改点位信息
+            updateLocation(line, domMap);
+          }
+        }
+      })
+      return locationsDom;
+    }
+
+    var getDomByName = function(dom, v){
+      var result;
+      if(dom.getAttribute && dom.getAttribute('name') === v){
+        result = dom;
+      }else{
+        var children = Array.prototype.slice.call(dom.childNodes);
+        for(var i = 0; i < children.length; i++){
+          result = getDomByName(children[i], v);
+          if(result){
+            break;
+          }
+        }
+      }
+      return result;
+    }
+
+    var updateLocation = function(line, domMap){
+      var ary = line.split('=');
+      var key = ary[0].trim();
+      var value = ary[1].trim();
+
+      var locationName = key.split('.')[0];
+      var locationProperty = key.split('.')[1];
+
+      if(locationProperty === 'Config'){
+        var configDom = getDomByName(domMap[locationName], 'location_config')
+        var fieldDom = getDomByName(configDom, 'NUM');
+        fieldDom.textContent = value;
+      }
+    }
+
+    var importBtn = document.getElementById('importLocation');
+    importBtn.addEventListener('change', function (e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = (fe) => {
+        var data = fe.target.result;
+        var dom = parseLocation(data);
+
+        var NAME_SPACE = "https://developers.google.com/blockly/xml";
+        var blocklyXml = document.createElementNS(NAME_SPACE, 'xml');
+        blocklyXml.setAttribute(
+            "xmlns",
+            "https://developers.google.com/blockly/xml"
+        );
+        var tmp;
+        for(var i = dom.length - 1; i >= 0; i--){
+          var item = dom[i];
+          if(tmp){
+            var nextDom = document.createElementNS(NAME_SPACE, 'next');
+            nextDom.appendChild(tmp);
+            item.appendChild(nextDom);
+          }
+          tmp = item;
+        }
+          blocklyXml.appendChild(dom[0]);
+
+        Blockly.Xml.domToWorkspace(blocklyXml, Code.workspace);
+        // Code.workspace.
+      };
+      reader.readAsText(file);
+    })
+
   </script>
 
 </body>

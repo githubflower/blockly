@@ -9,8 +9,16 @@ Blockly.Lua['move_joint'] = function (block) {
 
 Blockly.Lua['move_line'] = function (block) {
     var value_point_value = Blockly.Lua.valueToCode(block, 'point_value', Blockly.Lua.ORDER_NONE);
-    // TODO: Assemble Lua into code variable.
-    var code = 'Move.Line(' + value_point_value + ')\n';
+    var profile_value = Blockly.Lua.valueToCode(block, 'profile_value', Blockly.Lua.ORDER_NONE);
+    var blend_value = block.getFieldValue('BLEND') === 'TRUE' ? 1 : 0;
+    var code = '';
+    if(profile_value){
+        code += 'System.Speed(' + profile_value + '.speed)\nRobot.Speed(' + profile_value + '.type, ' + profile_value + '.speed)\n';
+    }
+    code += 'Move.Line(' + value_point_value + ')\n';
+    if(blend_value){
+        code += 'Move.WaitForEOM()\n';
+    }
     return code;
 };
 
