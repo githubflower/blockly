@@ -70,6 +70,18 @@ Blockly.FieldSlider = function(opt_value, opt_validator, opt_config) {
    */
   this.round_ = Blockly.FieldSlider.ROUND;
 
+  if(!opt_validator){
+    opt_validator = function(text) {
+      var speed = parseInt(text, 10);
+      if(speed > 100 || speed < 0){
+          this.getSourceBlock().setColour('#ff0000');
+          return null;
+      }else{
+          this.getSourceBlock().setColour('#1F7A00');
+      }
+    }
+  }
+
   Blockly.FieldSlider.superClass_.constructor.call(
     this, opt_value || 0, opt_validator, opt_config);
 

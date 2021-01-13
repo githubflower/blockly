@@ -245,16 +245,15 @@ Blockly.Blocks['robot_axis_number_get'] = {
 Blockly.Blocks['robot_speed_set'] = {
     init: function () {
         this.appendDummyInput()
-            .appendField("robot speed set with:");
+            .appendField(Blockly.Msg["SET_ROBOT_SPEED"]);
         this.appendValueInput("robot_index")
             .setCheck("Number")
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("index");
+            .appendField(Blockly.Msg["ROBOT_INDEX"]);
         this.appendDummyInput()
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("speed[0-100]")
-            .appendField(new Blockly.FieldNumber(0, 0, 100, 0.01), "speed_value")
-            .appendField("%");
+            .appendField(Blockly.Msg["ROBOT_SPEED"])
+            .appendField(new Blockly.FieldSlider(0), "speed_value")
         this.setInputsInline(false);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);

@@ -103,12 +103,11 @@ Blockly.Blocks['system_speed_get'] = {
 Blockly.Blocks['system_speed_set'] = {
     init: function () {
         this.appendDummyInput()
-            .appendField("system speed");
+            .appendField(Blockly.Msg["SET_SYSTEM_SPEED"]);
         this.appendDummyInput()
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("set[0-100]")
-            .appendField(new Blockly.FieldNumber(0, 0, 100, 0.01), "speed_value")
-            .appendField("%");
+            .appendField(Blockly.Msg["SYSTEM_SPEED"])
+            .appendField(new Blockly.FieldSlider(0), "speed_value")
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(330);

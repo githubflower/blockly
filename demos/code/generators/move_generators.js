@@ -13,7 +13,8 @@ Blockly.Lua['move_line'] = function (block) {
     var blend_value = block.getFieldValue('BLEND') === 'TRUE' ? 1 : 0;
     var code = '';
     if(profile_value){
-        code += 'System.Speed(' + profile_value + '.speed)\nRobot.Speed(' + profile_value + '.type, ' + profile_value + '.speed)\n';
+        // code += 'System.Speed(' + profile_value + '.speed)\nRobot.Speed(' + profile_value + '.type, ' + profile_value + '.speed)\n';
+        code += (profile_value + ':Set(1)\n');
     }
     code += 'Move.Line(' + value_point_value + ')\n';
     if(blend_value){

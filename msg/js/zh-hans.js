@@ -443,6 +443,15 @@ Blockly.Msg["OFF"] = "关";
 Blockly.Msg["GET_DIGITAL"] = "获取";
 Blockly.Msg["IN"] = "输入信号";
 Blockly.Msg["OUT"] = "输出信号";
+Blockly.Msg["SET_ROBOT_SPEED"] = "设置机器人速度";
+Blockly.Msg["ROBOT_INDEX"] = "机器人编号";
+Blockly.Msg["ROBOT_SPEED"] = "速度值";
+Blockly.Msg["MOVE_LINE"] = "线性运动";
+Blockly.Msg["LOCATION"] = "点位";
+Blockly.Msg["PROFILE"] = "速度";
+Blockly.Msg["WAIT_FOR_END_OF_MOTION"] = "等待动作结束";
+Blockly.Msg["SET_SYSTEM_SPEED"] = "设置系统速度";
+Blockly.Msg["SYSTEM_SPEED"] = "速度";
 
 
 

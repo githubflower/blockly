@@ -20,19 +20,19 @@ Blockly.Blocks['move_joint'] = {
 Blockly.Blocks['move_line'] = {
     init: function () {
         this.appendDummyInput()
-            .appendField("move line with:");
+            .appendField(Blockly.Msg["MOVE_LINE"]);
         this.appendValueInput("point_value")
             .setCheck(["location", "location_joint"])
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("point");
+            .appendField(Blockly.Msg["LOCATION"]);
         this.appendValueInput("profile_value")
             .setCheck(["profile"])
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("profile");
+            .appendField(Blockly.Msg["PROFILE"]);
         this.appendDummyInput('blend')
             .appendField(new Blockly.FieldCheckbox(true), 'BLEND')
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField('wait for end of motion');
+            .appendField(Blockly.Msg["WAIT_FOR_END_OF_MOTION"]);
         this.setInputsInline(false);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);

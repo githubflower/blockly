@@ -444,6 +444,21 @@ Blockly.Msg["GET_PROFILE"] = "get profile";
 Blockly.Msg["GET_PROFILE_PROPERTY"] = "get profile property";
 Blockly.Msg["SET_PROFILE_PROPERTY"] = "set profile property";
 Blockly.Msg["USE_ABSOLUTE_SPEED"] = "use absolute speed";
+Blockly.Msg["SET_DIGITAL_OUTPUT"] = "set digital output";
+Blockly.Msg["ON"] = "on";
+Blockly.Msg["OFF"] = "off";
+Blockly.Msg["GET_DIGITAL"] = "get digital";
+Blockly.Msg["IN"] = "In";
+Blockly.Msg["OUT"] = "Out";
+Blockly.Msg["SET_ROBOT_SPEED"] = "set robot speed";
+Blockly.Msg["ROBOT_INDEX"] = "robot index";
+Blockly.Msg["ROBOT_SPEED"] = "speed";
+Blockly.Msg["MOVE_LINE"] = "move line";
+Blockly.Msg["LOCATION"] = "location";
+Blockly.Msg["PROFILE"] = "profile";
+Blockly.Msg["WAIT_FOR_END_OF_MOTION"] = "wait for end of motion";
+Blockly.Msg["SET_SYSTEM_SPEED"] = "set system speed";
+Blockly.Msg["SYSTEM_SPEED"] = "speed";
 
 var colorAryByType = [
     "#1B67B3",
