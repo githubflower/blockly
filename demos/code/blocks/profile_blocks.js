@@ -16,7 +16,7 @@ Blockly.Blocks['speed_slider'] = {
   // Set the colour of the block.
   init: function() {
     this.appendDummyInput()
-        .appendField('speed:')
+        // .appendField('speed:')
         .appendField(new Blockly.FieldSlider('0', this.validator), 'FIELD_SLIDER')
         .appendField('%')
 
@@ -53,9 +53,9 @@ Blockly.Blocks['new_profile'] = {
     init: function() {
         this.appendValueInput("profile_speed")
             .setCheck("Number")
-            .appendField("new profile")
+            .appendField(Blockly.Msg["NEW_PROFILE"])
             .appendField(new Blockly.FieldTextInput("profile", this.validateProfileName), "NAME")
-            .appendField("with")
+            .appendField(Blockly.Msg["WITH"])
             .appendField("speed");
         this.appendValueInput("profile_speed2")
             .setCheck("Number")
@@ -88,7 +88,7 @@ Blockly.Blocks['new_profile'] = {
         this.appendDummyInput('profile_type')
         .appendField(new Blockly.FieldCheckbox(true), 'PROFILE_TYPE')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('use absolute speed');
+        .appendField(Blockly.Msg["USE_ABSOLUTE_SPEED"]);
 
         this.setInputsInline(false);
         this.setPreviousStatement(true, null);
@@ -149,9 +149,9 @@ Blockly.Blocks['set_profile'] = {
     init: function() {
         this.appendValueInput("profile_value")
             .setCheck("profile")
-            .appendField("set profile")
+            .appendField(Blockly.Msg["SET_PROFILE"])
             .appendField(new Blockly.FieldVariable(''), 'VAR')
-            .appendField("to");
+            .appendField(Blockly.Msg["TO"]);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(290);
@@ -163,7 +163,7 @@ Blockly.Blocks['set_profile'] = {
 Blockly.Blocks['get_profile'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("get profile")
+            .appendField(Blockly.Msg["GET_PROFILE"])
             .appendField(new Blockly.FieldVariable(''), 'VAR');
         this.setOutput(true, "profile");
         this.setColour(290);
@@ -187,7 +187,8 @@ Blockly.Blocks['get_profile'] = {
 Blockly.Blocks['get_profile_member'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("get")
+            .appendField(Blockly.Msg["GET_PROFILE_PROPERTY"])
+            .appendField(new Blockly.FieldVariable(''), 'VAR')
             .appendField(new Blockly.FieldDropdown([
                 ["speed", "speed"],
                 ["speed2", "speed2"],
@@ -198,8 +199,6 @@ Blockly.Blocks['get_profile_member'] = {
                 ["in range", "inrange"],
                 ["type", "type"]
             ]), "profile_member")
-            .appendField("of")
-            .appendField(new Blockly.FieldVariable(''), 'VAR');
         this.setOutput(true, null);
         this.setColour(290);
         this.setTooltip("get profile function");
@@ -212,7 +211,8 @@ Blockly.Blocks['change_profile_member'] = {
     init: function() {
         this.appendValueInput("profile_member_value")
             .setCheck("Number")
-            .appendField("change")
+            .appendField(Blockly.Msg["SET_PROFILE_PROPERTY"])
+            .appendField(new Blockly.FieldVariable(''), 'VAR')
             .appendField(new Blockly.FieldDropdown([
                 ["speed", "speed"],
                 ["speed2", "speed2"],
@@ -223,9 +223,7 @@ Blockly.Blocks['change_profile_member'] = {
                 ["in range", "inrange"],
                 ["type", "type"]
             ]), "profile_member")
-            .appendField("of profile")
-            .appendField(new Blockly.FieldVariable(''), 'VAR')
-            .appendField("by");
+            .appendField(Blockly.Msg["BY"]);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(290);

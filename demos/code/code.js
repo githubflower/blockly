@@ -96,7 +96,7 @@ Code.getLang = function() {
   var lang = Code.getStringParamFromUrl('lang', '');
   if (Code.LANGUAGE_NAME[lang] === undefined) {
     // Default to English.
-    lang = 'en';
+    lang = 'zh-hans';
   }
   return lang;
 };
@@ -280,6 +280,7 @@ Code.tabClick = function(clickedName) {
       }
       if(Code.workspace.variableMap_){
         Code.workspace.variableMap_.clear();
+        debugger;
       }
       Blockly.Xml.domToWorkspace(xmlDom, Code.workspace);
     }

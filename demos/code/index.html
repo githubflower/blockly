@@ -126,7 +126,8 @@
               <input type="file" name="loadXml" id="loadXml" value="loadXml"/>
             </td>
             <td class="tabmin">
-              <input type="file" name="importLocation" id="importLocation" value="导入点位"/>
+              <input type="button" value="导入点位" onclick="javascript:document.getElementById('importLocation').click();" />
+              <input type="file" name="importLocation" id="importLocation" value="导入点位" label="导入点位" style="display: none;"/>
             </td>
             <td>
               <input type="button" value="生成状态图json" id="genStateData" />
@@ -471,11 +472,11 @@
     <sep></sep>
     <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
-    <category name="Threads" colour="%{BKY_THREADS_HUE}" custom="THREAD"></category>
-    <category name="States" colour="%{BKY_PROCEDURES_HUE}" custom="STATE"></category>
-    <category name="Locations" colour="%{BKY_PROCEDURES_HUE}" custom="LOCATION"></category>
-    <category name="Profiles" colour="%{BKY_PROCEDURES_HUE}" custom="PROFILE"></category>
-    <category name="Class" colour="%{BKY_CLASS_HUE}">
+    <category name="%{BKY_CATTHREADS}" colour="%{BKY_THREADS_HUE}" custom="THREAD"></category>
+    <category name="%{BKY_CATSTATES}" colour="%{BKY_PROCEDURES_HUE}" custom="STATE"></category>
+    <category name="%{BKY_CATLOCATIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="LOCATION"></category>
+    <category name="%{BKY_CATPROFILES}" colour="%{BKY_PROCEDURES_HUE}" custom="PROFILE"></category>
+    <!-- <category name="Class" colour="%{BKY_CLASS_HUE}">
       <block type="lists_state"></block>
       <block type="state_trigger_event"></block>
       <block type="anonymous_function"></block>
@@ -485,25 +486,8 @@
       <block type="class"></block>
       <block type="class_property"></block>
       <block type="class_method"></block>
-    <!--   <block type="get_class_property"></block>
-      <block type="get_class_property3"></block>
-      <block type="set_class_property"></block>
-      <block type="set_class_property3"></block>
-      <block type="set_class_property4"></block>
-      <block type="set_class_property5"></block>
-      <block type="set_class_property6"></block>
-      <block type="class_method_return"></block>
-      <block type="class_method_return4"></block>
-      <block type="class_method_noreturn"></block>
-      <block type="class_method_noreturn_with_params1"></block>
-      <block type="method_return"></block>
-      <block type="create_obj"></block>
-      <block type="start"></block>
-      <block type="new"></block>
-      <block type="methods_defreturn"></block> -->
-    </category>
-
-    <category name="I/O" colour="#a56d5b">
+    </category> -->
+    <category name="%{BKY_CATIOS}" colour="#a56d5b">
                 <block type="digital_output_set">
                     <field name="io_state">state_on</field>
                     <value name="io_index">
@@ -521,7 +505,7 @@
                     </value>
                 </block>
             </category>
-            <category name="Robot" colour="#80a55b">
+            <category name="%{BKY_CATROBOTS}" colour="#80a55b">
                 <!--<block type="robot_power_enable">
                     <field name="power_enable_state">power_enable_off</field>
                     <value name="robot_index">
@@ -675,7 +659,7 @@
                     </value>
                 </block>-->
             </category>
-            <category name="Move" colour="#5b80a5">
+            <category name="%{BKY_CATMOVES}" colour="#5b80a5">
                 <block type="move_joint"></block>
                 <block type="move_line"></block>
                 <block type="move_axis">
@@ -841,7 +825,7 @@
                     <field name="tool_name">name</field>
                 </block>
             </category>-->
-            <category name="System" colour="#a55b6d">
+            <category name="%{BKY_CATSYSTEMS}" colour="#a55b6d">
                 <block type="system_start"></block>
                 <block type="system_abort"></block>
                 <block type="system_continue">

@@ -1,15 +1,6 @@
-/*Blockly.Lua.getVarNameOfBlock = function(block){
-  var text_profile_name = Blockly.Lua.variableDB_.variableMap_.getVariableById(block.getFieldValue('VAR')) || '';
-  if(text_profile_name){
-    text_profile_name = text_profile_name.name;
-  }else{
-    console.error('变量id有误');
-  }
-  return text_profile_name;
-}*/
-
 Blockly.Lua['new_profile'] = function(block) {
-  var text_profile_name = block.getFieldValue('NAME');
+  var input_profile_name = block.getFieldValue('NAME');
+  text_profile_name = Blockly.Lua.variableDB_.getName(input_profile_name);
   var value_profile_speed = Blockly.Lua.valueToCode(block, 'profile_speed', Blockly.Lua.ORDER_ATOMIC);
   var value_profile_speed2 = Blockly.Lua.valueToCode(block, 'profile_speed2', Blockly.Lua.ORDER_ATOMIC);
   var value_profile_accel = Blockly.Lua.valueToCode(block, 'profile_accel', Blockly.Lua.ORDER_ATOMIC);
@@ -20,7 +11,8 @@ Blockly.Lua['new_profile'] = function(block) {
   // var value_profile_type = Blockly.Lua.valueToCode(block, 'profile_type', Blockly.Lua.ORDER_ATOMIC);
   var value_profile_type = block.getFieldValue('PROFILE_TYPE') === 'TRUE' ? 1 : 0;
   // TODO: Assemble Lua into code variable.
-  var code = 'local ' + text_profile_name + ' = ' + 'Profile.new()\n' +
+  var code = '--' + input_profile_name + '\n' +
+             'local ' + text_profile_name + ' = ' + 'Profile.new()\n' +
              text_profile_name + '.speed' + ' = ' + value_profile_speed + '\n' +
              text_profile_name + '.speed2' + ' = ' + value_profile_speed2 + '\n' +
              text_profile_name + '.accel' + ' = ' + value_profile_accel + '\n' +

@@ -222,7 +222,12 @@ Blockly.States.flyoutCategory = function(workspace) {
   block.setAttribute('gap', 16);
   xmlList.push(block);
 
- var states = workspace.stateMap_.getAllStatesByType();
+  var block = Blockly.utils.xml.createElement('block');
+  block.setAttribute('type', 'lists_state');
+  block.setAttribute('gap', 16);
+  xmlList.push(block);
+
+  var states = workspace.stateMap_.getAllStatesByType();
   if(Blockly.Blocks['state_opr'] && states && states.length){
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'state_opr');

@@ -1,15 +1,18 @@
 Blockly.Lua.getVarNameOfBlock = function(block){
-  var text_location_name = Blockly.Lua.variableDB_.variableMap_.getVariableById(block.getFieldValue('VAR')) || '';
-  if(text_location_name){
-    text_location_name = text_location_name.name;
+  var variable = Blockly.Lua.variableDB_.variableMap_.getVariableById(block.getFieldValue('VAR')) || '';
+  var variableName;
+  if(variable){
+    variableName = variable.name;
+    variableName = Blockly.Lua.variableDB_.getName(variableName);//解决中文问题
   }else{
     console.error('变量id有误');
   }
-  return text_location_name;
+  return variableName;
 }
 
 Blockly.Lua['new_location'] = function(block) {
-  var text_location_name = block.getFieldValue('NAME');
+  var input_location_name = block.getFieldValue('NAME');
+  text_location_name = Blockly.Lua.variableDB_.getName(input_location_name);
   var value_location_x = Blockly.Lua.valueToCode(block, 'location_x', Blockly.Lua.ORDER_ATOMIC);
   var value_location_y = Blockly.Lua.valueToCode(block, 'location_y', Blockly.Lua.ORDER_ATOMIC);
   var value_location_z = Blockly.Lua.valueToCode(block, 'location_z', Blockly.Lua.ORDER_ATOMIC);
@@ -23,7 +26,8 @@ Blockly.Lua['new_location'] = function(block) {
   var value_location_zclearance = Blockly.Lua.valueToCode(block, 'location_zclearance', Blockly.Lua.ORDER_ATOMIC);
   var value_location_zworld = Blockly.Lua.valueToCode(block, 'location_zworld', Blockly.Lua.ORDER_ATOMIC);
   // TODO: Assemble Lua into code variable.
-  var code = 'local ' + text_location_name + ' = ' + 'Location.new()\n' +
+  var code = '--' + input_location_name + '\n' +
+              'local ' + text_location_name + ' = ' + 'Location.new()\n' +
              text_location_name + '.x ' + ' = ' + value_location_x + '\n' +
              text_location_name + '.y' + ' = ' + value_location_y + '\n'+
              text_location_name + '.z' + ' = ' + value_location_z + '\n' +

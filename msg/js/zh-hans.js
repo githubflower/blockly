@@ -422,6 +422,30 @@ Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORET
 Blockly.Msg["PROCEDURES_DEFRETURN_TITLE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_TITLE"];
 Blockly.Msg["TEXT_APPEND_VARIABLE"] = Blockly.Msg["VARIABLES_DEFAULT_NAME"];
 Blockly.Msg["TEXT_CREATE_JOIN_ITEM_TITLE_ITEM"] = Blockly.Msg["VARIABLES_DEFAULT_NAME"];
+Blockly.Msg["NEW_LOCATION"]= "创建点位";
+Blockly.Msg["WITH"] = "";
+Blockly.Msg["SET_LOCATION"]= "修改点位";
+Blockly.Msg["TO"] = "为";
+Blockly.Msg["BY"] = "为";
+Blockly.Msg["GET_LOCATION"]= "获取点位";
+Blockly.Msg["GET_LOCATION_PROPERTY"]= "获取点位属性";
+Blockly.Msg["OF"]= "";
+Blockly.Msg["SET_LOCATION_PROPERTY"]= "修改点位属性";
+Blockly.Msg["NEW_PROFILE"] = "创建速度";
+Blockly.Msg["SET_PROFILE"] = "修改速度";
+Blockly.Msg["GET_PROFILE"] = "获取速度";
+Blockly.Msg["GET_PROFILE_PROPERTY"] = "获取速度属性";
+Blockly.Msg["SET_PROFILE_PROPERTY"] = "修改速度属性";
+Blockly.Msg["USE_ABSOLUTE_SPEED"] = "使用绝对速度";
+Blockly.Msg["SET_DIGITAL_OUTPUT"] = "设置数字输出信号";
+Blockly.Msg["ON"] = "开";
+Blockly.Msg["OFF"] = "关";
+Blockly.Msg["GET_DIGITAL"] = "获取";
+Blockly.Msg["IN"] = "输入信号";
+Blockly.Msg["OUT"] = "输出信号";
+
+
+
 
 Blockly.Msg["MATH_HUE"] = "230";
 Blockly.Msg["LOOPS_HUE"] = "120";

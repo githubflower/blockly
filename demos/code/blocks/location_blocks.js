@@ -1,12 +1,14 @@
 'use strict';
 const HELP_URL = 'https://www.qkmtech.com';
+debugger;
 Blockly.Blocks['new_location'] = {
     init: function() {
         this.appendValueInput("location_x")
             .setCheck("Number")
-            .appendField("new location")
+            // .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSEIF'])
+            .appendField(Blockly.Msg['NEW_LOCATION'])
             .appendField(new Blockly.FieldTextInput("location", this.validateLocationName), "NAME")
-            .appendField("with")
+            .appendField(Blockly.Msg['WITH'])
             .appendField("X");
         this.appendValueInput("location_y")
             .setCheck("Number")
@@ -110,9 +112,9 @@ Blockly.Blocks['set_location'] = {
     init: function() {
         this.appendValueInput("location_value")
             .setCheck("location")
-            .appendField("set location")
+            .appendField(Blockly.Msg["SET_LOCATION"])
             .appendField(new Blockly.FieldVariable(''), 'VAR')
-            .appendField("to");
+            .appendField(Blockly.Msg["TO"]);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(290);
@@ -124,7 +126,7 @@ Blockly.Blocks['set_location'] = {
 Blockly.Blocks['get_location'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("get location")
+            .appendField(Blockly.Msg["GET_LOCATION"])
             .appendField(new Blockly.FieldVariable(''), 'VAR');
         this.setOutput(true, "location");
         this.setColour(290);
@@ -150,7 +152,9 @@ Blockly.Blocks['get_location'] = {
 Blockly.Blocks['get_location_member'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("get")
+            .appendField(Blockly.Msg["GET_LOCATION_PROPERTY"])
+            .appendField(new Blockly.FieldVariable(''), 'VAR')
+            .appendField('.')
             .appendField(new Blockly.FieldDropdown([
                 ["X", "x"],
                 ["Y", "y"],
@@ -165,8 +169,7 @@ Blockly.Blocks['get_location_member'] = {
                 ["ZClearance", "zclearance"],
                 ["ZWorld", "zworld"]
             ]), "location_member")
-            .appendField("of")
-            .appendField(new Blockly.FieldVariable(''), 'VAR');
+            // .appendField(Blockly.Msg["OF"])
         this.setOutput(true, null);
         this.setColour(290);
         this.setTooltip("get location function");
@@ -179,7 +182,9 @@ Blockly.Blocks['change_location_member'] = {
     init: function() {
         this.appendValueInput("location_member_value")
             .setCheck("Number")
-            .appendField("change")
+            .appendField(Blockly.Msg["SET_LOCATION_PROPERTY"])
+            .appendField(new Blockly.FieldVariable(''), 'VAR')
+            .appendField('.')
             .appendField(new Blockly.FieldDropdown([
                 ["X", "x"],
                 ["Y", "y"],
@@ -194,9 +199,7 @@ Blockly.Blocks['change_location_member'] = {
                 ["ZClearance", "zclearance"],
                 ["ZWorld", "zworld"]
             ]), "location_member")
-            .appendField("of location")
-            .appendField(new Blockly.FieldVariable(''), 'VAR')
-            .appendField("by");
+            .appendField(Blockly.Msg["BY"]);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(290);

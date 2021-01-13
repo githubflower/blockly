@@ -1311,10 +1311,15 @@ Blockly.WorkspaceSvg.prototype.injectSomeModel2Map = function(block) {
     workspace.createThread( block.getFieldValue('NAME'), block.id);
   }
   if(block.type === 'new_location'){
-    workspace.createVariable( block.getFieldValue('NAME'), Blockly.LOCATIONS_TYPE, block.id);
+    if(!workspace.variableMap_.getVariableById(block.id)){
+      // workspace.variableMap_.deleteVariableById(block.id);
+      workspace.createVariable( block.getFieldValue('NAME'), Blockly.LOCATIONS_TYPE, block.id);
+    }
   }
   if(block.type === 'new_profile'){
-    workspace.createVariable( block.getFieldValue('NAME'), Blockly.PROFILES_TYPE, block.id);
+     if(!workspace.variableMap_.getVariableById(block.id)){
+      workspace.createVariable( block.getFieldValue('NAME'), Blockly.PROFILES_TYPE, block.id);
+    }
   }
 }
 

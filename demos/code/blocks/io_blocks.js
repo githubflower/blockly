@@ -3,13 +3,12 @@
 Blockly.Blocks['digital_output_set'] = {
     init: function () {
         this.appendDummyInput()
-            .appendField("digital output with:");
+            .appendField(Blockly.Msg["SET_DIGITAL_OUTPUT"]);
         this.appendValueInput("io_index")
             .setCheck("Number")
-            .appendField("index");
         this.appendDummyInput()
-            .appendField("set")
-            .appendField(new Blockly.FieldDropdown([["on", "state_on"], ["off", "state_off"]]), "io_state");
+            .appendField(Blockly.Msg["TO"])
+            .appendField(new Blockly.FieldDropdown([[Blockly.Msg["ON"], "state_on"], [Blockly.Msg["OFF"], "state_off"]]), "io_state");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -22,14 +21,10 @@ Blockly.Blocks['digital_output_set'] = {
 Blockly.Blocks['digital_iostate_get'] = {
     init: function () {
         this.appendDummyInput()
-            .appendField("digital")
-            .appendField(new Blockly.FieldDropdown([["In", "DIN"], ["Out", "DOUT"]]), "io_mode")
-            .appendField("with:");
+            .appendField(Blockly.Msg["GET_DIGITAL"])
+            .appendField(new Blockly.FieldDropdown([[Blockly.Msg["IN"], "DIN"], [Blockly.Msg["OUT"], "DOUT"]]), "io_mode")
         this.appendValueInput("io_index")
-            .setCheck("Number")
-            .appendField("index");
-        this.appendDummyInput()
-            .appendField("get state");
+            .setCheck("Number");
         this.setInputsInline(true);
         this.setOutput(true, "null");
         this.setColour(20);

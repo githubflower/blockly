@@ -429,6 +429,21 @@ Blockly.Msg["THREAD_OPERATE_START"] = "start";
 Blockly.Msg["THREAD_OPERATE_STOP"] = "stop";
 Blockly.Msg["THREAD_OPERATE_PAUSE"] = "pause";
 Blockly.Msg["THREAD_OPERATE_RESUME"] = "resume";
+Blockly.Msg["NEW_LOCATION"]= "create location";
+Blockly.Msg["WITH"] = "";
+Blockly.Msg["SET_LOCATION"]= "set location";
+Blockly.Msg["TO"] = "to";
+Blockly.Msg["BY"] = "by";
+Blockly.Msg["GET_LOCATION"]= "get location";
+Blockly.Msg["GET_LOCATION_PROPERTY"]= "get location property";
+Blockly.Msg["OF"]= "";
+Blockly.Msg["SET_LOCATION_PROPERTY"]= "set location property";
+Blockly.Msg["NEW_PROFILE"] = "create profile";
+Blockly.Msg["SET_PROFILE"] = "set profile";
+Blockly.Msg["GET_PROFILE"] = "get profile";
+Blockly.Msg["GET_PROFILE_PROPERTY"] = "get profile property";
+Blockly.Msg["SET_PROFILE_PROPERTY"] = "set profile property";
+Blockly.Msg["USE_ABSOLUTE_SPEED"] = "use absolute speed";
 
 var colorAryByType = [
     "#1B67B3",
