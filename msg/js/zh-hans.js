@@ -422,6 +422,10 @@ Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORET
 Blockly.Msg["PROCEDURES_DEFRETURN_TITLE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_TITLE"];
 Blockly.Msg["TEXT_APPEND_VARIABLE"] = Blockly.Msg["VARIABLES_DEFAULT_NAME"];
 Blockly.Msg["TEXT_CREATE_JOIN_ITEM_TITLE_ITEM"] = Blockly.Msg["VARIABLES_DEFAULT_NAME"];
+Blockly.Msg["THREAD_OPERATE_START"] = "启动";
+Blockly.Msg["THREAD_OPERATE_STOP"] = "停止";
+Blockly.Msg["THREAD_OPERATE_PAUSE"] = "暂停";
+Blockly.Msg["THREAD_OPERATE_RESUME"] = "恢复";
 Blockly.Msg["NEW_LOCATION"]= "创建点位";
 Blockly.Msg["WITH"] = "";
 Blockly.Msg["SET_LOCATION"]= "修改点位";
@@ -452,6 +456,14 @@ Blockly.Msg["PROFILE"] = "速度";
 Blockly.Msg["WAIT_FOR_END_OF_MOTION"] = "等待动作结束";
 Blockly.Msg["SET_SYSTEM_SPEED"] = "设置系统速度";
 Blockly.Msg["SYSTEM_SPEED"] = "速度";
+Blockly.Msg["ROBOT_INIT"] = "机器人初始化";
+Blockly.Msg["HELP_ROBOT_INIT"] = "机器人初始化会自动完成机器人上电、回零等操作";
+Blockly.Msg["SLEEP_TIME_UNIT"] = "秒";
+Blockly.Msg["SLEEP"] = "等待（秒）";
+Blockly.Msg["NEW_THREAD"] = "创建线程";
+Blockly.Msg["STATE_TRIGGER_EVENT_IF"] = "如果";
+Blockly.Msg["STATE_TRIGGER_EVENT_THEN"] = "进入状态";
+Blockly.Msg["DEFINE_STATES"] = "定义状态";
 
 
 

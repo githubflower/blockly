@@ -1,5 +1,19 @@
 'use strict';
-
+Blockly.Blocks['robot_init'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(Blockly.Msg["ROBOT_INIT"]);
+        this.appendValueInput("robot_index")
+            .setCheck("Number")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(Blockly.Msg["ROBOT_INDEX"]);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(120);
+        this.setTooltip(Blockly.Msg["HELP_ROBOT_INIT"]);
+        this.setHelpUrl("https://www.qkmtech.com");
+    }
+};
 Blockly.Blocks['robot_power_enable'] = {
     init: function () {
         this.appendDummyInput()

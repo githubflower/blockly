@@ -423,8 +423,6 @@ Blockly.Msg["PROCEDURES_DEFRETURN_TITLE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_
 Blockly.Msg["TEXT_APPEND_VARIABLE"] = Blockly.Msg["VARIABLES_DEFAULT_NAME"];
 Blockly.Msg["TEXT_CREATE_JOIN_ITEM_TITLE_ITEM"] = Blockly.Msg["VARIABLES_DEFAULT_NAME"];
 Blockly.Msg["STATES_DEF_COMMENT"] = "Describe this state...";
-
-
 Blockly.Msg["THREAD_OPERATE_START"] = "start";
 Blockly.Msg["THREAD_OPERATE_STOP"] = "stop";
 Blockly.Msg["THREAD_OPERATE_PAUSE"] = "pause";
@@ -459,6 +457,14 @@ Blockly.Msg["PROFILE"] = "profile";
 Blockly.Msg["WAIT_FOR_END_OF_MOTION"] = "wait for end of motion";
 Blockly.Msg["SET_SYSTEM_SPEED"] = "set system speed";
 Blockly.Msg["SYSTEM_SPEED"] = "speed";
+Blockly.Msg["ROBOT_INIT"] = "robot init";
+Blockly.Msg["HELP_ROBOT_INIT"] = "todo";
+Blockly.Msg["SLEEP_TIME_UNIT"] = "second";
+Blockly.Msg["SLEEP"] = "wait (second)";
+Blockly.Msg["NEW_THREAD"] = "create thread";
+Blockly.Msg["STATE_TRIGGER_EVENT_IF"] = "if";
+Blockly.Msg["STATE_TRIGGER_EVENT_THEN"] = "change to";
+Blockly.Msg["DEFINE_STATES"] = "define states";
 
 var colorAryByType = [
     "#1B67B3",

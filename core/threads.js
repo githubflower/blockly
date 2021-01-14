@@ -217,6 +217,19 @@ Blockly.Threads.flyoutCategory = function(workspace) {
   block.appendChild(nameField);
   xmlList.push(block); 
 
+  // sleep block
+  var block = Blockly.utils.xml.createElement('block');
+  block.setAttribute('type', 'sleep');
+  block.setAttribute('gap', 16);
+  var value = Blockly.Xml.textToDom(
+  '<value name="sleep_time">' +
+  '<shadow type="math_number">' +
+  '<field name="NUM">1</field>' +
+  '</shadow>' +
+  '</value>');
+  block.appendChild(value);
+  xmlList.push(block);
+
  var threads = workspace.threadMap_.getAllThreadsByType();
   if(threads && threads.length){
     if(Blockly.Blocks['thread_opr']){

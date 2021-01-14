@@ -1,6 +1,6 @@
 Blockly.Lua['new_profile'] = function(block) {
   var input_profile_name = block.getFieldValue('NAME');
-  text_profile_name = Blockly.Lua.variableDB_.getName(input_profile_name);
+  text_profile_name = Blockly.Names.prototype.safeName_.call(this, input_profile_name);
   var value_profile_speed = Blockly.Lua.valueToCode(block, 'profile_speed', Blockly.Lua.ORDER_ATOMIC);
   var value_profile_speed2 = Blockly.Lua.valueToCode(block, 'profile_speed2', Blockly.Lua.ORDER_ATOMIC);
   var value_profile_accel = Blockly.Lua.valueToCode(block, 'profile_accel', Blockly.Lua.ORDER_ATOMIC);

@@ -26,7 +26,7 @@ Blockly.Blocks['digital_iostate_get'] = {
         this.appendValueInput("io_index")
             .setCheck("Number");
         this.setInputsInline(true);
-        this.setOutput(true, "null");
+        this.setOutput(true);
         this.setColour(20);
         this.setTooltip("digital input get function");
         this.setHelpUrl("https://www.qkmtech.com");

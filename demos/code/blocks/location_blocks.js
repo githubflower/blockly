@@ -1,6 +1,5 @@
 'use strict';
 const HELP_URL = 'https://www.qkmtech.com';
-debugger;
 Blockly.Blocks['new_location'] = {
     init: function() {
         this.appendValueInput("location_x")

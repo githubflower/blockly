@@ -15,7 +15,7 @@ Object.defineProperty(Blockly.Lua, 'thread_def', {
     value: function(block){
         var threadName = block.getFieldValue('NAME');
         var oldThreadName = threadName;
-        threadName = Blockly.Lua.variableDB_.getName(threadName);
+        threadName = Blockly.Names.prototype.safeName_.call(this, threadName);
         var code_function_type = block.getInputTargetBlock('CALLBACK');
         if(!code_function_type){
             console.log('语法错误：没有给线程指定相应的函数。')
@@ -30,12 +30,13 @@ Object.defineProperty(Blockly.Lua, 'thread_def', {
                 code_function = String.prototype.trim.call(code_function);
             }
         }else{
-            code_function = `function `;//Lua没有匿名函数，不会走到这里面来
+            code_function = '';//Lua没有匿名函数，不会走到这里面来
         }
 
         var code_args = Blockly.Lua.valueToCode(block, 'ARGS', Blockly.Lua.ORDER_ATOMIC);
         var commentOfThreadName = threadName === oldThreadName ? '' : `-- ${threadName}:${oldThreadName}\n`;
-        var code = commentOfThreadName + `${threadName} = Thread.New(${code_function})(${code_args})`
+        var code = commentOfThreadName + `${threadName} = Thread.New(${code_function})(${code_args})\n`;
+        code += `${threadName}:Start()\n`;
         return code;
         // return [code, Blockly.Lua.ORDER_ATOMIC];
     },
@@ -47,7 +48,7 @@ Object.defineProperty(Blockly.Lua, 'procedure_select', {
     value: function(block){
         var procedureId = block.getFieldValue('field_procedure');
         var procedureName = block.workspace.procedureMap_.getProcedureById(procedureId).name;
-        procedureName = Blockly.Lua.variableDB_.getName(procedureName);
+        procedureName = Blockly.Names.prototype.safeName_.call(this, procedureName)
         var code = `${procedureName}`;
         return code;
     },
@@ -67,7 +68,7 @@ var luaBlocks = [{
         var stateId = block.getFieldValue('field_state');
         var stateName = block.workspace.stateMap_.getStateById(stateId).name;
         var oldStateName = stateName;
-        stateName = Blockly.Lua.variableDB_.getName(stateName, Blockly.PROCEDURE_CATEGORY_NAME);//这样写是为了处理中文问题
+        stateName = Blockly.Names.prototype.safeName_.call(this, stateName);//这样写是为了处理中文问题
         var commentOfStateName = oldStateName === stateName ? '' : `-- ${stateName}: ${oldStateName}\n`;
         return commentOfStateName + `${stateName}()\n`;
     }
@@ -77,7 +78,7 @@ var luaBlocks = [{
         var operator = block.getFieldValue('field_opr');
         var threadId = block.getFieldValue('field_thread');
         var threadName = block.workspace.threadMap_.getThreadById(threadId).name;
-        threadName = Blockly.Lua.variableDB_.getName(threadName);
+        threadName = Blockly.Names.prototype.safeName_.call(this, threadName);
         return `${threadName}:${Blockly[operator]}()\n`;
     }
 },{
@@ -86,7 +87,7 @@ var luaBlocks = [{
         var priority = block.getFieldValue('field_thread_priority');
         var threadId = block.getFieldValue('field_thread');
         var threadName = block.workspace.threadMap_.getThreadById(threadId).name;
-        threadName = Blockly.Lua.variableDB_.getName(threadName);
+        threadName = Blockly.Names.prototype.safeName_.call(this, threadName);
         return `${threadName}:${Blockly.THREAD_SET_PRIORITY}(${priority})`;
     }
 },{
@@ -100,11 +101,17 @@ var luaBlocks = [{
       for (var i = 0; i < block.itemCount_; i++) {
         elements[i] = Blockly.Lua.valueToCode(block, 'ADD' + i,
             Blockly.Lua.ORDER_NONE) || 'None';
-        debugger;
       }
       var code = '{' + elements.join(', ') + '}';
       code = '';
       return code;
+    }
+},{
+    type: 'sleep',
+    generator: function(block){
+        var sleep_time = Blockly.Lua.valueToCode(block, 'sleep_time', Blockly.Lua.ORDER_ATOMIC);
+        var code = 'Thread.Sleep(' + sleep_time + ')\n';
+        return code;
     }
 }];
 

@@ -3,7 +3,7 @@ Blockly.Lua.getVarNameOfBlock = function(block){
   var variableName;
   if(variable){
     variableName = variable.name;
-    variableName = Blockly.Lua.variableDB_.getName(variableName);//解决中文问题
+    variableName = Blockly.Names.prototype.safeName_.call(this, variableName);//解决中文问题
   }else{
     console.error('变量id有误');
   }
@@ -12,7 +12,7 @@ Blockly.Lua.getVarNameOfBlock = function(block){
 
 Blockly.Lua['new_location'] = function(block) {
   var input_location_name = block.getFieldValue('NAME');
-  text_location_name = Blockly.Lua.variableDB_.getName(input_location_name);
+  text_location_name = Blockly.Names.prototype.safeName_.call(this, input_location_name);
   var value_location_x = Blockly.Lua.valueToCode(block, 'location_x', Blockly.Lua.ORDER_ATOMIC);
   var value_location_y = Blockly.Lua.valueToCode(block, 'location_y', Blockly.Lua.ORDER_ATOMIC);
   var value_location_z = Blockly.Lua.valueToCode(block, 'location_z', Blockly.Lua.ORDER_ATOMIC);
@@ -28,18 +28,16 @@ Blockly.Lua['new_location'] = function(block) {
   // TODO: Assemble Lua into code variable.
   var code = '--' + input_location_name + '\n' +
               'local ' + text_location_name + ' = ' + 'Location.new()\n' +
-             text_location_name + '.x ' + ' = ' + value_location_x + '\n' +
-             text_location_name + '.y' + ' = ' + value_location_y + '\n'+
-             text_location_name + '.z' + ' = ' + value_location_z + '\n' +
-             text_location_name + '.yaw' + ' = ' + value_location_yaw + '\n' +
-             text_location_name + '.pitch' + ' = ' + value_location_pitch + '\n' + 
-             text_location_name + '.roll' + ' = ' + value_location_roll + '\n' + 
-             text_location_name + '.config' + ' = ' + value_location_config + '\n' +
-             text_location_name + '.ext1' + ' = ' + value_location_ex1 + '\n' +
-             text_location_name + '.ext2' + ' = ' + value_location_ex2 + '\n' +
-             text_location_name + '.ext3' + ' = ' + value_location_ex3 + '\n' +
-             text_location_name + '.zclearance' + ' = ' + value_location_zclearance + '\n' + 
-             text_location_name + '.zworld' + ' = ' + value_location_zworld + '\n';
+             text_location_name + '.X ' + ' = ' + value_location_x + '\n' +
+             text_location_name + '.Y' + ' = ' + value_location_y + '\n'+
+             text_location_name + '.Z' + ' = ' + value_location_z + '\n' +
+             text_location_name + '.Yaw' + ' = ' + value_location_yaw + '\n' +
+             text_location_name + '.Pitch' + ' = ' + value_location_pitch + '\n' + 
+             text_location_name + '.Roll' + ' = ' + value_location_roll + '\n' + 
+             text_location_name + '.Config' + ' = ' + value_location_config + '\n' +
+             text_location_name + '.Ext1' + ' = ' + value_location_ex1 + '\n' +
+             text_location_name + '.Ext2' + ' = ' + value_location_ex2 + '\n' +
+             text_location_name + '.Ext3' + ' = ' + value_location_ex3 + '\n';
   return code;
 };
 

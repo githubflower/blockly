@@ -264,7 +264,7 @@ Blockly.Blocks['lists_state'].updateShape_ = function() {
         var input = this.appendValueInput('ADD' + i)
             .setAlign(Blockly.ALIGN_RIGHT);
         if (i == 0) {
-          input.appendField('define states');
+          input.appendField(Blockly.Msg["DEFINE_STATES"]);
         }
       }
     }

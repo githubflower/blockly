@@ -5,9 +5,9 @@ Blockly.Lua['digital_output_set'] = function (block) {
     var dropdown_io_state = block.getFieldValue('io_state');
     // TODO: Assemble Lua into code variable.
     if (dropdown_io_state == 'state_on') {
-        var code = 'IO.set(' + 'DOUT[' + value_io_index + '],' + '1)\n';
+        var code = 'IO.Set(' + 'DOUT[' + value_io_index + '],' + '1)\n';
     } else {
-        var code = 'IO.set(' + 'DOUT[' + value_io_index + '],' + '0)\n';
+        var code = 'IO.Set(' + 'DOUT[' + value_io_index + '],' + '0)\n';
     }
     return code;
 };

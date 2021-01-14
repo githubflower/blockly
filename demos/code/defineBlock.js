@@ -1118,7 +1118,7 @@ Blockly.Blocks['thread_def'] = {
   init: function() {
 
     this.appendDummyInput()
-      .appendField("new Thread")
+      .appendField(Blockly.Msg["NEW_THREAD"])
       .appendField(new Blockly.FieldTextInput("thread", this.validateThreadName), "NAME");
     /* this.appendStatementInput("NAME")
       .setCheck(null); */
@@ -1194,6 +1194,20 @@ Blockly.Blocks['thread_def'] = {
     this.workspace.deleteThreadById(this.id);
   },
 };
+Blockly.Blocks['sleep'] = {
+  init: function() {
+    this.appendValueInput("sleep_time")
+      .setCheck("Number")
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField(Blockly.Msg["SLEEP"]);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour("#00b5cc");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['anonymous_function'] = {
   init: function() {
     this.appendDummyInput()

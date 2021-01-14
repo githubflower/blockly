@@ -1,5 +1,16 @@
 'use strict';
-
+Blockly.Lua['robot_init'] = function(block){
+    var value_robot_index = Blockly.Lua.valueToCode(block, 'robot_index', Blockly.Lua.ORDER_ATOMIC);
+    var code = 'Robot.Attached(' + value_robot_index + ')\n';
+    code += 'PowerState,HomeState = Robot.State(' + value_robot_index + ')\n';
+    code += 'if PowerState == 0 then\n';
+    code += 'Robot.PowerEnable(' + value_robot_index + ',1)\n';
+    code += 'end\n';
+    code += 'if HomeState == 0 then\n';
+    code += 'Robot.Home(' + value_robot_index + ')\n';
+    code += 'end\n';
+    return code;
+};
 Blockly.Lua['robot_power_enable'] = function (block) {
     var dropdown_robot_power_enable_state = block.getFieldValue('power_enable_state');
     var value_robot_index = Blockly.Lua.valueToCode(block, 'robot_index', Blockly.Lua.ORDER_ATOMIC);
