@@ -45,14 +45,6 @@ Blockly.Blocks['new_location'] = {
             .setCheck("Number")
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField("Ex3");
-        this.appendValueInput("location_zclearance")
-            .setCheck("Number")
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("ZClearance");
-        this.appendValueInput("location_zworld")
-            .setCheck("Number")
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("ZWorld");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(290);
@@ -165,8 +157,8 @@ Blockly.Blocks['get_location_member'] = {
                 ["Ext1", "ext1"],
                 ["Ext2", "ext2"],
                 ["Ext3", "ext3"],
-                ["ZClearance", "zclearance"],
-                ["ZWorld", "zworld"]
+                // ["ZClearance", "zclearance"],
+                // ["ZWorld", "zworld"]
             ]), "location_member")
             // .appendField(Blockly.Msg["OF"])
         this.setOutput(true, null);
@@ -195,8 +187,8 @@ Blockly.Blocks['change_location_member'] = {
                 ["Ext1", "ext1"],
                 ["Ext2", "ext2"],
                 ["Ext3", "ext3"],
-                ["ZClearance", "zclearance"],
-                ["ZWorld", "zworld"]
+                // ["ZClearance", "zclearance"],
+                // ["ZWorld", "zworld"]
             ]), "location_member")
             .appendField(Blockly.Msg["BY"]);
         this.setPreviousStatement(true, null);

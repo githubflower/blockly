@@ -12,15 +12,15 @@ Blockly.Lua['new_profile'] = function(block) {
   var value_profile_type = block.getFieldValue('PROFILE_TYPE') === 'TRUE' ? 1 : 0;
   // TODO: Assemble Lua into code variable.
   var code = '--' + input_profile_name + '\n' +
-             'local ' + text_profile_name + ' = ' + 'Profile.new()\n' +
-             text_profile_name + '.speed' + ' = ' + value_profile_speed + '\n' +
-             text_profile_name + '.speed2' + ' = ' + value_profile_speed2 + '\n' +
-             text_profile_name + '.accel' + ' = ' + value_profile_accel + '\n' +
-             text_profile_name + '.decel' + ' = ' + value_profile_decel + '\n' +
-             text_profile_name + '.accelramp' + ' = ' + value_profile_accel_ramp + '\n' +
-             text_profile_name + '.decelramp' + ' = ' + value_profile_decel_ramp + '\n' +
-             text_profile_name + '.inrange' + ' = ' + value_profile_inrange + '\n' +
-             text_profile_name + '.type' + ' = ' + value_profile_type + '\n';
+             text_profile_name + ' = ' + 'Profile.New()\n' +
+             text_profile_name + '.Speed' + ' = ' + value_profile_speed + '\n' +
+             text_profile_name + '.Speed2' + ' = ' + value_profile_speed2 + '\n' +
+             text_profile_name + '.Accel' + ' = ' + value_profile_accel + '\n' +
+             text_profile_name + '.Decel' + ' = ' + value_profile_decel + '\n' +
+             text_profile_name + '.AccelRamp' + ' = ' + value_profile_accel_ramp + '\n' +
+             text_profile_name + '.DecelRamp' + ' = ' + value_profile_decel_ramp + '\n' +
+             text_profile_name + '.InRange' + ' = ' + value_profile_inrange + '\n' +
+             text_profile_name + '.Type' + ' = ' + value_profile_type + '\n';
   return code;
 };
 
@@ -45,14 +45,14 @@ Blockly.Lua['set_profile'] = function(block) {
   var text_profile_name = Blockly.Lua.getVarNameOfBlock(block);
   var value_profile_value = Blockly.Lua.valueToCode(block, 'profile_value', Blockly.Lua.ORDER_NONE);
   // TODO: Assemble Lua into code variable.
-  var code = text_profile_name + '.speed' + ' = ' + value_profile_value + '.speed\n' +
-             text_profile_name + '.speed2' + ' = ' + value_profile_value + '.speed2\n' +
-             text_profile_name + '.accel' + ' = ' + value_profile_value + '.accel\n' +
-             text_profile_name + '.decel' + ' = ' + value_profile_value + '.decel\n' +
-             text_profile_name + '.accelramp' + ' = ' + value_profile_value + '.accelramp\n' +
-             text_profile_name + '.decelramp' + ' = ' + value_profile_value + '.decelramp\n' +
-             text_profile_name + '.inrange' + ' = ' + value_profile_value + '.inrange\n' +
-             text_profile_name + '.type' + ' = ' + value_profile_value + '.type\n';
+  var code = text_profile_name + '.Speed' + ' = ' + value_profile_value + '.Speed\n' +
+             text_profile_name + '.Speed2' + ' = ' + value_profile_value + '.Speed2\n' +
+             text_profile_name + '.Accel' + ' = ' + value_profile_value + '.Accel\n' +
+             text_profile_name + '.Decel' + ' = ' + value_profile_value + '.Decel\n' +
+             text_profile_name + '.AccelRamp' + ' = ' + value_profile_value + '.AccelRamp\n' +
+             text_profile_name + '.DecelRamp' + ' = ' + value_profile_value + '.DecelRamp\n' +
+             text_profile_name + '.InRange' + ' = ' + value_profile_value + '.InRange\n' +
+             text_profile_name + '.Type' + ' = ' + value_profile_value + '.Type\n';
   return code;
 };
 

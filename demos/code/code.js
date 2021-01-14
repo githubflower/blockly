@@ -280,8 +280,34 @@ Code.tabClick = function(clickedName) {
       }
       if(Code.workspace.variableMap_){
         Code.workspace.variableMap_.clear();
-        debugger;
       }
+      //处理location,profile等变量
+      var getVarsDom = function(dom){
+        var ret;
+        if(dom.tagName === 'variables'){
+          return dom;
+        }else{
+          if(dom.children){
+            var domChildren = Array.prototype.slice.call(dom.children);
+            for(var i = 0; i < domChildren.length; i++){
+              ret = getVarsDom(domChildren[i]);
+              if(ret){
+                break;
+              }
+            }
+          }
+        }
+        return ret;
+      }
+      var varsDom = getVarsDom(xmlDom);
+      var children = Array.prototype.slice.call(varsDom.children);
+      for (var i = children.length - 1; i >= 0; i--) {
+        var item = children[i];
+        if(item.tagName === 'variable' && (item.getAttribute('type') === 'location' || item.getAttribute('type') === 'profile') ){
+          varsDom.removeChild(item);
+        }
+      }
+
       Blockly.Xml.domToWorkspace(xmlDom, Code.workspace);
     }
   }

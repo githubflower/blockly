@@ -34,7 +34,7 @@ Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
 			var block = Blockly.utils.xml.createElement('block');
 			block.setAttribute('type', 'new_location');
 			block.setAttribute('gap', Blockly.Blocks['math_change'] ? 8 : 24);
-			var properties = ["location_x", "location_y", "location_z", "location_yaw", "location_pitch", "location_roll", "location_config", "location_zclearance", "location_zworld", "location_ex1", "location_ex2", "location_ex3"];
+			var properties = ["location_x", "location_y", "location_z", "location_yaw", "location_pitch", "location_roll", "location_config", "location_ex1", "location_ex2", "location_ex3"];
 			for(var i = 0; i < properties.length; i++){
 
 				var value = Blockly.Xml.textToDom(

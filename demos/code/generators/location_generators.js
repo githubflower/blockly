@@ -23,11 +23,9 @@ Blockly.Lua['new_location'] = function(block) {
   var value_location_ex1 = Blockly.Lua.valueToCode(block, 'location_ex1', Blockly.Lua.ORDER_ATOMIC);
   var value_location_ex2 = Blockly.Lua.valueToCode(block, 'location_ex2', Blockly.Lua.ORDER_ATOMIC);
   var value_location_ex3 = Blockly.Lua.valueToCode(block, 'location_ex3', Blockly.Lua.ORDER_ATOMIC);
-  var value_location_zclearance = Blockly.Lua.valueToCode(block, 'location_zclearance', Blockly.Lua.ORDER_ATOMIC);
-  var value_location_zworld = Blockly.Lua.valueToCode(block, 'location_zworld', Blockly.Lua.ORDER_ATOMIC);
   // TODO: Assemble Lua into code variable.
   var code = '--' + input_location_name + '\n' +
-              'local ' + text_location_name + ' = ' + 'Location.new()\n' +
+             text_location_name + ' = ' + 'Location.New()\n' +
              text_location_name + '.X ' + ' = ' + value_location_x + '\n' +
              text_location_name + '.Y' + ' = ' + value_location_y + '\n'+
              text_location_name + '.Z' + ' = ' + value_location_z + '\n' +
@@ -71,9 +69,9 @@ Blockly.Lua['set_location'] = function(block) {
            text_location_name + '.config' + ' = ' + value_location_value + '.config\n' +
            text_location_name + '.ext1' + ' = ' + value_location_value + '.ext1\n' +
            text_location_name + '.ext2' + ' = ' + value_location_value + '.ext2\n' +
-           text_location_name + '.ext3' + ' = ' + value_location_value + '.ext3\n' +
-           text_location_name + '.zclearance' + ' = ' + value_location_value + '.zclearance\n' +
-           text_location_name + '.zworld' + ' = ' + value_location_value + '.zworld\n';
+           text_location_name + '.ext3' + ' = ' + value_location_value + '.ext3\n';
+           // text_location_name + '.zclearance' + ' = ' + value_location_value + '.zclearance\n' +
+           // text_location_name + '.zworld' + ' = ' + value_location_value + '.zworld\n';
   return code;
 };
 
