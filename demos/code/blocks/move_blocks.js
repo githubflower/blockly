@@ -1,5 +1,5 @@
 'use strict';
-
+goog.require('Blockly.FieldButton');
 Blockly.Blocks['move_joint'] = {
     init: function () {
         this.appendDummyInput()
@@ -19,7 +19,16 @@ Blockly.Blocks['move_joint'] = {
 
 Blockly.Blocks['move_line'] = {
     init: function () {
+        this.itemCount_ = 1;
+
         this.appendDummyInput()
+            .appendField(new Blockly.FieldImage('/static/blockly/media/move_line.svg', 30, 30, null, null, null, {
+                background: true,
+                rectWidth: 30,
+                rectHeight: 30,
+                imageX: 0,
+                imageY: 0
+            }))
             .appendField(Blockly.Msg["MOVE_LINE"]);
         this.appendValueInput("point_value")
             .setCheck(["location", "location_joint"])
@@ -33,11 +42,129 @@ Blockly.Blocks['move_line'] = {
             .appendField(new Blockly.FieldCheckbox(true), 'BLEND')
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField(Blockly.Msg["WAIT_FOR_END_OF_MOTION"]);
+        
+        this.appendDummyInput()
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(
+                new Blockly.FieldButton(
+                    '\u002B',
+                    {
+                        class: 'blockly-button',
+                        tooltip: Blockly.Msg["ADD_TRIGGER"],
+                        clickHandler: function(){
+                            if(this.sourceBlock_.mutationToDom){
+                                if(this.sourceBlock_.itemCount_ <= 3){
+                                    this.sourceBlock_.itemCount_ += 1;
+                                }
+                                if(this.sourceBlock_.itemCount_ === 4){
+                                    this.setDisabled(true);
+                                }else{
+                                    this.setDisabled(false);
+                                }
+                                this.sourceBlock_.updateShape_();
+                            }
+                        }
+                    }, 
+                ),'ADD_BUTTON'
+            )
         this.setInputsInline(false);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(210);
         this.setTooltip("move line function");
+        this.setHelpUrl("https://www.qkmtech.com");
+    },
+    mutationToDom: function() {
+        var container = Blockly.utils.xml.createElement('mutation');
+        container.setAttribute('items', this.itemCount_);
+        return container;
+    },
+    /**
+    * Parse XML to restore the list inputs.
+    * @param {!Element} xmlElement XML storage element.
+    * @this {Blockly.Block}
+    */
+    domToMutation: function(xmlElement) {
+        this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+        this.updateShape_();
+    },
+    updateShape_: function() {
+        // Add new inputs.
+        for (var i = 0; i < this.itemCount_; i++) {
+            if (!this.getInput('ADD' + i)) {
+                var input = this.appendValueInput('ADD' + i)
+                    .setAlign(Blockly.ALIGN_RIGHT);
+                input.appendField(
+                    new Blockly.FieldButton(
+                        '\u002d',
+                        {
+                            class: 'blockly-button',
+                            tooltip: Blockly.Msg["DELETE_TRIGGER"],
+                            clickHandler: function(){
+                                if(this.sourceBlock_.mutationToDom){
+                                    if(this.sourceBlock_.itemCount_ > 0){
+                                        this.sourceBlock_.itemCount_ -= 1;
+                                        var addButtonField = this.sourceBlock_.getField('ADD_BUTTON')
+                                        if(addButtonField){
+                                            addButtonField.setDisabled(false);
+                                        }
+                                    }
+                                    this.sourceBlock_.updateShape_();
+                                }
+                            }
+                        }, 
+                    )
+                )
+                input.appendField(Blockly.Msg["TRIGGER"] + (i + 1));
+                //自动增加一个trigger_block还有问题   后续再完善吧
+                // var triggerBlock = this.workspace.newBlock('trigger_block');
+                // input.connection.connect(triggerBlock.outputConnection)
+            }
+        }
+        // Remove deleted inputs.
+        while (this.getInput('ADD' + i)) {
+            this.removeInput('ADD' + i);
+            i++;
+        }
+    }
+};
+
+Blockly.Blocks['move_door'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldImage('/static/blockly/media/move_door.png', 30, 30, null, null, null, {
+                background: true,
+                rectWidth: 30,
+                rectHeight: 30,
+                imageX: 0,
+                imageY: 0
+            }))
+            .appendField(Blockly.Msg["MOVE_DOOR"]);
+        this.appendValueInput("targetPoint")
+            .setCheck(["location", "location_joint"])
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(Blockly.Msg["TARGET_POINT"]);
+        this.appendValueInput("rise_height")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(Blockly.Msg["RISE_HEIGHT"]);
+        this.appendValueInput('FIRST_TRIGGER')
+            .appendField('↑ ' + Blockly.Msg["TRIGGERING"])
+            .setAlign(Blockly.ALIGN_RIGHT);
+        this.appendValueInput('SECOND_TRIGGER')
+            .appendField('↔ ' + Blockly.Msg["TRIGGERING"])
+            .setAlign(Blockly.ALIGN_RIGHT);
+        this.appendValueInput('THIRD_TRIGGER')
+            .appendField('↓ ' + Blockly.Msg["TRIGGERING"])
+            .setAlign(Blockly.ALIGN_RIGHT);
+        this.appendDummyInput('blend')
+            .appendField(new Blockly.FieldCheckbox(true), 'BLEND')
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(Blockly.Msg["WAIT_FOR_END_OF_MOTION"]);
+        this.setInputsInline(false);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(210);
+        this.setTooltip("MOVE_DOOR_TOOLTIP");
         this.setHelpUrl("https://www.qkmtech.com");
     }
 };

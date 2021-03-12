@@ -616,7 +616,21 @@ Blockly.BlockSvg.prototype.setCollapsed = function(collapsed) {
       icons[i].setVisible(false);
     }
     var text = this.toString(Blockly.COLLAPSE_CHARS);
-    this.appendDummyInput(COLLAPSED_INPUT_NAME).appendField(text).init();
+    this.appendDummyInput(COLLAPSED_INPUT_NAME).appendField(text).appendField(
+      new Blockly.FieldButton(
+        '\ue60e',
+        {
+            class: 'blockly-button icon iconfont',
+            textOffset: {
+              x: 3
+            },
+            tooltip: '',
+            clickHandler: function(){
+                this.sourceBlock_.setCollapsed(false);
+                this.sourceBlock_.setInputsInline(false);
+            }
+        }, 
+    ),'EXPAND_BUTTON');
 
     // Add any warnings on enclosed blocks to this block.
     var descendants = this.getDescendants(true);

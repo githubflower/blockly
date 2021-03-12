@@ -103,6 +103,13 @@ Blockly.Blocks['system_speed_get'] = {
 Blockly.Blocks['system_speed_set'] = {
     init: function () {
         this.appendDummyInput()
+            .appendField(new Blockly.FieldImage('/static/blockly/media/speed.svg', 20, 20, null, null, null, {
+                background: true,
+                rectWidth: 30,
+                rectHeight: 30,
+                imageX: 5,
+                imageY: 3
+            }))
             .appendField(Blockly.Msg["SET_SYSTEM_SPEED"]);
         this.appendDummyInput()
             .setAlign(Blockly.ALIGN_RIGHT)

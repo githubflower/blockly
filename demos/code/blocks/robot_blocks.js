@@ -2,6 +2,13 @@
 Blockly.Blocks['robot_init'] = {
     init: function () {
         this.appendDummyInput()
+            .appendField(new Blockly.FieldImage('/static/blockly/media/robot_init.svg', 20, 20, null, null, null, {
+                background: true,
+                rectWidth: 30,
+                rectHeight: 30,
+                imageX: 5,
+                imageY: 5
+            }))
             .appendField(Blockly.Msg["ROBOT_INIT"]);
         this.appendValueInput("robot_index")
             .setCheck("Number")
@@ -9,6 +16,45 @@ Blockly.Blocks['robot_init'] = {
             .appendField(Blockly.Msg["ROBOT_INDEX"]);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
+        this.setColour(120);
+        this.setTooltip(Blockly.Msg["HELP_ROBOT_INIT"]);
+        this.setHelpUrl("https://www.qkmtech.com");
+    }
+};
+// 获取指定机器人的工具坐标
+Blockly.Blocks['robot_get_tool'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField('\uefbf')
+            .appendField(Blockly.Msg["ROBOT_GET_TOOL"]);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg['ROBOT_INDEX'])
+            .appendField(new Blockly.FieldTextInput(0), "ROBOT_INDEX")
+            .setAlign(Blockly.ALIGN_RIGHT);
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
+        this.setOutput(true);
+        this.setColour(120);
+        this.setTooltip(Blockly.Msg["HELP_ROBOT_INIT"]);
+        this.setHelpUrl("https://www.qkmtech.com");
+    }
+};
+// 设置指定机器人的工具坐标
+Blockly.Blocks['robot_set_tool'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField('\uefbf')
+            .appendField(Blockly.Msg["ROBOT_SET_TOOL"]);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg['ROBOT_INDEX'])
+            .appendField(new Blockly.FieldTextInput(0), "ROBOT_INDEX")
+            .setAlign(Blockly.ALIGN_RIGHT);
+        this.appendValueInput('TOOL_VALUE')
+            .appendField(Blockly.Msg["TOOL_OBJ"])
+            .setAlign(Blockly.ALIGN_RIGHT);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setOutput(false);
         this.setColour(120);
         this.setTooltip(Blockly.Msg["HELP_ROBOT_INIT"]);
         this.setHelpUrl("https://www.qkmtech.com");

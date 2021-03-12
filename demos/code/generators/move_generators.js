@@ -12,11 +12,35 @@ Blockly.Lua['move_line'] = function (block) {
     var profile_value = Blockly.Lua.valueToCode(block, 'profile_value', Blockly.Lua.ORDER_NONE);
     var blend_value = block.getFieldValue('BLEND') === 'TRUE' ? 1 : 0;
     var code = '';
+
     if(profile_value){
         // code += 'System.Speed(' + profile_value + '.speed)\nRobot.Speed(' + profile_value + '.type, ' + profile_value + '.speed)\n';
         code += (profile_value + ':Set(1)\n');
     }
+    for (var i = 0; i < block.itemCount_; i++) {
+        code += ('Move.Trigger(' + Blockly.Lua.valueToCode(block, 'ADD' + i, Blockly.Lua.ORDER_NONE) + ')\n');
+    }
     code += 'Move.Line(' + value_point_value + ')\n';
+    if(blend_value){
+        code += 'Move.WaitForEOM()\n';
+    }
+    return code;
+};
+
+Blockly.Lua['move_door'] = function (block) {
+    var targetPoint = Blockly.Lua.valueToCode(block, 'targetPoint', Blockly.Lua.ORDER_NONE);
+    var rise_height = Blockly.Lua.valueToCode(block, 'rise_height', Blockly.Lua.ORDER_NONE);
+    var blend_value = block.getFieldValue('BLEND') === 'TRUE' ? 1 : 0;
+
+    var trigger1 = Blockly.Lua.valueToCode(block, 'FIRST_TRIGGER', Blockly.Lua.ORDER_NONE);
+    var trigger2 = Blockly.Lua.valueToCode(block, 'SECOND_TRIGGER', Blockly.Lua.ORDER_NONE);
+    var trigger3 = Blockly.Lua.valueToCode(block, 'THIRD_TRIGGER', Blockly.Lua.ORDER_NONE);
+
+    var code = `Move.Jump(${targetPoint}, ${rise_height}, Trigger.New(${trigger1}), Trigger.New(${trigger2}), Trigger.New(${trigger3}))\n`;
+   
+    /* code += 'Move.Line(' + point_start + ')\n';
+    code += (point_start + '.Z = ' + rise_height + '\n');
+    code += 'Move.Line(' + point_start + ')\n'; */
     if(blend_value){
         code += 'Move.WaitForEOM()\n';
     }

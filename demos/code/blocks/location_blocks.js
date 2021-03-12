@@ -3,6 +3,13 @@ const HELP_URL = 'https://www.qkmtech.com';
 Blockly.Blocks['new_location'] = {
     init: function() {
         this.appendValueInput("location_x")
+            .appendField(new Blockly.FieldImage('../../../blockly/media/location.svg', 20, 20, null, null, null, {
+                background: true, /* 是否启用背景-rect元素实现的遮罩，默认是白色，根据实际需要可扩展此配置 */
+                rectWidth: 30,
+                rectHeight: 30,
+                imageX: 5,
+                imageY: 3
+            }))
             .setCheck("Number")
             // .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSEIF'])
             .appendField(Blockly.Msg['NEW_LOCATION'])
@@ -241,4 +248,18 @@ Blockly.Blocks['location_print'] = {
         this.setTooltip("print location function");
         this.setHelpUrl("https://www.qkmtech.com");
     }
+};
+
+Blockly.Blocks['get_location_here'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField(Blockly.Msg["GET_LOCATION_HERE"])
+        // this.appendDummyInput()
+            .appendField(' ' + Blockly.Msg["ROBOT_INDEX"] + ' : ')
+            .appendField(new Blockly.FieldTextInput("1"), "ROBOT_INDEX")
+        this.setOutput(true, "location");
+        this.setColour(290);
+        this.setTooltip("get location here");
+        this.setHelpUrl(HELP_URL);
+    },
 };

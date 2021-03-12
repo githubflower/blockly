@@ -82,10 +82,10 @@ Blockly.geras.Drawer.prototype.drawJaggedEdge_ = function(row) {
 /**
  * @override
  */
-Blockly.geras.Drawer.prototype.drawValueInput_ = function(row) {
+Blockly.geras.Drawer.prototype.drawValueInput_ = function(row, index) {
   this.highlighter_.drawValueInput(row);
 
-  Blockly.geras.Drawer.superClass_.drawValueInput_.call(this, row);
+  Blockly.geras.Drawer.superClass_.drawValueInput_.call(this, row, index);
 };
 
 /**
@@ -100,12 +100,16 @@ Blockly.geras.Drawer.prototype.drawStatementInput_ = function(row) {
 /**
  * @override
  */
-Blockly.geras.Drawer.prototype.drawRightSideRow_ = function(row) {
+Blockly.geras.Drawer.prototype.drawRightSideRow_ = function(row, index) {
   this.highlighter_.drawRightSideRow(row);
 
-  this.outlinePath_ +=
+  if(this.block_.drawRightSideRow_){
+    this.block_.drawRightSideRow_.call(this, row, index); //每个图形块自定义绘制valueInput的形状
+  }else{
+    this.outlinePath_ +=
       Blockly.utils.svgPaths.lineOnAxis('H', row.xPos + row.width) +
       Blockly.utils.svgPaths.lineOnAxis('V', row.yPos + row.height);
+  }
 };
 
 /**

@@ -7,94 +7,13 @@
   <meta name="google" value="notranslate">
   <title>Blockly Demo:</title>
   <link rel="stylesheet" href="./style.css">
-  <style>
-    .blocklyMainBackground {
-      /* fill: #fff !important; */
-      /*fill: #0A0B44  !important;*/
-    }
-
-    .black .blocklyMainBackground {
-      fill: #0B1725 !important;
-    }
-
-    .black .block-fill>path {
-      fill-opacity: 0.1;
-    }
-
-    .black .geras-renderer.classic-theme .blocklyEditableText>rect {
-      fill-opacity: 1;
-      fill: #174273;
-    }
-
-    .black .geras-renderer.classic-theme .blocklyEditableText>text,
-    .black .geras-renderer.classic-theme .blocklyEditableText>text>tspan {
-      fill: #F9AA0F !important;
-    }
-
-    table{
-      background-color: #272b42;
-    color: #fff;
-    }
-
-    .white .blocklyMainBackground {
-      /* fill: #fff !important; */
-    }
-
-    .white .geras-renderer.classic-theme .blocklyEditableText>rect {
-      fill-opacity: 1;
-      fill: #169BD5;
-    }
-
-    .white .geras-renderer.classic-theme .blocklyEditableText>text,
-    .white .geras-renderer.classic-theme .blocklyEditableText>text>tspan {
-      fill: #FFFFFF !important;
-    }
-
-    .white .block-fill>path {
-      fill-opacity: 0.1;
-    }
-
-    .white .geras-renderer.classic-theme .state .blocklyEditableText>rect {
-      fill: #999999 !important;
-    }
-
-    .keyword {
-      font-weight: bold !important;
-    }
-
-    .block-fill>path {
-      /* fill: #272822 !important; */
-      /* fill: rgba(0,0,0,.1) !important; */
-      /* fill: rgba(255, 255, 255, 0.2) !important; */
-      /* fill: transparent !important; */
-       /*filter: url(#shadowGrey); */
-    }
-
-    .block-fill>.blocklyPathLight {
-      fill: none !important;
-    }
-
-    /*  .controls_if > path{
-      stroke: #F9273C !important;
-    }
-    .controls_if > g > text{
-      fill: #F9273C !important;
-    } */
-
-    /* .geras-renderer.classic-theme .blocklyNonEditableText>rect, .geras-renderer.classic-theme .blocklyEditableText>rect {
-      fill-opacity: 1;
-      fill: #174273;
-    } */
-    /* .geras-renderer.classic-theme .blocklyNonEditableText>text, .geras-renderer.classic-theme .blocklyEditableText>text {
-      fill: #F9AA0F !important;
-    } */
-  </style>
+  <link rel="stylesheet" type="text/css" href="./css/iconfont.css">
   <!-- <link rel="stylesheet/less" type="text/css" href="code.less"/> -->
 </head>
 
 <body>
   <table width="100%" height="100%">
-    <tr>
+    <tr style="display: none;">
       <td>
         <h1><a href="https://developers.google.com/blockly/">Blockly</a>&rlm; &gt;
           <a href="../index.html">Demos</a>&rlm; &gt;
@@ -111,7 +30,7 @@
           <tr id="tabRow" height="1em">
             <td id="tab_blocks" class="tabon">...</td>
             <td class="tabmin tab_collapse">&nbsp;</td>
-            <td id="tab_javascript" class="taboff tab_collapse">JavaScript</td>
+            <td id="tab_javascript" class="taboff tab_collapse" style="display: none;">JavaScript</td>
             <td class="tabmin tab_collapse">&nbsp;</td>
             <!-- <td id="tab_python" class="taboff tab_collapse">Python</td> -->
             <td class="tabmin tab_collapse">&nbsp;</td>
@@ -123,11 +42,11 @@
             <td class="tabmin tab_collapse">&nbsp;</td>
             <td id="tab_xml" class="taboff tab_collapse">XML</td>
             <td class="tabmin">
-              <input type="file" name="loadXml" id="loadXml" value="loadXml"/>
+              <input type="file" name="loadXml" id="loadXml" value="loadXml" />
             </td>
             <td class="tabmin">
               <input type="button" value="导入点位" onclick="javascript:document.getElementById('importLocation').click();" />
-              <input type="file" name="importLocation" id="importLocation" value="导入点位" label="导入点位" style="display: none;"/>
+              <input type="file" name="importLocation" id="importLocation" value="导入点位" label="导入点位" style="display: none;" />
             </td>
             <td>
               <input type="button" value="生成状态图json" id="genStateData" />
@@ -139,10 +58,10 @@
               <button id="trashButton" class="notext" title="...">
                 <img src='../../media/1x1.gif' class="trash icon21">
               </button>
-              <button id="linkButton" class="notext" title="...">
+              <button id="linkButton" class="notext" title="..." style="display: none;">
                 <img src='../../media/1x1.gif' class="link icon21">
               </button>
-              <button id="runButton" class="notext primary" title="...">
+              <button id="runButton" class="notext primary" title="..." style="display: none;">
                 <img src='../../media/1x1.gif' class="run icon21">
               </button>
             </td>
@@ -162,9 +81,8 @@
   <pre id="content_lua" class="content prettyprint lang-lua"></pre>
   <pre id="content_dart" class="content prettyprint lang-dart"></pre>
   <textarea id="content_xml" class="content" wrap="off"></textarea>
-
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}" type="cat-logic">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -173,7 +91,7 @@
       <block type="logic_null"></block>
       <block type="logic_ternary"></block>
     </category>
-    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}" type="cat-loops">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -202,7 +120,7 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
+    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}" type="cat-math">
       <block type="math_number">
         <field name="NUM">123</field>
       </block>
@@ -303,7 +221,7 @@
         </value>
       </block>
     </category>
-    <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
+    <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}" type="cat-text">
       <block type="text"></block>
       <block type="text_join"></block>
       <block type="text_append">
@@ -380,7 +298,7 @@
         </value>
       </block>
     </category>
-    <category name="%{BKY_CATLISTS}" colour="%{BKY_LISTS_HUE}">
+    <category name="%{BKY_CATLISTS}" colour="%{BKY_LISTS_HUE}" type="cat-lists">
       <block type="lists_create_with">
         <mutation items="0"></mutation>
       </block>
@@ -469,13 +387,13 @@
         </value>
       </block>
     </category> -->
+    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE" type="cat-variables"></category>
+    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE" type="cat-functions"></category>
+    <category name="%{BKY_CATTHREADS}" colour="%{BKY_THREADS_HUE}" custom="THREAD" type="cat-threads"></category>
+    <category name="%{BKY_CATSTATES}" colour="%{BKY_PROCEDURES_HUE}" custom="STATE" type="cat-states"></category>
     <sep></sep>
-    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
-    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
-    <category name="%{BKY_CATTHREADS}" colour="%{BKY_THREADS_HUE}" custom="THREAD"></category>
-    <category name="%{BKY_CATSTATES}" colour="%{BKY_PROCEDURES_HUE}" custom="STATE"></category>
-    <category name="%{BKY_CATLOCATIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="LOCATION"></category>
-    <category name="%{BKY_CATPROFILES}" colour="%{BKY_PROCEDURES_HUE}" custom="PROFILE"></category>
+    <category name="%{BKY_CATLOCATIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="LOCATION" type="cat-locations"></category>
+    <category name="%{BKY_CATPROFILES}" colour="%{BKY_PROCEDURES_HUE}" custom="PROFILE" type="cat-profiles"></category>
     <!-- <category name="Class" colour="%{BKY_CLASS_HUE}">
       <block type="lists_state"></block>
       <block type="state_trigger_event"></block>
@@ -487,26 +405,26 @@
       <block type="class_property"></block>
       <block type="class_method"></block>
     </category> -->
-    <category name="%{BKY_CATIOS}" colour="#a56d5b">
-                <block type="digital_output_set">
-                    <field name="io_state">state_on</field>
-                    <value name="io_index">
-                        <shadow type="math_number">
-                            <field name="NUM">20001</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="digital_iostate_get">
-                    <field name="io_mode">DIN</field>
-                    <value name="io_index">
-                        <shadow type="math_number">
-                            <field name="NUM">20102</field>
-                        </shadow>
-                    </value>
-                </block>
-            </category>
-            <category name="%{BKY_CATROBOTS}" colour="#80a55b">
-                <!--<block type="robot_power_enable">
+    <category name="%{BKY_CATIOS}" colour="#a56d5b" type="cat-ios">
+      <block type="digital_output_set">
+        <field name="io_state">state_on</field>
+        <value name="io_index">
+          <shadow type="math_number">
+            <field name="NUM">20001</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="digital_iostate_get">
+        <field name="io_mode">DIN</field>
+        <value name="io_index">
+          <shadow type="math_number">
+            <field name="NUM">20102</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <category name="%{BKY_CATROBOTS}" colour="#80a55b" type="cat-robots">
+      <!--<block type="robot_power_enable">
                     <field name="power_enable_state">power_enable_off</field>
                     <value name="robot_index">
                         <shadow type="math_number">
@@ -521,44 +439,46 @@
                         </shadow>
                     </value>
                 </block>-->
-                <block type="robot_init">
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="robot_brake_set">
-                    <field name="brake_state">brake_unfree</field>
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                    <field name="axis_index">1</field>
-                </block>
-                <!--<block type="robot_brake_get">
+      <block type="robot_init">
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="robot_get_tool"></block>
+      <block type="robot_set_tool"></block>
+      <block type="robot_brake_set">
+        <field name="brake_state">brake_unfree</field>
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <field name="axis_index">1</field>
+      </block>
+      <!--<block type="robot_brake_get">
                     <value name="robot_index">
                         <shadow type="math_number">
                             <field name="NUM">1</field>
                         </shadow>
                     </value>
                 </block>-->
-                <block type="robot_where">
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="robot_where_angle">
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <!--<block type="robot_limit_set">
+      <block type="robot_where">
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="robot_where_angle">
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <!--<block type="robot_limit_set">
                     <field name="axis_index">1</field>
                     <field name="angle_p">0</field>
                     <field name="angle_n">30</field>
@@ -568,7 +488,7 @@
                         </shadow>
                     </value>
                 </block>-->
-                <!--<block type="robot_limit_get">
+      <!--<block type="robot_limit_get">
                     <field name="axis_index">1</field>
                     <value name="robot_index">
                         <shadow type="math_number">
@@ -576,7 +496,7 @@
                         </shadow>
                     </value>
                 </block>-->
-                <!--<block type="robot_frame_set">
+      <!--<block type="robot_frame_set">
                     <field name="frame_type">type_1</field>
                     <value name="robot_index">
                         <shadow type="math_number">
@@ -591,36 +511,36 @@
                         </shadow>
                     </value>
                 </block>-->
-                <block type="robot_axis_number_get">
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="robot_speed_set">
-                    <field name="speed_value">0</field>
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="robot_speed_get">
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <!--<block type="robot_state_get">
+      <block type="robot_axis_number_get">
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="robot_speed_set">
+        <field name="speed_value">0</field>
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="robot_speed_get">
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <!--<block type="robot_state_get">
                     <value name="robot_index">
                         <shadow type="math_number">
                             <field name="NUM">1</field>
                         </shadow>
                     </value>
                 </block>-->
-                <!--<block type="robot_jog_mode_set">
+      <!--<block type="robot_jog_mode_set">
                     <field name="mode_type">type_0</field>
                     <field name="switch_type">type_0</field>
                     <value name="robot_index">
@@ -658,44 +578,62 @@
                         </shadow>
                     </value>
                 </block>-->
-                <!--<block type="robot_tool_set">
+      <!--<block type="robot_tool_set">
                     <value name="robot_index">
                         <shadow type="math_number">
                             <field name="NUM">1</field>
                         </shadow>
                     </value>
                 </block>-->
-            </category>
-            <category name="%{BKY_CATMOVES}" colour="#5b80a5">
-                <block type="move_joint"></block>
-                <block type="move_line"></block>
-                <block type="move_axis">
-                    <field name="axis_index">1</field>
-                    <field name="angle_value">0</field>
-                </block>
-                <block type="move_joint_offset"></block>
-                <block type="move_line_offset"></block>
-                <!--<block type="move_arc"></block>-->
-                <!--<block type="move_circle"></block>-->
-                <!--<block type="move_jog">
+    </category>
+    <category name="%{BKY_CATMOVES}" colour="#5b80a5" type="cat-moves">
+      <block type="move_joint"></block>
+      <block type="move_line"></block>
+      <block type="move_door">
+        <value name="rise_height">
+          <block type="math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+      </block>
+      <block type="trigger">
+        <value name="TRIGGER_VALUE">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="IO_INDEX">
+          <shadow type="math_number">
+            <field name="NUM">20001</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="move_axis">
+        <field name="axis_index">1</field>
+        <field name="angle_value">0</field>
+      </block>
+      <block type="move_joint_offset"></block>
+      <block type="move_line_offset"></block>
+      <!--<block type="move_arc"></block>-->
+      <!--<block type="move_circle"></block>-->
+      <!--<block type="move_jog">
                     <field name="axis_index">X</field>
                 </block>
                 <block type="move_stop_jog"></block>-->
-                <block type="move_trigger">
-                    <field name="type_value">type_t_p</field>
-                    <field name="reference_position_value">r_p_start</field>
-                    <field name="do_status">status_on</field>
-                </block>
-                <block type="move_jump">
-                    <field name="trigger_id1_value">1</field>
-                    <field name="trigger_id2_value">1</field>
-                    <field name="trigger_id3_value">1</field>
-                    <field name="trigger_id4_value">1</field>
-                </block>
-                <block type="move_wait_for_eom"></block>
-            </category>
-            
-            <!-- <category name="Location Joint" colour="#a56d5b">
+      <block type="move_trigger">
+        <field name="type_value">type_t_p</field>
+        <field name="reference_position_value">r_p_start</field>
+        <field name="do_status">status_on</field>
+      </block>
+      <block type="move_jump">
+        <field name="trigger_id1_value">1</field>
+        <field name="trigger_id2_value">1</field>
+        <field name="trigger_id3_value">1</field>
+        <field name="trigger_id4_value">1</field>
+      </block>
+      <block type="move_wait_for_eom"></block>
+    </category>
+    <!-- <category name="Location Joint" colour="#a56d5b">
                 <block type="new_location_joint">
                     <field name="location_name">name</field>
                     <value name="location_angle1">
@@ -773,48 +711,47 @@
                     <field name="location_name">name</field>
                 </block>
             </category> -->
-            
-            <!--<category name="Tool" colour="#5ba580">
-                <block type="new_tool">
-                    <field name="tool_name">name</field>
-                    <field name="tool_direct">Positive</field>
-                    <value name="tool_x">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="tool_y">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="tool_z">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="tool_yaw">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="tool_pitch">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="tool_roll">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="tool_mass">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="get_tool">
+    <category name="%{BKY_CATTOOLS}" colour="#5ba580" type="cat-tools">
+      <block type="new_tool">
+        <field name="tool_name">name</field>
+        <field name="tool_direct">Positive</field>
+        <value name="tool_x">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="tool_y">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="tool_z">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="tool_yaw">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="tool_pitch">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="tool_roll">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="tool_mass">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <!-- <block type="get_tool">
                     <field name="tool_name">name</field>
                 </block>
                 <block type="change_tool_member">
@@ -830,83 +767,82 @@
                 </block>
                 <block type="tool_print">
                     <field name="tool_name">name</field>
-                </block>
-            </category>-->
-            <category name="%{BKY_CATSYSTEMS}" colour="#a55b6d">
-                <block type="system_start"></block>
-                <block type="system_abort"></block>
-                <block type="system_continue">
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="system_retry">
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="system_stop">
-                    <value name="robot_index">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="system_speed_get"></block>
-                <block type="system_speed_set">
-                    <field name="speed_value">0</field>
-                </block>
-                <block type="system_auto_set">
-                    <field name="mode_type">type_0</field>
-                </block>
-                <block type="system_auto_get"></block>
-                <block type="system_login">
-                    <field name="access_value">1</field>
-                </block>
-                <block type="system_logout"></block>
-                <block type="system_clear_variables"></block>
-                <!--<block type="system_clear_error"></block>-->
-            </category>
+                </block> -->
+    </category>
+    <category name="%{BKY_CATSYSTEMS}" colour="#a55b6d" type="cat-systems">
+      <block type="system_start"></block>
+      <block type="system_abort"></block>
+      <block type="system_continue">
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="system_retry">
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="system_stop">
+        <value name="robot_index">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="system_speed_get"></block>
+      <block type="system_speed_set">
+        <field name="speed_value">0</field>
+      </block>
+      <block type="system_auto_set">
+        <field name="mode_type">type_0</field>
+      </block>
+      <block type="system_auto_get"></block>
+      <block type="system_login">
+        <field name="access_value">1</field>
+      </block>
+      <block type="system_logout"></block>
+      <block type="system_clear_variables"></block>
+      <!--<block type="system_clear_error"></block>-->
+    </category>
     <!-- <category name="%{BKY_CATSTATES}" colour="%{BKY_STATES_HUE}" custom="STATE"></category> -->
   </xml>
   <script>
-    window.Util = {
-      deepCopy: (obj) => {
-        if (typeof obj !== 'object') {
-          return obj;
-        }
-        let type = Object.prototype.toString.apply(obj);
-        let ret = type === '[object Array]' ? [] : {};
-        if (type === '[object Array]') {
-          ret = [];
-          let i = 0;
-          while (i < obj.length) {
-            ret[i] = Util.deepCopy(obj[i]);
-            i++;
-          }
-        } else {
-          ret = {};
-          for (let k in obj) {
-            if (obj.hasOwnProperty(k)) {
-              ret[k] = Util.deepCopy(obj[k]);
-            }
-          }
-        }
-        return ret;
+  window.Util = {
+    deepCopy: (obj) => {
+      if (typeof obj !== 'object') {
+        return obj;
       }
-    };
+      let type = Object.prototype.toString.apply(obj);
+      let ret = type === '[object Array]' ? [] : {};
+      if (type === '[object Array]') {
+        ret = [];
+        let i = 0;
+        while (i < obj.length) {
+          ret[i] = Util.deepCopy(obj[i]);
+          i++;
+        }
+      } else {
+        ret = {};
+        for (let k in obj) {
+          if (obj.hasOwnProperty(k)) {
+            ret[k] = Util.deepCopy(obj[k]);
+          }
+        }
+      }
+      return ret;
+    }
+  };
+
   </script>
   <!-- <script src="/static/blockly/appengine/storage.js"></script> -->
   <script src="../../appengine/storage.js"></script>
   <!-- <script src="../../blockly_compressed.js"></script> -->
   <!-- <script src="../../blocks_compressed.js"></script> -->
-
   <script src="../../blockly_uncompressed.js"></script>
-
   <script src="../../blocks/colour.js"></script>
   <script src="../../blocks/lists.js"></script>
   <script src="../../blocks/logic.js"></script>
@@ -915,11 +851,9 @@
   <script src="../../blocks/procedures.js"></script>
   <script src="../../blocks/text.js"></script>
   <script src="../../blocks/variables.js"></script>
-
   <script src="../../javascript_compressed.js"></script>
   <script src="../../python_compressed.js"></script>
   <script src="../../php_compressed.js"></script>
-
   <!-- <script src="../../lua_compressed.js"></script> -->
   <script src="../../generators/lua.js"></script>
   <script src="../../generators/lua/colour.js"></script>
@@ -930,13 +864,10 @@
   <script src="../../generators/lua/procedures.js"></script>
   <script src="../../generators/lua/text.js"></script>
   <script src="../../generators/lua/variables.js"></script>
-  <script src="../../generators/lua/variables_dynamic.js"></script> 
-
+  <script src="../../generators/lua/variables_dynamic.js"></script>
   <script src="../../dart_compressed.js"></script>
-
   <script src="./code.js"></script>
   <script src="./slider.js"></script>
-
   <script type="text/javascript" src="./defineBlock.js"></script>
   <script type="text/javascript" src="./blocks/location_blocks.js"></script>
   <script type="text/javascript" src="./blocks/profile_blocks.js"></script>
@@ -946,7 +877,8 @@
   <script type="text/javascript" src="./blocks/tool_blocks.js"></script>
   <script type="text/javascript" src="./blocks/user_frame_blocks.js"></script>
   <script type="text/javascript" src="./blocks/system_blocks.js"></script>
-
+  <script type="text/javascript" src="./blocks/trigger_blocks.js"></script>
+  <script type="text/javascript" src="./blocks/state_blocks.js"></script>
   <script type="text/javascript" src="./generate.js"></script>
   <script type="text/javascript" src="./generators/location_generators.js"></script>
   <script type="text/javascript" src="./generators/profile_generators.js"></script>
@@ -956,235 +888,235 @@
   <script type="text/javascript" src="./generators/tool_generators.js"></script>
   <script type="text/javascript" src="./generators/user_frame_generators.js"></script>
   <script type="text/javascript" src="./generators/system_generators.js"></script>
-    
+  <script type="text/javascript" src="./generators/trigger_generators.js"></script>
   <script>
-    window.log = function(str){
-      if(typeof str === 'object'){
-        console.log('zjie---obj:');
-        console.log(str);
-      }else{
-        console.log('zjie---str:' + str);
-      }
+  window.log = function(str) {
+    if (typeof str === 'object') {
+      console.log('zjie---obj:');
+      console.log(str);
+    } else {
+      console.log('zjie---str:' + str);
     }
-    const isStateInOptions = (state, options) => {
-      let flag = false;
-      options.forEach(option => {
-        if(option[0] == state.name){
-          flag = true;
-          return false; //注意：这里的return false是退出forEach循环
+  }
+  const isStateInOptions = (state, options) => {
+    let flag = false;
+    options.forEach(option => {
+      if (option[0] == state.name) {
+        flag = true;
+        return false; //注意：这里的return false是退出forEach循环
+      }
+    })
+    return flag;
+  }
+  const beforeLoadBlocks = (xmlStr) => {
+    let threadAry = window.parent.statePageVue.threadAry;
+    threadAry.forEach(thread => {
+      thread.stateAry.forEach(state => {
+        //如果状态的描述不在run_state的options中，则需要手动添加进去
+        if (!isStateInOptions(state, window.run_state_options)) {
+          window.run_state_options.push([state.name, state.name]);
         }
       })
-      return flag;
-    }
-    const beforeLoadBlocks = (xmlStr)=>{
-      let threadAry = window.parent.statePageVue.threadAry;
-      threadAry.forEach(thread => {
-        thread.stateAry.forEach(state => {
-          //如果状态的描述不在run_state的options中，则需要手动添加进去
-          if(!isStateInOptions(state, window.run_state_options)){
-            window.run_state_options.push([state.name, state.name]);
-          }
-        })
-      })
-      //重新定义run_state块 
-    }
-    window.addEventListener('message', function (e) {
-      // Code.workspace.clear();
-      beforeLoadBlocks(e.data);
-      Code.loadBlocks(e.data);
-      // Code.loadBlocks(localStorage.getItem('stateData'));
     })
-    var importBtn = document.getElementById('loadXml');
-    importBtn.addEventListener('change', function (e) {
-      var file = e.target.files[0];
-      var reader = new FileReader();
-      reader.onload = (fe) => {
-        // alert(localStorage.getItem('stateData'));
-        // beforeLoadBlocks(fe.target.result);
-        Code.loadBlocks(fe.target.result);
-      };
-      reader.readAsText(file);
-    })
+    //重新定义run_state块 
+  }
+  window.addEventListener('message', function(e) {
+    // Code.workspace.clear();
+    beforeLoadBlocks(e.data);
+    Code.loadBlocks(e.data);
+    // Code.loadBlocks(localStorage.getItem('stateData'));
+  })
+  var importBtn = document.getElementById('loadXml');
+  importBtn.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onload = (fe) => {
+      // alert(localStorage.getItem('stateData'));
+      // beforeLoadBlocks(fe.target.result);
+      Code.loadBlocks(fe.target.result);
+    };
+    reader.readAsText(file);
+  })
 
-    var isComment = function(str){
-      if(str.indexOf('--') === 0){
-        return true;
-      }else{
-        return false;
-      }
+  var isComment = function(str) {
+    if (str.indexOf('--') === 0) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    function genUid(){
-      return Blockly.utils.genUid();
-    }
+  function genUid() {
+    return Blockly.utils.genUid();
+  }
 
-    var createLocation = function(line){
-      var reg = /Location.New\((.*)\)/g;
-      var ary = line.split('=');
-      var locationName = ary[0].trim();
-      var params = ary[1].trim();
-      
-        params = reg.exec(params)[1];
-        params = params.split(',');
+  var createLocation = function(line) {
+    var reg = /Location.New\((.*)\)/g;
+    var ary = line.split('=');
+    var locationName = ary[0].trim();
+    var params = ary[1].trim();
 
-        // var variable = Code.workspace.variableMap_.createVariable(locationName, 'location');
-        var locationDom = Blockly.Xml.textToDom(
-          '<block type="new_location" id="' + genUid() + '" gap="8" collapsed="true">' +
-          '  <field name="NAME">' + locationName + '</field>' +
-          '  <value name="location_x">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">' + params[0] + '</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_y">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">' + params[1] + '</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_z">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">' + params[2] + '</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_yaw">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">' + params[3] + '</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_pitch">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">' + params[4] + '</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_roll">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">' + params[5] + '</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_config">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">0</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_ex1">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">0</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_ex2">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">0</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_ex3">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">0</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_zclearance">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">0</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '  <value name="location_zworld">' +
-          '    <shadow type="math_number" id="' + genUid() + '">' +
-          '      <field name="NUM">0</field>' +
-          '    </shadow>' +
-          '  </value>' +
-          '</block>' 
-        );
-      return locationDom;
+    params = reg.exec(params)[1];
+    params = params.split(',');
+
+    // var variable = Code.workspace.variableMap_.createVariable(locationName, 'location');
+    var locationDom = Blockly.Xml.textToDom(
+      '<block type="new_location" id="' + genUid() + '" gap="8" collapsed="true">' +
+      '  <field name="NAME">' + locationName + '</field>' +
+      '  <value name="location_x">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">' + params[0] + '</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_y">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">' + params[1] + '</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_z">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">' + params[2] + '</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_yaw">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">' + params[3] + '</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_pitch">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">' + params[4] + '</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_roll">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">' + params[5] + '</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_config">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">0</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_ex1">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">0</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_ex2">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">0</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_ex3">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">0</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_zclearance">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">0</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '  <value name="location_zworld">' +
+      '    <shadow type="math_number" id="' + genUid() + '">' +
+      '      <field name="NUM">0</field>' +
+      '    </shadow>' +
+      '  </value>' +
+      '</block>'
+    );
+    return locationDom;
 
 
-    }    
+  }
 
-    var parseLocation = function(data){
-      var dataAry = data.split('\n');
-      var domMap = {};
-      var locationsDom = [];
-      dataAry.forEach(line => {
-        line = line.trim();
-        if(!isComment(line)){
-          var ary = line.split('=');
-          var key = ary[0].trim();
-          var value = ary[1].trim();
-          //说明是创建点位
-          if(value.indexOf('Location.New') === 0){
-            domMap[key] = createLocation(line);
-            locationsDom.push(domMap[key]);
-          }else{
-            // 修改点位信息
-            updateLocation(line, domMap);
-          }
-        }
-      })
-      return locationsDom;
-    }
-
-    var getDomByName = function(dom, v){
-      var result;
-      if(dom.getAttribute && dom.getAttribute('name') === v){
-        result = dom;
-      }else{
-        var children = Array.prototype.slice.call(dom.childNodes);
-        for(var i = 0; i < children.length; i++){
-          result = getDomByName(children[i], v);
-          if(result){
-            break;
-          }
+  var parseLocation = function(data) {
+    var dataAry = data.split('\n');
+    var domMap = {};
+    var locationsDom = [];
+    dataAry.forEach(line => {
+      line = line.trim();
+      if (!isComment(line)) {
+        var ary = line.split('=');
+        var key = ary[0].trim();
+        var value = ary[1].trim();
+        //说明是创建点位
+        if (value.indexOf('Location.New') === 0) {
+          domMap[key] = createLocation(line);
+          locationsDom.push(domMap[key]);
+        } else {
+          // 修改点位信息
+          updateLocation(line, domMap);
         }
       }
-      return result;
-    }
+    })
+    return locationsDom;
+  }
 
-    var updateLocation = function(line, domMap){
-      var ary = line.split('=');
-      var key = ary[0].trim();
-      var value = ary[1].trim();
-
-      var locationName = key.split('.')[0];
-      var locationProperty = key.split('.')[1];
-
-      if(locationProperty === 'Config'){
-        var configDom = getDomByName(domMap[locationName], 'location_config')
-        var fieldDom = getDomByName(configDom, 'NUM');
-        fieldDom.textContent = value;
+  var getDomByName = function(dom, v) {
+    var result;
+    if (dom.getAttribute && dom.getAttribute('name') === v) {
+      result = dom;
+    } else {
+      var children = Array.prototype.slice.call(dom.childNodes);
+      for (var i = 0; i < children.length; i++) {
+        result = getDomByName(children[i], v);
+        if (result) {
+          break;
+        }
       }
     }
+    return result;
+  }
 
-    var importBtn = document.getElementById('importLocation');
-    importBtn.addEventListener('change', function (e) {
-      var file = e.target.files[0];
-      var reader = new FileReader();
-      reader.onload = (fe) => {
-        var data = fe.target.result;
-        var dom = parseLocation(data);
+  var updateLocation = function(line, domMap) {
+    var ary = line.split('=');
+    var key = ary[0].trim();
+    var value = ary[1].trim();
 
-        var NAME_SPACE = "https://developers.google.com/blockly/xml";
-        var blocklyXml = document.createElementNS(NAME_SPACE, 'xml');
-        blocklyXml.setAttribute(
-            "xmlns",
-            "https://developers.google.com/blockly/xml"
-        );
-        var tmp;
-        for(var i = dom.length - 1; i >= 0; i--){
-          var item = dom[i];
-          if(tmp){
-            var nextDom = document.createElementNS(NAME_SPACE, 'next');
-            nextDom.appendChild(tmp);
-            item.appendChild(nextDom);
-          }
-          tmp = item;
+    var locationName = key.split('.')[0];
+    var locationProperty = key.split('.')[1];
+
+    if (locationProperty === 'Config') {
+      var configDom = getDomByName(domMap[locationName], 'location_config')
+      var fieldDom = getDomByName(configDom, 'NUM');
+      fieldDom.textContent = value;
+    }
+  }
+
+  var importBtn = document.getElementById('importLocation');
+  importBtn.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onload = (fe) => {
+      var data = fe.target.result;
+      var dom = parseLocation(data);
+
+      var NAME_SPACE = "https://developers.google.com/blockly/xml";
+      var blocklyXml = document.createElementNS(NAME_SPACE, 'xml');
+      blocklyXml.setAttribute(
+        "xmlns",
+        "https://developers.google.com/blockly/xml"
+      );
+      var tmp;
+      for (var i = dom.length - 1; i >= 0; i--) {
+        var item = dom[i];
+        if (tmp) {
+          var nextDom = document.createElementNS(NAME_SPACE, 'next');
+          nextDom.appendChild(tmp);
+          item.appendChild(nextDom);
         }
-          blocklyXml.appendChild(dom[0]);
+        tmp = item;
+      }
+      blocklyXml.appendChild(dom[0]);
 
-        Blockly.Xml.domToWorkspace(blocklyXml, Code.workspace);
-        // Code.workspace.
-      };
-      reader.readAsText(file);
-    })
+      Blockly.Xml.domToWorkspace(blocklyXml, Code.workspace);
+      // Code.workspace.
+    };
+    reader.readAsText(file);
+  })
 
   </script>
-
 </body>
+
 </html>

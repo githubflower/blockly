@@ -101,6 +101,19 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       "type": "input_statement",
       "name": "DO"
     }],
+    "message2": "%1 %{BKY_SET_SLEEP} %2 %{BKY_SLEEP_TIMES}",
+    "args2": [
+      {
+        "type": "field_checkbox",
+        "name": "SET_SLEEP",
+        // "align": Blockly.ALIGN_RIGHT
+      },{
+        "type": "field_number",
+        "name": "SLEEP_SECONDS",
+        "text": 1,
+        "check": "Number"
+      }
+    ],
     "previousStatement": null,
     "nextStatement": null,
     "style": "loop_blocks",

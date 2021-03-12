@@ -303,7 +303,6 @@ Blockly.FieldSlider.prototype.dropdownCreate_ = function() {
   this.slider_ = new Slider(0, 15, 250, svg, function(v) {
     v = Math.round(v * 100);
     self.setEditorValue_(v);
-    console.log(v);
   }, 0)
   if(typeof oldValue !== 'undefined'){
     this.slider_.animateValue(oldValue / 100);

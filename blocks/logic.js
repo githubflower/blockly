@@ -69,6 +69,14 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "name": "DO0"
       }
     ],
+    "message2": "test %1",
+    "args2": [
+      {
+        "type": "field_button",
+        "name": "ADD",
+        "align": "RIGHT"
+      }
+    ],
     "previousStatement": null,
     "nextStatement": null,
     "style": "logic_blocks",
@@ -283,6 +291,35 @@ Blockly.defineBlocksWithJsonArray([ // Mutator blocks. Do not extract.
   }
 ]);
 
+Blockly.Blocks["controls_if"] = {
+  init: function(){
+    this.appendValueInput("IF0")
+      .appendField(Blockly.Msg["CONTROLS_IF_MSG_IF"]);
+    this.appendStatementInput("DO0")
+      .appendField(Blockly.Msg["CONTROLS_IF_MSG_THEN"]);
+    this.appendDummyInput('SET_ITEM')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField(
+          new Blockly.FieldButton(
+              '\u002B',
+              {
+                  class: 'blockly-button',
+                  tooltip: Blockly.Msg["ADD_TRIGGER"],
+                  clickHandler: function(){
+                    this.sourceBlock_.addItem_();
+                  }
+              }, 
+          ),'ADD_BUTTON'
+      );
+    // this.setMutator(new Blockly.Mutator("CONTROLS_IF_MUTATOR_MIXIN"));
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setStyle("logic_blocks");
+    this.setHelpUrl(Blockly.Msg["CONTROLS_IF_HELPURL"]);
+  }
+};
+
 /**
  * Tooltip text, keyed by block OP value. Used by logic_compare and
  * logic_operation blocks.
@@ -450,7 +487,6 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
     var valueConnections = [null];
     var statementConnections = [null];
     var elseStatementConnection = null;
-
     if (this.getInput('ELSE')) {
       elseStatementConnection = this.getInput('ELSE').connection.targetConnection;
     }
@@ -482,17 +518,86 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
       this.removeInput('DO' + i);
       i++;
     }
+    if (this.getInput('SET_ITEM')) {
+      this.removeInput('SET_ITEM');
+    }
+    
     // Rebuild block.
     for (i = 1; i <= this.elseifCount_; i++) {
       this.appendValueInput('IF' + i)
           .setCheck('Boolean')
-          .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSEIF']);
+          .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSEIF'])
+          .appendField(
+            new Blockly.FieldButton(
+              '\u002D',
+              {
+                  class: 'blockly-button',
+                  tooltip: Blockly.Msg["DELETE_TRIGGER"],
+                  clickHandler: function(){
+                    var name = this.getParentInput().name;
+                    this.sourceBlock_.deleteItem_(name);
+                  }
+              }, 
+            ),'DELETE_BUTTON'
+          );
       this.appendStatementInput('DO' + i)
           .appendField(Blockly.Msg['CONTROLS_IF_MSG_THEN']);
     }
     if (this.elseCount_) {
       this.appendStatementInput('ELSE')
-          .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSE']);
+          .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSE'])
+          .appendField(
+            new Blockly.FieldButton(
+              '\u002D',
+              {
+                  class: 'blockly-button',
+                  tooltip: Blockly.Msg["DELETE_TRIGGER"],
+                  clickHandler: function(){
+                    var name = this.getParentInput().name;
+                    this.sourceBlock_.deleteItem_(name);
+                  }
+              }, 
+            ),'DELETE_BUTTON'
+          )
+    }
+    this.appendDummyInput('SET_ITEM')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField(
+          new Blockly.FieldButton(
+              '\u002B',
+              {
+                  class: 'blockly-button',
+                  tooltip: Blockly.Msg["ADD_TRIGGER"],
+                  clickHandler: function(){
+                    this.sourceBlock_.addItem_();
+                  }
+              }, 
+          ),'ADD_BUTTON'
+      );
+  },
+  addItem_: function(){
+    if(!this.elseCount_){
+      this.elseCount_ = 1;
+    }else{
+      this.elseifCount_++;
+    }
+    this.rebuildShape_();
+  },
+  deleteItem_: function(inputName){
+    if(inputName.indexOf('IF') !== -1){
+      var i = parseInt(inputName.substr(2), 10);
+      this.removeInput(inputName);
+      this.removeInput('DO' + i);
+      this.elseifCount_--;
+
+      while(this.getInput('IF' + (i + 1))){
+        this.getInput('IF' + (i + 1)).name = 'IF' + i;
+        this.getInput('DO' + (i + 1)).name = 'DO' + i;
+        i++;
+      }
+    }else{
+      this.removeInput(inputName);
+      this.elseCount_ = 0;
     }
   },
   /**
@@ -518,6 +623,7 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
 Blockly.Extensions.registerMutator('controls_if_mutator',
     Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN, null,
     ['controls_if_elseif', 'controls_if_else']);
+Blockly.utils.object.mixin(Blockly.Blocks["controls_if"], Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN);
 /**
  * "controls_if" extension function. Adds mutator, shape updating methods, and
  * dynamic tooltip to "controls_if" blocks.

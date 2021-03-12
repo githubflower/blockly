@@ -5,9 +5,9 @@ Blockly.Blocks['new_tool'] = {
         this.appendValueInput("tool_x")
             .setCheck("Number")
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("new tool")
-            .appendField(new Blockly.FieldTextInput("name"), "tool_name")
-            .appendField("with")
+            .appendField(Blockly.Msg["NEW_TOOL"])
+            // .appendField(new Blockly.FieldTextInput("name"), "tool_name")
+            // .appendField("with")
             .appendField("x");
         this.appendValueInput("tool_y")
             .setCheck("Number")
@@ -29,19 +29,20 @@ Blockly.Blocks['new_tool'] = {
             .setCheck("Number")
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField("roll");
-        this.appendValueInput("tool_mass")
+        /* this.appendValueInput("tool_mass")
             .setCheck("Number")
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("mass");
-        this.appendDummyInput()
+            .appendField("mass"); */
+      /*   this.appendDummyInput()
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField("direct")
-            .appendField(new Blockly.FieldDropdown([["Positive", "Positive"], ["Negative", "Negative"]]), "tool_direct");
+            .appendField(new Blockly.FieldDropdown([["Positive", "Positive"], ["Negative", "Negative"]]), "tool_direct"); */
         this.setInputsInline(false);
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
+        this.setOutput(true);
         this.setColour(150);
-        this.setTooltip("set tool function");
+        this.setTooltip("new_tool function");
         this.setHelpUrl("https://www.qkmtech.com");
     }
 };

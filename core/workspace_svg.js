@@ -1639,7 +1639,8 @@ Blockly.WorkspaceSvg.prototype.onMouseWheel_ = function(e) {
   }
 
   var scrollDelta = Blockly.utils.getScrollDeltaPixels(e);
-  if (canWheelZoom && (e.ctrlKey || !canWheelMove)) {
+  if (canWheelZoom && (!canWheelMove) && e.ctrlKey) { //修改谷歌本身的交互方式，缩放操作必须按住ctrl进行
+  // if (canWheelZoom && (e.ctrlKey || !canWheelMove)) {
     // Zoom.
     // The vertical scroll distance that corresponds to a click of a zoom
     // button.

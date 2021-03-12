@@ -18,6 +18,7 @@ goog.require('Blockly.tree.BaseNode');
 goog.require('Blockly.utils.aria');
 goog.require('Blockly.utils.object');
 goog.require('Blockly.utils.style');
+goog.require('Blockly.utils.tool');
 
 
 /**
@@ -387,7 +388,14 @@ Blockly.tree.TreeControl.prototype.getNodeFromEvent_ = function(e) {
  * @return {!Blockly.tree.TreeNode} The new item.
  * @package
  */
-Blockly.tree.TreeControl.prototype.createNode = function(opt_content) {
-  return new Blockly.tree.TreeNode(
-      this.toolbox_, opt_content || '', this.config_);
+Blockly.tree.TreeControl.prototype.createNode = function(opt_content, config) {
+  if(typeof config === 'object'){
+    for(var k in config){
+      if(config.hasOwnProperty(k)){
+        this.config_[k] = config[k];
+      }
+    }
+  }
+
+  return new Blockly.tree.TreeNode(this.toolbox_, opt_content || '', Blockly.utils.tool.merge(this.config_, config));
 };

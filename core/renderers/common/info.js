@@ -222,6 +222,9 @@ Blockly.blockRendering.RenderInfo.prototype.createRows_ = function() {
       activeRow = new Blockly.blockRendering.InputRow(this.constants_);
       this.inputRows.push(activeRow);
     }
+    if(this.block_.setInfoByInput){
+      this.block_.setInfoByInput.call(this, input);
+    }
 
     // All of the fields in an input go on the same row.
     for (var j = 0, field; (field = input.fieldRow[j]); j++) {
@@ -500,9 +503,13 @@ Blockly.blockRendering.RenderInfo.prototype.computeBounds_ = function() {
   var widestStatementRowFields = 0;
   var blockWidth = 0;
   var widestRowWithConnectedBlocks = 0;
+  var widestFieldOfInput = 0;
   for (var i = 0, row; (row = this.rows[i]); i++) {
     row.measure();
     blockWidth = Math.max(blockWidth, row.width);
+    if(row.hasStatement || row.hasExternalInput){
+      widestFieldOfInput = Math.max(widestFieldOfInput, row.width);
+    }
     if (row.hasStatement) {
       var statementInput = row.getLastInput();
       var innerWidth = row.width - statementInput.width;
@@ -528,6 +535,8 @@ Blockly.blockRendering.RenderInfo.prototype.computeBounds_ = function() {
     this.width += this.outputConnection.width;
     this.widthWithChildren += this.outputConnection.width;
   }
+  console.log('widestFieldOfInput: ' + widestFieldOfInput);
+  this.widestFieldOfInput = widestFieldOfInput;
 };
 
 /**
@@ -563,7 +572,11 @@ Blockly.blockRendering.RenderInfo.prototype.alignRowElements_ = function() {
  */
 Blockly.blockRendering.RenderInfo.prototype.getDesiredRowWidth_ = function(
     _row) {
-  return this.width - this.startX;
+  if(this.block_.getDesiredRowWidth_){
+    return this.block_.getDesiredRowWidth_.call(this, _row);
+  }else{
+    return this.width - this.startX;
+  }
 };
 
 /**

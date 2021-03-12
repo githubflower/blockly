@@ -162,6 +162,22 @@ Blockly.FieldImage.prototype.configure_ = function(config) {
   Blockly.FieldImage.superClass_.configure_.call(this, config);
   this.flipRtl_ = !!config['flipRtl'];
   this.altText_ = Blockly.utils.replaceMessageReferences(config['alt']) || '';
+
+  if(config){
+    if(config.rectWidth){
+      this.rectWidth_ = config.rectWidth
+    }
+    if(config.rectHeight){
+      this.rectHeight_ = config.rectHeight
+    }
+    if(config.imageX){
+      this.imageX_ = config.imageX
+    }
+    if(config.imageY){
+      this.imageY_ = config.imageY
+    }
+    this.background = config.background;
+  }
 };
 
 /**
@@ -169,15 +185,34 @@ Blockly.FieldImage.prototype.configure_ = function(config) {
  * @package
  */
 Blockly.FieldImage.prototype.initView = function() {
+    if(this.background){
+      Blockly.utils.dom.createSvgElement(
+        'rect',
+        {
+          'height': this.rectHeight_ || this.imageHeight_,
+          'width': this.rectWidth_ || this.size_.width,
+          'rx': (this.rectHeight_ || this.imageHeight_) / 2,
+          'ry': (this.rectHeight_ || this.imageHeight_) / 2,
+          'x': 0,
+          'y': 0,
+          'fill': '#ffffff',
+          'class': 'icon-bg'
+        },
+        this.fieldGroup_
+      );
+    }
   this.imageElement_ = /** @type {!SVGImageElement} */
-      (Blockly.utils.dom.createSvgElement(
-          'image',
-          {
-            'height': this.imageHeight_ + 'px',
-            'width': this.size_.width + 'px',
-            'alt': this.altText_
-          },
-          this.fieldGroup_));
+  Blockly.utils.dom.createSvgElement(
+      'image',
+      {
+        'height': this.imageHeight_ + 'px',
+        'width': this.size_.width + 'px',
+        'x': this.imageX_ || 0,
+        'y': this.imageY_ || 0,
+        'alt': this.altText_
+      },
+      this.fieldGroup_);
+  
   this.imageElement_.setAttributeNS(Blockly.utils.dom.XLINK_NS,
       'xlink:href', /** @type {string} */ (this.value_));
 

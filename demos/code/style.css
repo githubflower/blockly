@@ -199,3 +199,374 @@ button {
   fill: #eee;
 }
 
+.field-button{
+  cursor: pointer;
+}
+.field-button.disabled{
+  fill: #ddd;
+  cursor: not-allowed !important;
+}
+rect.icon-bg{
+  stroke: #169BD5;
+}
+
+
+
+
+@import url('./css/iconfont.css')*/
+.blocklyToolboxDiv{
+  background-color: #FFFFFF;
+}
+.darkTheme .blocklyToolboxDiv{
+  background-color: #333333;
+}
+.darkTheme .blocklyToolboxDiv .blocklyTreeLabel{
+  color: #1976D2;
+}
+.darkTheme .blocklyTreeSelected .blocklyTreeLabel,
+.darkTheme .blocklyTreeSelected .iconfont{
+  color: #FFFFFF;
+}
+
+
+.blocklyPathDark {
+    display: none;
+}
+.blocklyPathLight{
+    display: none;
+}
+
+#formDiv{
+  /*position: absolute;*/
+    /*top: 0;*/
+    padding: 10px;
+    /*border: 1px solid #000000;*/
+}
+.blocklyText{
+  /*color: #222222;*/
+  /*fill: #222222;*/
+  color: #FFFFFF;
+  fill: #FFFFFF;
+}
+.blocklyPath{
+  /*fill: #ffffff;*/
+  /*fill: transparent;*/
+  /*stroke: #666666;*/
+  transition: all 0.3s;
+}
+.conn-up-down > .blocklyPath{
+  /*stroke: #dd2c00;*/
+  stroke: #f2631f;
+  filter: url(#shadowGrey);
+  /*stroke: #d1f30d;*/
+}
+.blocklySelected > .blocklyPath{
+  stroke-width: 2px;
+}
+/*.blocklyPath:hover{
+  stroke-dasharray: 5 0 !important;
+  stroke-width: 2px !important;
+  stroke-dashoffset: 5 !important;
+  stroke: #06D6A0 !important;
+}*/
+.start > path.blocklyPath{
+  filter: url(#shadowGrey);
+}
+.blocklyNonEditableText>rect, .blocklyEditableText>rect{
+  stroke: #222222;
+    fill: #000000; 
+    fill-opacity: .6;
+}
+.blocklyEditableText:hover>rect{
+  stroke: #06D6A0;
+  stroke-width: 5px;
+  cursor: pointer;
+}
+.blocklyEditableText > rect, .blocklyEditableText > text{
+  cursor: pointer;
+}
+.blocklyEditableText > text{
+  fill: #ffffff;
+}
+.blocklySelected>.blocklyPath{
+  stroke: #409EFF
+}
+
+
+/*---------------以下样式从custom.css复制---------------------*/
+.connectGuideSvg{
+  display: none;
+  /*fill: #f2631f; */
+  fill: #120E33; 
+    /*fill-opacity: .6;*/
+  opacity: .6;
+  cursor: auto;
+}
+.showConnectGuideSvg > .connectGuideSvg{
+  display: block;
+}
+.blocklyTreeRoot{
+  padding: 0px;
+}
+.blocklyTreeRow{
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 0px;
+}
+.blocklyTreeIcon{
+  height: 40px;
+  padding: 0 10px;
+  /*font-weight: bold;*/
+  background-image: none;
+}
+.blocklyFlyout{
+
+}
+.blocklyTreeLabel{
+  color: #2e3131;
+}
+.blocklyTreeRow.blocklyTreeSelected{
+  transition: all .3s;
+}
+
+.blocklyTreeRow:not(.blocklyTreeSelected):hover{
+  color: #FFFFFF;
+  background-color: rgba(34, 167, 240, 1);
+  /*font-weight: bold;*/
+}
+.blocklyTreeRow:not(.blocklyTreeSelected):hover .iconfont{
+  color: #FFFFFF;
+  font-size: 24px;
+}
+.blocklyTreeRow:not(.blocklyTreeSelected):hover .blocklyTreeLabel{
+  color: #FFFFFF;
+}
+div[role="treeitem"]{
+  /*padding-left: 5px;*/
+  /*border-bottom: 1px solid #1976D2;*/
+}
+div[role="treeitem"]:hover{
+  transition: all .3s;
+}
+div[role="treeitem"] > .blocklyTreeRow{
+  border-left: none !important;
+}
+ul,li{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.theme-wrap{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+.iconfont.icon-theme{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.iconfont.icon-select{
+  width: 15px;
+  height: 15px;
+}
+.theme-wrap > ul{
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+}
+.theme-wrap > ul.active{
+  display: block;
+}
+.theme-wrap > ul > li{
+  width: 60px;
+  /*text-align: center;*/
+  padding: 3px 20px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+.theme-wrap > ul > li:hover{
+  background-color: #dddddd;
+}
+.theme-wrap > ul > li > span{
+  display: none;
+}
+.theme-wrap > ul > li.active > span{
+  display: inline-block;
+}
+
+.signal rect{
+  display: block;
+  fill: #FFC107;
+  stroke: none;
+  fill-opacity: 1;
+}
+.signal.connected rect{
+  display: none;
+  fill: #00e676;
+}
+.signal.hide{
+  display: none;
+}
+.collapse > image,
+.expand > image{
+  cursor: pointer;
+}
+
+.detail-icon{
+  stroke: yellow;
+}
+.detail-icon-wrap:hover > .detail-icon{
+  cursor: pointer;
+}
+.all-inputs-connected > .detail-icon-wrap > .detail-icon{
+  stroke: #00e676;
+}
+.detail-icon-wrap.connected > .detail-icon{
+  stroke: #00e676;
+}
+
+.collapse > .external-input-group{
+  display: none;
+}
+.expand > .external-input-group{
+  display: block;
+}
+.collapse > .signal{
+  display: none;
+}
+
+
+
+/*主题相关---start*/
+/*light*/
+[data-theme='light'] .blocklyMainBackground{
+  fill: #ffffff !important;
+}
+[data-theme='light'] .blocklyFlyoutBackground{
+  fill: #120E33 !important; 
+}
+
+
+/*dark*/
+[data-theme='dark'] .blocklyMainBackground{
+  /*浅蓝*/
+  /*fill: rgba(13, 10, 49, 0.9) !important; */
+   /*灰*/
+  fill: #282c34 !important;
+}
+[data-theme='dark'] .blocklyFlyoutBackground{
+  fill: #120E33 !important; 
+}
+
+.line > .blocklyPath{
+  /*蓝色*/
+  /*fill: #1976D2;
+  stroke: #1976D2;*/
+  /*橙色*/
+  fill: #f2631f;
+}
+/*主题相关---end*/
+
+
+.robot_get_tool text,
+.robot_set_tool text
+{
+  font-family: "iconfont" !important;
+}
+
+.blocklyDisabled path,
+.blocklyDisabled rect{
+  stroke-dasharray: 3 !important;
+}
+
+
+.blocklyMainBackground {
+       fill: #fff !important; 
+      /*fill: #0A0B44  !important;*/
+    }
+
+    .black .blocklyMainBackground {
+      fill: #0B1725 !important;
+    }
+
+    .black .block-fill>path {
+      fill-opacity: 0.1;
+    }
+
+    .black .geras-renderer.classic-theme .blocklyEditableText>rect {
+      fill-opacity: 1;
+      fill: #174273;
+    }
+
+    .black .geras-renderer.classic-theme .blocklyEditableText>text,
+    .black .geras-renderer.classic-theme .blocklyEditableText>text>tspan {
+      fill: #F9AA0F !important;
+    }
+
+    table{
+      background-color: #0A0B44;
+      color: #fff;
+    }
+
+    .white .blocklyMainBackground {
+      /* fill: #fff !important; */
+    }
+
+    .white .geras-renderer.classic-theme .blocklyEditableText>rect {
+      fill-opacity: 1;
+      stroke: #169BD5;
+      /* fill: #169BD5; */
+    }
+
+    .white .geras-renderer.classic-theme .blocklyEditableText>text,
+    .white .geras-renderer.classic-theme .blocklyEditableText>text>tspan {
+      fill: #169BD5 !important;
+    }
+
+    .white .block-fill>path {
+      fill-opacity: 0.2;
+    }
+
+    .white .geras-renderer.classic-theme .state .blocklyEditableText>rect {
+      fill: #999999 !important;
+    }
+
+    .keyword {
+      font-weight: bold !important;
+    }
+
+    .block-fill>path {
+      /* fill: #272822 !important; */
+      /* fill: rgba(0,0,0,.1) !important; */
+      /* fill: rgba(255, 255, 255, 0.2) !important; */
+      /* fill: transparent !important; */
+       /*filter: url(#shadowGrey); */
+    }
+
+    .block-fill>.blocklyPathLight {
+      fill: none !important;
+    }
+
+    /*  .controls_if > path{
+      stroke: #F9273C !important;
+    }
+    .controls_if > g > text{
+      fill: #F9273C !important;
+    } */
+
+    /* .geras-renderer.classic-theme .blocklyNonEditableText>rect, .geras-renderer.classic-theme .blocklyEditableText>rect {
+      fill-opacity: 1;
+      fill: #174273;
+    } */
+    /* .geras-renderer.classic-theme .blocklyNonEditableText>text, .geras-renderer.classic-theme .blocklyEditableText>text {
+      fill: #F9AA0F !important;
+    } */
+
+.state_trigger_event.even > path.blocklyPath{
+  fill: #666666;
+}

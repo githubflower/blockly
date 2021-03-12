@@ -52,6 +52,13 @@ Blockly.Blocks['speed_slider'] = {
 Blockly.Blocks['new_profile'] = {
     init: function() {
         this.appendValueInput("profile_speed")
+            .appendField(new Blockly.FieldImage('/static/blockly/media/speed.svg', 20, 20, null, null, null, {
+                background: true,
+                rectWidth: 30,
+                rectHeight: 30,
+                imageX: 5,
+                imageY: 3
+            }))
             .setCheck("Number")
             .appendField(Blockly.Msg["NEW_PROFILE"])
             .appendField(new Blockly.FieldTextInput("profile", this.validateProfileName), "NAME")

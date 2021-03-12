@@ -241,39 +241,7 @@ Blockly.Blocks['lists_create_with'] = {
   }
 };
 
-Blockly.Blocks['lists_state'] = Util.deepCopy(Blockly.Blocks['lists_create_with']);
-Blockly.Blocks['lists_state'].init = function() {
-  this.setHelpUrl(Blockly.Msg['LISTS_CREATE_WITH_HELPURL']);
-  this.setStyle('list_blocks');
-  this.itemCount_ = 3;
-  this.updateShape_();
-  this.setOutput(false);
-  this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
-  this.setTooltip(Blockly.Msg['LISTS_CREATE_WITH_TOOLTIP']);
-};
-Blockly.Blocks['lists_state'].updateShape_ = function() {
-    if (this.itemCount_ && this.getInput('EMPTY')) {
-      this.removeInput('EMPTY');
-    } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
-      this.appendDummyInput('EMPTY')
-          .appendField(Blockly.Msg['LISTS_CREATE_EMPTY_TITLE']);
-    }
-    // Add new inputs.
-    for (var i = 0; i < this.itemCount_; i++) {
-      if (!this.getInput('ADD' + i)) {
-        var input = this.appendValueInput('ADD' + i)
-            .setAlign(Blockly.ALIGN_RIGHT);
-        if (i == 0) {
-          input.appendField(Blockly.Msg["DEFINE_STATES"]);
-        }
-      }
-    }
-    // Remove deleted inputs.
-    while (this.getInput('ADD' + i)) {
-      this.removeInput('ADD' + i);
-      i++;
-    }
-  }
+
 
 Blockly.Blocks['lists_create_with_container'] = {
   /**

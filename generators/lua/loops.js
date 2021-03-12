@@ -81,7 +81,13 @@ Blockly.Lua['controls_whileUntil'] = function(block) {
   if (until) {
     argument0 = 'not ' + argument0;
   }
-  return 'while ' + argument0 + ' do\n' + branch + 'end\n';
+  var code = 'while ' + argument0 + ' do\n' + branch;
+  var isChecked = block.getFieldValue('SET_SLEEP') === 'TRUE';
+  var times = block.getFieldValue('SLEEP_SECONDS');
+  if(isChecked){
+    code += ('Thread.Sleep(' + times + ')' + '\n');
+  }
+  return  code + 'end\n';
 };
 
 Blockly.Lua['controls_for'] = function(block) {

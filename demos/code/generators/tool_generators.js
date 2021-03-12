@@ -1,27 +1,27 @@
-Blockly.Lua['set_tool'] = function (block) {
-    var text_tool_name = block.getFieldValue('tool_name');
+Blockly.Lua['new_tool'] = function (block) {
+    // var text_tool_name = block.getFieldValue('tool_name');
     var value_tool_x = Blockly.Lua.valueToCode(block, 'tool_x', Blockly.Lua.ORDER_ATOMIC);
     var value_tool_y = Blockly.Lua.valueToCode(block, 'tool_y', Blockly.Lua.ORDER_ATOMIC);
     var value_tool_z = Blockly.Lua.valueToCode(block, 'tool_z', Blockly.Lua.ORDER_ATOMIC);
     var value_tool_yaw = Blockly.Lua.valueToCode(block, 'tool_yaw', Blockly.Lua.ORDER_ATOMIC);
     var value_tool_pitch = Blockly.Lua.valueToCode(block, 'tool_pitch', Blockly.Lua.ORDER_ATOMIC);
     var value_tool_roll = Blockly.Lua.valueToCode(block, 'tool_roll', Blockly.Lua.ORDER_ATOMIC);
-    var value_tool_mass = Blockly.Lua.valueToCode(block, 'tool_mass', Blockly.Lua.ORDER_ATOMIC);
-    var dropdown_tool_direct = block.getFieldValue('tool_direct');
+    // var value_tool_mass = Blockly.Lua.valueToCode(block, 'tool_mass', Blockly.Lua.ORDER_ATOMIC);
+    // var dropdown_tool_direct = block.getFieldValue('tool_direct');
     // TODO: Assemble Lua into code variable.
-    if (dropdown_tool_direct == 'Positive'){
+    /* if (dropdown_tool_direct == 'Positive'){
         var value_tool_direct = '0';
     } else {
         var value_tool_direct = '1';
-    }
-    var code = text_tool_name + ' = ' + 'Tool.new(' +
+    } */
+    var code = /* text_tool_name + ' = ' +  */'Tool.New(' +
         value_tool_x + ',' +
         value_tool_y + ',' +
         value_tool_z + ',' +
         value_tool_yaw + ',' +
         value_tool_pitch + ',' +
-        value_tool_roll + ')' + '\n';
-    return code;
+        value_tool_roll + ')';
+    return [code, Blockly.Lua.ORDER_ATOMIC];
 };
 
 Blockly.Lua['get_tool'] = function (block) {

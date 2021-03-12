@@ -11,12 +11,12 @@ Blockly.Lua['robot_init'] = function(block){
     code += 'end\n';
     return code;
 };
-Blockly.Lua['robot_get_tool'] = function(block){
+Blockly.Blocks['robot_get_tool'] = function(block){
     var robotIndex = block.getFieldValue('ROBOT_INDEX');
     var code = `Robot.Tool(${robotIndex})`;
     return [code, Blockly.Lua.ORDER_NONE];
 }
-Blockly.Lua['robot_set_tool'] = function(block){
+Blockly.Blocks['robot_set_tool'] = function(block){
     var robotIndex = block.getFieldValue('ROBOT_INDEX');
     var toolValue = Blockly.Lua.valueToCode(block, 'TOOL_VALUE', Blockly.Lua.ORDER_ATOMIC);
     var code = `Robot.Tool(${robotIndex}, ${toolValue})`;

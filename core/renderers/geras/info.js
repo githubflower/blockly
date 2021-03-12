@@ -309,6 +309,9 @@ Blockly.geras.RenderInfo.prototype.getInRowSpacing_ = function(prev, next) {
  * @override
  */
 Blockly.geras.RenderInfo.prototype.getSpacerRowHeight_ = function(prev, next) {
+  if(this.block_.getSpacerRowHeight_){
+    return this.block_.getSpacerRowHeight_.call(this, prev, next);
+  }
   // If we have an empty block add a spacer to increase the height.
   if (Blockly.blockRendering.Types.isTopRow(prev) &&
       Blockly.blockRendering.Types.isBottomRow(next)) {

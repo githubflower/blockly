@@ -132,6 +132,7 @@ Code.loadBlocks = function(defaultXml) {
   } else if (defaultXml) {
     // Load the editor with default starting blocks.
     var xml = Blockly.Xml.textToDom(defaultXml);
+    Code.clearVarsAndMaps(xml);
     Blockly.Xml.domToWorkspace(xml, Code.workspace);
   } else if ('BlocklyStorage' in window) {
     // Restore saved blocks in a separate thread so that subsequent
@@ -247,6 +248,53 @@ Code.TABS_DISPLAY_ = [
 
 Code.selected = 'blocks';
 
+Code.clearVarsAndMaps = function(xmlDom) {
+  if (xmlDom) {
+    Code.workspace.clear();
+    if (Code.workspace.stateMap_) {
+      Code.workspace.stateMap_.clear();
+    }
+    if (Code.workspace.threadMap_) {
+      Code.workspace.threadMap_.clear();
+    }
+    if (Code.workspace.procedureMap_) {
+      Code.workspace.procedureMap_.clear();
+    }
+    if (Code.workspace.variableMap_) {
+      Code.workspace.variableMap_.clear();
+    }
+    //处理location,profile等变量
+    var getVarsDom = function(dom) {
+      var ret;
+      if (dom.tagName === 'variables') {
+        return dom;
+      } else {
+        if (dom.children) {
+          var domChildren = Array.prototype.slice.call(dom.children);
+          for (var i = 0; i < domChildren.length; i++) {
+            ret = getVarsDom(domChildren[i]);
+            if (ret) {
+              break;
+            }
+          }
+        }
+      }
+      return ret;
+    }
+    var varsDom = getVarsDom(xmlDom);
+    if (varsDom) {
+      var children = Array.prototype.slice.call(varsDom.children);
+      for (var i = children.length - 1; i >= 0; i--) {
+        var item = children[i];
+        if (item.tagName === 'variable' && (item.getAttribute('type') === 'location' || item.getAttribute('type') === 'profile')) {
+          varsDom.removeChild(item);
+        }
+      }
+    }
+  }
+}
+
+
 /**
  * Switch the visible pane when a tab is clicked.
  * @param {string} clickedName Name of tab clicked.
@@ -267,47 +315,8 @@ Code.tabClick = function(clickedName) {
         return;
       }
     }
-    if (xmlDom) {
-      Code.workspace.clear();
-      if(Code.workspace.stateMap_){
-        Code.workspace.stateMap_.clear();
-      }
-      if(Code.workspace.threadMap_){
-        Code.workspace.threadMap_.clear();
-      }
-      if(Code.workspace.procedureMap_){
-        Code.workspace.procedureMap_.clear();
-      }
-      if(Code.workspace.variableMap_){
-        Code.workspace.variableMap_.clear();
-      }
-      //处理location,profile等变量
-      var getVarsDom = function(dom){
-        var ret;
-        if(dom.tagName === 'variables'){
-          return dom;
-        }else{
-          if(dom.children){
-            var domChildren = Array.prototype.slice.call(dom.children);
-            for(var i = 0; i < domChildren.length; i++){
-              ret = getVarsDom(domChildren[i]);
-              if(ret){
-                break;
-              }
-            }
-          }
-        }
-        return ret;
-      }
-      var varsDom = getVarsDom(xmlDom);
-      var children = Array.prototype.slice.call(varsDom.children);
-      for (var i = children.length - 1; i >= 0; i--) {
-        var item = children[i];
-        if(item.tagName === 'variable' && (item.getAttribute('type') === 'location' || item.getAttribute('type') === 'profile') ){
-          varsDom.removeChild(item);
-        }
-      }
-
+    if(xmlDom){
+      Code.clearVarsAndMaps(xmlDom)
       Blockly.Xml.domToWorkspace(xmlDom, Code.workspace);
     }
   }

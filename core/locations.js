@@ -48,6 +48,13 @@ Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
 			xmlList.push(block);
 
 		}
+	if(Blockly.Blocks['get_location_here']){
+			var block = Blockly.utils.xml.createBlockDom('get_location_here', {
+				variabletype: Blockly.Locations.type,
+				gap: 8
+			});
+			xmlList.push(block);
+		}
 	if (variableModelList.length > 0) {
 		// New variables are added to the end of the variableModelList.
 		var mostRecentVariable = variableModelList[variableModelList.length - 1];
@@ -134,6 +141,9 @@ Blockly.Locations.flyoutCategoryBlocks = function(workspace) {
 				xmlList.push(block);
 			}
 		}
+
+		
+		
 	}
 	return xmlList;
 };

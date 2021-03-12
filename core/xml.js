@@ -140,7 +140,7 @@ Blockly.Xml.blockToDom = function(block, opt_noId) {
     element.setAttribute('id', block.id);
   }
 
-  if (block.getStateXY()) {
+  if (block.getStateXY && block.getStateXY()) {
     var sx = block.getStateXY().sx;
     var sy = block.getStateXY().sy;
     if (sx) {
@@ -564,6 +564,9 @@ Blockly.Xml.domToBlock = function(xmlBlock, workspace) {
             this.workspace.createState( block.getFieldValue('NAME'), block.id, 'state_def');
           }*/
           workspace.injectSomeModel2Map(block);
+          if(block.type === 'state_trigger_event'){
+            Blockly.utils.dom.addClass(block.svgGroup_, block.subsidiaryData_.clazz)
+          }
         }
       }
       for (var i = blocks.length - 1; i >= 0; i--) {

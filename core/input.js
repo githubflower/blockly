@@ -258,3 +258,15 @@ Blockly.Input.prototype.dispose = function() {
   }
   this.sourceBlock_ = null;
 };
+
+//add by zjie 2021年3月10日14:32:34
+/**
+ * [fieldWidthBasedOnTopRow_ 连接点是否以TopRow的宽度为参考进行右对齐]
+ * @type {Boolean}
+ * default: true 默认右对齐，和block的topRow的右端对齐，如果设置为false则连接点左移，使连接点的x位置为最长的那个Field的x值
+ */
+Blockly.Input.prototype.fieldWidthBasedOnTopRow_ = true;
+Blockly.Input.prototype.setFieldWidthBasedOnTopRow = function(bool){
+  this.fieldWidthBasedOnTopRow_ = bool;
+  return this;
+}

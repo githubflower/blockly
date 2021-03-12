@@ -84,3 +84,9 @@ Blockly.Lua['change_location_member'] = function(block) {
   var code = text_location_name + '.' + dropdown_location_member + ' = ' + value_location_member_value + '\n';
   return code;
 };
+
+Blockly.Lua['get_location_here'] = function(block) {
+  var robotIndex = block.getFieldValue('ROBOT_INDEX');
+  var code = `Location.Here(${robotIndex})`;
+  return [code, Blockly.Lua.ORDER_NONE];
+};

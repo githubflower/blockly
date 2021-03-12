@@ -437,7 +437,10 @@ Blockly.Toolbox.prototype.syncTrees_ = function(treeIn, treeOut, pathToMedia) {
         // (eg. `%{BKY_CATEGORY_NAME_LOGIC}`).
         var categoryName = Blockly.utils.replaceMessageReferences(
             childIn.getAttribute('name'));
-        var childOut = this.tree_.createNode(categoryName);
+        var categoryType = childIn.getAttribute('type');
+        var childOut = this.tree_.createNode(categoryName, {
+          type: categoryType || ''
+        });
         childOut.onSizeChanged(this.handleNodeSizeChanged_);
         childOut.blocks = [];
         treeOut.add(childOut);

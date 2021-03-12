@@ -154,7 +154,7 @@ Blockly.tree.BaseNode.prototype.initAccessibility = function() {
   if (el) {
     //给el设置一个类 content, 方便自定义图标等
     if(this.content){
-      Blockly.utils.dom.addClass(el, this.content.toLowerCase());
+      Blockly.utils.dom.addClass(el, this.config_.type);
     }
     // Set an id for the label
     var label = this.getLabelElement();
@@ -174,6 +174,9 @@ Blockly.tree.BaseNode.prototype.initAccessibility = function() {
     var img = this.getIconElement();
     if (img) {
       Blockly.utils.aria.setRole(img, Blockly.utils.aria.Role.PRESENTATION);
+      if(this.config_.type){
+        Blockly.utils.dom.addClass(img, 'icon iconfont icon-' + this.config_.type.substring(4));// type eg: cat-logic
+      }
     }
 
     var ce = this.getChildrenElement();

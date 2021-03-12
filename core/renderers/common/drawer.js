@@ -107,9 +107,9 @@ Blockly.blockRendering.Drawer.prototype.drawOutline_ = function() {
     } else if (row.hasStatement) {
       this.drawStatementInput_(row);
     } else if (row.hasExternalInput) {
-      this.drawValueInput_(row);
+      this.drawValueInput_(row, r);
     } else {
-      this.drawRightSideRow_(row);
+      this.drawRightSideRow_(row, r);
     }
   }
   this.drawBottom_();
@@ -167,18 +167,21 @@ Blockly.blockRendering.Drawer.prototype.drawJaggedEdge_ = function(row) {
  *     belongs to.
  * @protected
  */
-Blockly.blockRendering.Drawer.prototype.drawValueInput_ = function(row) {
+Blockly.blockRendering.Drawer.prototype.drawValueInput_ = function(row, index) {
   var input = row.getLastInput();
   this.positionExternalValueConnection_(row);
 
   var pathDown = (typeof input.shape.pathDown == "function") ?
       input.shape.pathDown(input.height) :
       input.shape.pathDown;
-
-  this.outlinePath_ +=
-      Blockly.utils.svgPaths.lineOnAxis('H', input.xPos + input.width) +
-      pathDown +
-      Blockly.utils.svgPaths.lineOnAxis('v', row.height - input.connectionHeight);
+  if(this.block_.drawValueInput_){
+    this.block_.drawValueInput_.call(this, row, index); //每个图形块自定义绘制valueInput的形状
+  }else{
+    this.outlinePath_ +=
+        Blockly.utils.svgPaths.lineOnAxis('H', input.xPos + input.width) +
+        pathDown +
+        Blockly.utils.svgPaths.lineOnAxis('v', row.height - input.connectionHeight);
+  }
 };
 
 
@@ -200,12 +203,14 @@ Blockly.blockRendering.Drawer.prototype.drawStatementInput_ = function(row) {
       this.constants_.INSIDE_CORNERS.pathTop;
 
   var innerHeight =
-      row.height - (2 * this.constants_.INSIDE_CORNERS.height);
+      row.height - (2 * this.constants_.INSIDE_CORNERS.height) - input.shape.height;
 
   this.outlinePath_ += Blockly.utils.svgPaths.lineOnAxis('H', x) +
       innerTopLeftCorner +
       Blockly.utils.svgPaths.lineOnAxis('v', innerHeight) +
       this.constants_.INSIDE_CORNERS.pathBottom +
+      Blockly.utils.svgPaths.lineOnAxis('h', input.notchOffset - this.constants_.INSIDE_CORNERS.width) +
+      input.shape.pathLeft + //pathLeft表示从左往右画这个凹槽
       Blockly.utils.svgPaths.lineOnAxis('H', row.xPos + row.width);
 
   this.positionStatementInputConnection_(row);

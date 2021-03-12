@@ -48,6 +48,7 @@ goog.addDependency('../../core/events.js', ['Blockly.Events'], ['Blockly.utils']
 goog.addDependency('../../core/events_abstract.js', ['Blockly.Events.Abstract'], ['Blockly.Events'], {});
 goog.addDependency('../../core/extensions.js', ['Blockly.Extensions'], ['Blockly.utils'], {});
 goog.addDependency('../../core/field.js', ['Blockly.Field'], ['Blockly.Events', 'Blockly.Events.BlockChange', 'Blockly.Gesture', 'Blockly.utils', 'Blockly.utils.Size', 'Blockly.utils.dom', 'Blockly.utils.style', 'Blockly.utils.userAgent'], {'lang': 'es5'});
+goog.addDependency('../../core/field_button.js', ['Blockly.FieldButton'], ['Blockly.Events', 'Blockly.Events.BlockChange', 'Blockly.Gesture', 'Blockly.utils', 'Blockly.utils.Size', 'Blockly.utils.dom', 'Blockly.utils.style', 'Blockly.utils.userAgent'], {'lang': 'es5'});
 goog.addDependency('../../core/field_angle.js', ['Blockly.FieldAngle'], ['Blockly.Css', 'Blockly.DropDownDiv', 'Blockly.FieldTextInput', 'Blockly.fieldRegistry', 'Blockly.utils.dom', 'Blockly.utils.math', 'Blockly.utils.object', 'Blockly.utils.userAgent'], {});
 goog.addDependency('../../core/field_slider.js', ['Blockly.FieldSlider'], ['Blockly.Css', 'Blockly.DropDownDiv', 'Blockly.FieldTextInput', 'Blockly.fieldRegistry', 'Blockly.utils.dom', 'Blockly.utils.math', 'Blockly.utils.object', 'Blockly.utils.userAgent'], {});
 goog.addDependency('../../core/field_checkbox.js', ['Blockly.FieldCheckbox'], ['Blockly.Events', 'Blockly.Events.BlockChange', 'Blockly.Field', 'Blockly.fieldRegistry', 'Blockly.utils.Size', 'Blockly.utils.dom', 'Blockly.utils.object'], {});
@@ -170,6 +171,7 @@ goog.addDependency('../../core/utils/style.js', ['Blockly.utils.style'], ['Block
 goog.addDependency('../../core/utils/svg_paths.js', ['Blockly.utils.svgPaths'], [], {});
 goog.addDependency('../../core/utils/useragent.js', ['Blockly.utils.userAgent'], ['Blockly.utils.global'], {});
 goog.addDependency('../../core/utils/xml.js', ['Blockly.utils.xml'], [], {});
+goog.addDependency('../../core/utils/tool.js', ['Blockly.utils.tool'], [], {});
 goog.addDependency('../../core/variable_events.js', ['Blockly.Events.VarBase', 'Blockly.Events.VarCreate', 'Blockly.Events.VarDelete', 'Blockly.Events.VarRename'], ['Blockly.Events', 'Blockly.Events.Abstract', 'Blockly.utils.object'], {});
 goog.addDependency('../../core/procedure_events.js', ['Blockly.Events.ProcedureBase', 'Blockly.Events.ProcedureCreate', 'Blockly.Events.ProcedureDelete', 'Blockly.Events.ProcedureRename'], ['Blockly.Events', 'Blockly.Events.Abstract', 'Blockly.utils.object'], {});
 goog.addDependency('../../core/thread_events.js', ['Blockly.Events.ThreadBase', 'Blockly.Events.ThreadCreate', 'Blockly.Events.ThreadDelete', 'Blockly.Events.ThreadRename'], ['Blockly.Events', 'Blockly.Events.Abstract', 'Blockly.utils.object'], {});
